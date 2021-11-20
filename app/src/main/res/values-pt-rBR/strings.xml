@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_campaign">Crie sua Campanha</string>
+    <string name="password">Senha</string>
+    <string-array name="donate_options">
+        <item>Alimentos</item>
+        <item>Rações</item>
+        <item>Roupas</item>
+    </string-array>
+    <string name="forgot_password">Esqueci a Senha</string>
+    <string name="sign_up">Cadastre-se</string>
+    <string name="do_not_have_account">Não possui conta?</string>
+    <string name="text_body">Aqui você pode encontrar os \npostos de doação mais próximos\nde você</string>
+    <string name="can_create_campaign">Você também pode criar sua campanha</string>
+    <string name="access_map">Acessar mapa</string>
+    <string name="create_a_campaign">Criar uma campanha</string>
+    <string name="logged_message">Logado como %s</string>
+    <string name="login_failed_message">Login falhou</string>
+    <string name="review_credentials">Revise as credenciais</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="filter">Filtro</string>
+    <string name="foods">Alimentos</string>
+
+</resources>

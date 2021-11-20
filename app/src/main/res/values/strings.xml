@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name" translatable="false">ProjetoIntegrador</string>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
+
+    <!--    HomeFragment-->
+    <string name="create_campaign">Create your campaign</string>
+    <string name="text_body">Here you can find the \ndonations points nearest from you</string>
+    <string name="can_create_campaign">You can also create your campaign</string>
+    <string name="access_map">Access map</string>
+    <string name="create_a_campaign">Create a campaign</string>
+
+    <!--    LoginFragment-->
+    <string name="password">Password</string>
+    <string name="email" translatable="false">E-mail</string>
+    <string name="login" translatable="false">Login</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="do_not_have_account">Don\' t have an account?</string>
+    <string name="logged_message">LoggedIn as %s</string>
+    <string name="login_failed_message">Login Failed</string>
+    <string name="review_credentials">Please review the credentials</string>
+
+    <!--    FilterFragment-->
+    <string name="filter">Filter</string>
+    <string name="foods">Foods</string>
+    <string-array name="donate_options">
+        <item>Food</item>
+        <item>Animals Food</item>
+        <item>Clothes</item>
+    </string-array>
+
+    <!--    RegisterFragment-->
+    <string name="confirm_password">Confirm Password</string>
+
+
+    <string name="content" translatable="false">Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
+
+Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit veritatis est adipisci reiciendis>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
+
+Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
+
+Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
+
+Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver.</string>
+
+
+
+</resources>
