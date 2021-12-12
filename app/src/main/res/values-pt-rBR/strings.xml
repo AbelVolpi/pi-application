@@ -20,5 +20,14 @@
     <string name="confirm_password">Confirmar senha</string>
     <string name="filter">Filtro</string>
     <string name="foods">Alimentos</string>
+    <string name="my_campaigns">Minhas Campanhas</string>
+    <string name="category">Categoria</string>
+    <string name="campaign_name">Nome da campanha</string>
+    <string name="campaign_address">Endereço da campanha</string>
+    <string name="campaign_category">Categoria da campanha</string>
+    <string name="create">Criar</string>
+
+
+
 
 </resources>

@@ -20,6 +20,17 @@
     <string name="login_failed_message">Login Failed</string>
     <string name="review_credentials">Please review the credentials</string>
 
+    <!--    ProfileFragment-->
+    <string name="my_campaigns">My compaigns</string>
+
+<!--    CreateCampaignFragment-->
+    <string name="category">Category</string>
+    <string name="campaign_name">Campaign name</string>
+    <string name="campaign_address">Campaign address</string>
+    <string name="campaign_category">Campaign category</string>
+    <string name="create">Create</string>
+
+
     <!--    FilterFragment-->
     <string name="filter">Filter</string>
     <string name="foods">Foods</string>
@@ -42,7 +53,6 @@ Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porr
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
 
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver.</string>
-
 
 
 </resources>

@@ -59,17 +59,21 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_createCampaignFragment"
-            app:destination="@id/createCampaignFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.testingfirebase.ui.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.testingfirebase.ui.FilterFragment"
@@ -84,4 +88,33 @@
         android:name="com.example.testingfirebase.ui.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.testingfirebase.ui.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_createCampaignFragment"
+            app:destination="@id/createCampaignFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_campaignsHistoricFragment"
+            app:destination="@id/campaignsHistoricFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/campaignsHistoricFragment"
+        android:name="com.example.testingfirebase.ui.CampaignsHistoricFragment"
+        android:label="fragment_campaigns_historic"
+        tools:layout="@layout/fragment_campaigns_historic" >
+        <action
+            android:id="@+id/action_campaignsHistoricFragment_to_viewCampaignFragment"
+            app:destination="@id/viewCampaignFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewCampaignFragment"
+        android:name="com.example.testingfirebase.ui.ViewCampaignFragment"
+        android:label="fragment_view_campaign"
+        tools:layout="@layout/fragment_view_campaign" />
 </navigation>
