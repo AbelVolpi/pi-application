@@ -50,6 +50,8 @@ class LoginFragment : Fragment() {
                         val firebaseUser = firebaseAuth.currentUser
                         val userEmail = firebaseUser?.email
                         Toast.makeText(requireContext(), getString(R.string.logged_message, userEmail), Toast.LENGTH_SHORT).show()
+                        navController.navigate(R.id.action_loginFragment_to_profileFragment)
+
                     } else {
                         Toast.makeText(requireContext(), task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
                         Log.e("ERROR", task.exception?.message.toString())

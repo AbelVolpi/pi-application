@@ -70,6 +70,7 @@ class RegisterFragment : Fragment() {
                         val firebaseUser = firebaseAuth.currentUser
                         val userEmail = firebaseUser?.email
                         Toast.makeText(requireContext(), "Sign Up completed as $userEmail", Toast.LENGTH_SHORT).show()
+                        navController.navigate(R.id.action_registerFragment_to_profileFragment)
                     } else {
                         Toast.makeText(requireContext(), task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
                         Log.e("ERROR", task.exception?.message.toString())
