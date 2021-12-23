@@ -13,6 +13,9 @@ import com.example.testingfirebase.databinding.FragmentHomeBinding
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+    private val navController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -24,10 +27,10 @@ class HomeFragment : Fragment() {
 
         with(binding){
             buttonCreateCampaign.setOnClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+                navController.navigate(R.id.action_homeFragment_to_loginFragment)
             }
             buttonGoToMap.setOnClickListener {
-                findNavController().navigate(R.id.action_homeFragment_to_mapsFragment)
+                navController.navigate(R.id.action_homeFragment_to_filterFragment)
             }
         }
     }
