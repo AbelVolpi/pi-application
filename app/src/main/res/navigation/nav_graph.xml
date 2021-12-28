@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.testingfirebase.ui.SplashFragment"
+        android:name="com.projetointegrador.pi_application.ui.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.testingfirebase.ui.HomeFragment"
+        android:name="com.projetointegrador.pi_application.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -45,17 +45,17 @@
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.example.testingfirebase.ui.MapsFragment"
+        android:name="com.projetointegrador.pi_application.ui.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" />
     <fragment
         android:id="@+id/createCampaignFragment"
-        android:name="com.example.testingfirebase.ui.CreateCampaignFragment"
+        android:name="com.projetointegrador.pi_application.ui.CreateCampaignFragment"
         android:label="fragment_create_campaign"
         tools:layout="@layout/fragment_create_campaign" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.testingfirebase.ui.LoginFragment"
+        android:name="com.projetointegrador.pi_application.ui.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.testingfirebase.ui.RegisterFragment"
+        android:name="com.projetointegrador.pi_application.ui.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.testingfirebase.ui.FilterFragment"
+        android:name="com.projetointegrador.pi_application.ui.FilterFragment"
         android:label="fragment_filter"
         tools:layout="@layout/fragment_filter" >
         <action
@@ -85,12 +85,12 @@
     </fragment>
     <fragment
         android:id="@+id/testFragment"
-        android:name="com.example.testingfirebase.ui.TestFragment"
+        android:name="com.projetointegrador.pi_application.ui.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.testingfirebase.ui.ProfileFragment"
+        android:name="com.projetointegrador.pi_application.ui.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -105,7 +105,7 @@
     </fragment>
     <fragment
         android:id="@+id/campaignsHistoricFragment"
-        android:name="com.example.testingfirebase.ui.CampaignsHistoricFragment"
+        android:name="com.projetointegrador.pi_application.ui.CampaignsHistoricFragment"
         android:label="fragment_campaigns_historic"
         tools:layout="@layout/fragment_campaigns_historic" >
         <action
@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/viewCampaignFragment"
-        android:name="com.example.testingfirebase.ui.ViewCampaignFragment"
+        android:name="com.projetointegrador.pi_application.ui.ViewCampaignFragment"
         android:label="fragment_view_campaign"
         tools:layout="@layout/fragment_view_campaign" />
 </navigation>
