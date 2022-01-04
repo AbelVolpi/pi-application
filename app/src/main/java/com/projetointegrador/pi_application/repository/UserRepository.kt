@@ -31,8 +31,25 @@ class UserRepository {
         return mutableLiveData
     }
 
-    fun signUp(){
+    fun signUp(email: String, password: String): MutableLiveData<FirebaseResponse<User>> {
+        val mutableLiveData = MutableLiveData<FirebaseResponse<User>>()
 
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.createUserWithEmailAndPassword(email, password).apply {
+            addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val firebaseUser = firebaseAuth.currentUser
+                    val userEmail = firebaseUser?.email ?: ""
+                    val userId = firebaseUser?.uid ?: ""
+
+                    mutableLiveData.value = FirebaseResponse.Success(User(userEmail, userId))
+
+                } else {
+                    mutableLiveData.value = FirebaseResponse.Failure(task.exception?.message.toString())
+                }
+            }
+        }
+        return mutableLiveData
     }
 
 }
