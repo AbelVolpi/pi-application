@@ -27,6 +27,7 @@
     <string name="campaign_category">Categoria da campanha</string>
     <string name="create">Criar</string>
     <string name="review_fields">Revise os campos</string>
+    <string name="sign_up_completed">Cadastro concluído como %s</string>
 
 
 </resources>

@@ -23,7 +23,7 @@
     <!--    ProfileFragment-->
     <string name="my_campaigns">My compaigns</string>
 
-<!--    CreateCampaignFragment-->
+    <!--    CreateCampaignFragment-->
     <string name="category">Category</string>
     <string name="campaign_name">Campaign name</string>
     <string name="campaign_address">Campaign address</string>
@@ -31,6 +31,8 @@
     <string name="create">Create</string>
     <string name="review_fields">Please review all fields</string>
 
+    <!--    SignUp-->
+    <string name="sign_up_completed">Sign up completed as %s</string>
 
     <!--    FilterFragment-->
     <string name="filter">Filter</string>
