@@ -36,25 +36,6 @@ class LoginFragment : Fragment() {
         initViews()
     }
 
-    private fun firebaseLogin(email: String, password: String) {
-        with(binding) {
-            progressGoToMap.visibility = View.VISIBLE
-            viewModel.login(email, password).observe(viewLifecycleOwner) { response ->
-                when (response) {
-                    is FirebaseResponse.Success -> {
-                        saveUserAndNavigate(response)
-                        progressGoToMap.visibility = View.INVISIBLE
-                    }
-                    is FirebaseResponse.Failure -> {
-                        showErrorMessage(response)
-                        progressGoToMap.visibility = View.INVISIBLE
-                    }
-                }
-            }
-        }
-    }
-
-
     private fun initViews() {
         with(binding) {
             arrowBack.setOnClickListener {
@@ -86,11 +67,29 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun firebaseLogin(email: String, password: String) {
+        with(binding) {
+            progressGoToMap.visibility = View.VISIBLE
+            viewModel.login(email, password).observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is FirebaseResponse.Success -> {
+                        saveUserAndNavigate(response)
+                        progressGoToMap.visibility = View.INVISIBLE
+                    }
+                    is FirebaseResponse.Failure -> {
+                        showErrorMessage(response)
+                        progressGoToMap.visibility = View.INVISIBLE
+                    }
+                }
+            }
+        }
+    }
+
     private fun saveUserAndNavigate(response: FirebaseResponse<User>) {
         response as FirebaseResponse.Success
         SessionManager.saveUserData(response.data.userId, response.data.email)
-        navController.navigate(R.id.action_loginFragment_to_profileFragment)
         requireContext().toast(getString(R.string.logged_message, response.data.email))
+        navController.navigate(R.id.action_loginFragment_to_profileFragment)
     }
 
     private fun showErrorMessage(response: FirebaseResponse<User>) {
