@@ -29,6 +29,7 @@
     <string name="campaign_address">Campaign address</string>
     <string name="campaign_category">Campaign category</string>
     <string name="create">Create</string>
+    <string name="review_fields">Please review all fields</string>
 
 
     <!--    FilterFragment-->

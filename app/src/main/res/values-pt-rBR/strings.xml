@@ -26,8 +26,7 @@
     <string name="campaign_address">Endereço da campanha</string>
     <string name="campaign_category">Categoria da campanha</string>
     <string name="create">Criar</string>
-
-
+    <string name="review_fields">Revise os campos</string>
 
 
 </resources>
