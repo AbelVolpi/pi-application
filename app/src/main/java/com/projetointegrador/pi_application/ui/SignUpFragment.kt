@@ -5,29 +5,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.databinding.FragmentLoginBinding
+import com.projetointegrador.pi_application.databinding.FragmentRegisterBinding
 import com.projetointegrador.pi_application.models.User
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.utils.Utils.validateEmail
 import com.projetointegrador.pi_application.utils.Utils.validatePassword
 import com.projetointegrador.pi_application.utils.extensions.toast
-import com.projetointegrador.pi_application.viewmodel.LoginViewModel
+import com.projetointegrador.pi_application.viewmodel.SignUpViewModel
 
-class LoginFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
-    private val viewModel: LoginViewModel by activityViewModels()
+    private lateinit var binding: FragmentRegisterBinding
+    private val viewModel: SignUpViewModel by activityViewModels()
     private val navController by lazy {
         findNavController()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,44 +42,38 @@ class LoginFragment : Fragment() {
             arrowBack.setOnClickListener {
                 navController.popBackStack()
             }
-            textForgotPassword.setOnClickListener {
-                //TODO("SEND A EMAIL")
-            }
-            textSignUp.setOnClickListener {
-                navController.navigate(R.id.action_loginFragment_to_registerFragment)
-            }
-            buttonLogin.setOnClickListener {
-                makeLogin()
+            buttonSignUp.setOnClickListener {
+                makeSignUp()
             }
         }
     }
 
-    private fun makeLogin() {
+    private fun makeSignUp() {
         with(binding) {
-
-            Log.e("email: ", emailField.text.toString())
-            Log.e("password: ", passwordField.text.toString())
-
-            if (!validateEmail(emailField.text.toString()) || !validatePassword(passwordField.text.toString())) {
-                requireContext().toast(getString(R.string.review_credentials))
+            if (
+                !validateEmail(emailField.text.toString()) ||
+                !validatePassword(passwordField.text.toString()) ||
+                passwordField.text.toString() != confirmPasswordField.text.toString()
+            ) {
+                Toast.makeText(requireContext(), getString(R.string.review_credentials), Toast.LENGTH_SHORT).show()
             } else {
-                firebaseLogin(emailField.text.toString(), passwordField.text.toString())
+                firebaseSignUp(emailField.text.toString(), passwordField.text.toString())
             }
         }
     }
 
-    private fun firebaseLogin(email: String, password: String) {
+    private fun firebaseSignUp(email: String, password: String) {
         with(binding) {
-            progressGoToMap.visibility = View.VISIBLE
-            viewModel.login(email, password).observe(viewLifecycleOwner) { response ->
+            progressBarSignUp.visibility = View.VISIBLE
+            viewModel.signUp(email, password).observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is FirebaseResponse.Success -> {
                         saveUserAndNavigate(response)
-                        progressGoToMap.visibility = View.INVISIBLE
+                        progressBarSignUp.visibility = View.INVISIBLE
                     }
                     is FirebaseResponse.Failure -> {
                         showErrorMessage(response)
-                        progressGoToMap.visibility = View.INVISIBLE
+                        progressBarSignUp.visibility = View.INVISIBLE
                     }
                 }
             }
@@ -88,8 +83,8 @@ class LoginFragment : Fragment() {
     private fun saveUserAndNavigate(response: FirebaseResponse<User>) {
         response as FirebaseResponse.Success
         SessionManager.saveUserData(response.data.userId, response.data.email)
-        requireContext().toast(getString(R.string.logged_message, response.data.email))
-        navController.navigate(R.id.action_loginFragment_to_profileFragment)
+        requireContext().toast(getString(R.string.sign_up_completed, response.data.email))
+        navController.navigate(R.id.action_registerFragment_to_profileFragment)
     }
 
     private fun showErrorMessage(response: FirebaseResponse<User>) {
