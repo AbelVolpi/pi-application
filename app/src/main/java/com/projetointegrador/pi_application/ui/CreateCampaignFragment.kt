@@ -1,14 +1,19 @@
 package com.projetointegrador.pi_application.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentCreateCampaignBinding
+import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.utils.FirebaseResponse
+import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.viewmodel.CreateCampaignViewModel
 
 class CreateCampaignFragment : Fragment() {
@@ -28,7 +33,7 @@ class CreateCampaignFragment : Fragment() {
     private fun initViews() {
         with(binding) {
             buttonCreateCampaign.setOnClickListener {
-                sendRequest()
+                createCampaign()
             }
             categoryFieldOptions.setAdapter(
                 ArrayAdapter(
@@ -40,8 +45,36 @@ class CreateCampaignFragment : Fragment() {
         }
     }
 
-    private fun sendRequest() {
+    private fun createCampaign() {
+        with(binding) {
 
+            val userId = SessionManager.getGetUserId() ?: ""
+            val campaignName = campaignNameField.text.toString()
+            val campaignAddress = campaignAddressField.text.toString()
+            val campaignCategory = categoryFieldOptions.text.toString()
+
+            if (campaignName.isNotEmpty() && campaignAddress.isNotEmpty() && campaignCategory.isNotEmpty()) {
+                sendRequest(
+                    Campaign(
+                        userId = userId,
+                        campaignName =  campaignName,
+                        campaignAddress =  campaignAddress,
+                        campaignCategory = campaignCategory
+                    )
+                )
+
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.review_fields), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun sendRequest(campaign: Campaign) {
+        viewModel.createCampaign(campaign).observe(viewLifecycleOwner){ response ->
+            if (response is FirebaseResponse.Success){
+                Log.e("CreateCampaignViewModel", "ok!")
+            }
+        }
     }
 
 }

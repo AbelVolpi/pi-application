@@ -2,17 +2,15 @@ package com.projetointegrador.pi_application.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.projetointegrador.pi_application.models.Campaign
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.projetointegrador.pi_application.repository.CampaignRepository
+
 
 class CreateCampaignViewModel : ViewModel() {
 
-    var fireStoreDataBase = FirebaseFirestore.getInstance()
-    private lateinit var documentReference: DocumentReference
+    fun createCampaign(campaign: Campaign) = CampaignRepository().createCampaign(campaign)
 
-    fun createCampaign(campaign: Campaign) {
-//        if ()
-//        documentReference = fireStoreDataBase.collection()
-    }
+
+
 
 }
+
