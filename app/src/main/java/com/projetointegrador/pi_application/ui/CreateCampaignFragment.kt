@@ -30,7 +30,7 @@ class CreateCampaignFragment : Fragment() {
             buttonCreateCampaign.setOnClickListener {
                 sendRequest()
             }
-            autoCompleteTextView.setAdapter(
+            categoryFieldOptions.setAdapter(
                 ArrayAdapter(
                     requireContext(),
                     R.layout.dropdown_item,
