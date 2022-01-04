@@ -31,6 +31,10 @@ class UserRepository {
         return mutableLiveData
     }
 
+    fun signUp(){
+
+    }
+
 }
 
 
