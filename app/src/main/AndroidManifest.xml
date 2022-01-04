@@ -3,17 +3,18 @@
     package="com.projetointegrador.pi_application">
 
     <application
-        android:allowBackup="true"
+        android:name="com.projetointegrador.pi_application.MainApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TestingFirebase">
+        android:theme="@style/Theme.PI_Application">
         <activity
             android:name="com.projetointegrador.pi_application.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.TestingFirebase.NoActionBar">
+            android:theme="@style/Theme.PI_Application.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
