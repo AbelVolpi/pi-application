@@ -11,6 +11,6 @@ fun Context.copyToClipboard(text: String) {
     myClipboard.setPrimaryClip(myClip)
 }
 
-fun Context.toast(text: Int) {
+fun Context.toast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
