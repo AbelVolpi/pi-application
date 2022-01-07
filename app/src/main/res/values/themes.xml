@@ -19,7 +19,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.TestingFirebase.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.PI_Application.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.TestingFirebase.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.PI_Application.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
