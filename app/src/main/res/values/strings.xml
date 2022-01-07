@@ -30,6 +30,7 @@
     <string name="campaign_category">Campaign category</string>
     <string name="create">Create</string>
     <string name="review_fields">Please review all fields</string>
+    <string name="campaign_created_successfully">Campaign created successfully </string>
 
     <!--    SignUp-->
     <string name="sign_up_completed">Sign up completed as %s</string>
@@ -45,6 +46,9 @@
 
     <!--    RegisterFragment-->
     <string name="confirm_password">Confirm Password</string>
+
+    <!--    CampaignsHistoricFragment-->
+    <string name="you_havent_created_a_campaign_yet">You haven\'t created a campaign yet :/</string>
 
 
     <string name="content" translatable="false">Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.

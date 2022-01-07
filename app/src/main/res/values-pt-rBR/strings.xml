@@ -28,6 +28,8 @@
     <string name="create">Criar</string>
     <string name="review_fields">Revise os campos</string>
     <string name="sign_up_completed">Cadastro concluído como %s</string>
+    <string name="campaign_created_successfully">Campanha criada com sucesso</string>
+    <string name="you_havent_created_a_campaign_yet">Parece que você ainda não criou uma campanha :/</string>
 
 
 </resources>

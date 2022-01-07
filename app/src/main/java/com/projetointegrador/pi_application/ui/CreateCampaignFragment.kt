@@ -9,17 +9,23 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentCreateCampaignBinding
 import com.projetointegrador.pi_application.models.Campaign
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.SessionManager
+import com.projetointegrador.pi_application.utils.extensions.toast
 import com.projetointegrador.pi_application.viewmodel.CreateCampaignViewModel
 
 class CreateCampaignFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateCampaignBinding
     private val viewModel: CreateCampaignViewModel by activityViewModels()
+    private val navController by lazy {
+        findNavController()
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,12 +63,11 @@ class CreateCampaignFragment : Fragment() {
                 sendRequest(
                     Campaign(
                         userId = userId,
-                        campaignName =  campaignName,
-                        campaignAddress =  campaignAddress,
+                        campaignName = campaignName,
+                        campaignAddress = campaignAddress,
                         campaignCategory = campaignCategory
                     )
                 )
-
             } else {
                 Toast.makeText(requireContext(), getString(R.string.review_fields), Toast.LENGTH_SHORT).show()
             }
@@ -70,11 +75,27 @@ class CreateCampaignFragment : Fragment() {
     }
 
     private fun sendRequest(campaign: Campaign) {
-        viewModel.createCampaign(campaign).observe(viewLifecycleOwner){ response ->
-            if (response is FirebaseResponse.Success){
-                Log.e("CreateCampaignViewModel", "ok!")
+        viewModel.createCampaign(campaign).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is FirebaseResponse.Success -> {
+                    showFeedbackAndBackStack()
+                }
+                is FirebaseResponse.Failure -> {
+                    showErrorMessage(response)
+                }
             }
         }
+    }
+
+    private fun showErrorMessage(response: FirebaseResponse<Boolean>) {
+        response as FirebaseResponse.Failure
+        Log.e("LoginError", response.errorMessage)
+        requireContext().toast(response.errorMessage)
+    }
+
+    private fun showFeedbackAndBackStack() {
+        requireContext().toast(getString(R.string.campaign_created_successfully))
+        navController.popBackStack()
     }
 
 }

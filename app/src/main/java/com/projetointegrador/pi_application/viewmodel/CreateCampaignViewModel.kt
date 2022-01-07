@@ -9,8 +9,5 @@ class CreateCampaignViewModel : ViewModel() {
 
     fun createCampaign(campaign: Campaign) = CampaignRepository().createCampaign(campaign)
 
-
-
-
 }
 
