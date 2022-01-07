@@ -74,13 +74,12 @@ class LoginFragment : Fragment() {
                 when (response) {
                     is FirebaseResponse.Success -> {
                         saveUserAndNavigate(response)
-                        progressGoToMap.visibility = View.INVISIBLE
                     }
                     is FirebaseResponse.Failure -> {
                         showErrorMessage(response)
-                        progressGoToMap.visibility = View.INVISIBLE
                     }
                 }
+                progressGoToMap.visibility = View.INVISIBLE
             }
         }
     }
