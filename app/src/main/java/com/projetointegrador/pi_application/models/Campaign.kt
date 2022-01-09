@@ -5,6 +5,8 @@ data class Campaign(
     var userId: String = "",
     var campaignName: String = "",
     var campaignDescription: String = "",
-    var campaignAddress: Address,
-    var campaignCategory: String = ""
+    var campaignCategory: String = "",
+    var campaignAddress: Address? = null,
+    var campaignLatLng: MyLatLng? = null
 )
+

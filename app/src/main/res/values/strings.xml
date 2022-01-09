@@ -31,6 +31,8 @@
     <string name="create">Create</string>
     <string name="review_fields">Please review all fields</string>
     <string name="campaign_created_successfully">Campaign created successfully </string>
+    <string name="could_not_create_your_campaign">Could not create your campaign</string>
+    <string name="error_has_occured">An error has ocurred</string>
 
     <!--    SignUp-->
     <string name="sign_up_completed">Sign up completed as %s</string>

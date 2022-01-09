@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.firestore.ktx.toObject
 import com.projetointegrador.pi_application.models.Campaign
 import com.projetointegrador.pi_application.utils.Constants.FIREBASE_ATTRIBUTES.CAMPAIGNS_COLLECTION
@@ -63,10 +62,15 @@ class CampaignRepository {
             .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    campaignsList.add(document.toObject())
+                try {
+                    for (document in documents) {
+                        campaignsList.add(document.toObject())
+                    }
+                    mutableLiveData.value = FirebaseResponse.Success(campaignsList)
+
+                } catch (throwable: Throwable) {
+                    mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
                 }
-                mutableLiveData.value = FirebaseResponse.Success(campaignsList)
             }
             .addOnFailureListener { exception ->
                 mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())

@@ -30,6 +30,8 @@
     <string name="sign_up_completed">Cadastro concluído como %s</string>
     <string name="campaign_created_successfully">Campanha criada com sucesso</string>
     <string name="you_havent_created_a_campaign_yet">Parece que você ainda não criou uma campanha :/</string>
+    <string name="could_not_create_your_campaign">Não foi possível criar sua campanha</string>
+    <string name="error_has_occured">Ocorreu um erro</string>
 
 
 </resources>

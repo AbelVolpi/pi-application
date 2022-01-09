@@ -55,10 +55,6 @@ class LoginFragment : Fragment() {
 
     private fun makeLogin() {
         with(binding) {
-
-            Log.e("email: ", emailField.text.toString())
-            Log.e("password: ", passwordField.text.toString())
-
             if (!validateEmail(emailField.text.toString()) || !validatePassword(passwordField.text.toString())) {
                 requireContext().toast(getString(R.string.review_credentials))
             } else {
