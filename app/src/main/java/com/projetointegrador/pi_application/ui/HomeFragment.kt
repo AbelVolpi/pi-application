@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
                 navController.navigate(R.id.action_homeFragment_to_loginFragment)
             }
             buttonGoToMap.setOnClickListener {
-                navController.navigate(R.id.action_homeFragment_to_filterFragment)
+                navController.navigate(R.id.action_homeFragment_to_mapsFragment)
             }
         }
     }
