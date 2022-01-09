@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projetointegrador.pi_application.R
@@ -21,6 +22,9 @@ class CampaignsHistoricFragment : Fragment() {
 
     private lateinit var binding: FragmentCampaignsHistoricBinding
     private val viewModel: CampaignsHistoricViewModel by activityViewModels()
+    private val navController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,11 @@ class CampaignsHistoricFragment : Fragment() {
 
     private fun initViews() {
         getHistoric()
+        with(binding) {
+            arrowBack.setOnClickListener {
+                navController.popBackStack()
+            }
+        }
     }
 
     private fun getHistoric() {
@@ -67,11 +76,33 @@ class CampaignsHistoricFragment : Fragment() {
 
             } else {
                 historicRecycler.apply {
-                    adapter = CampaignsHistoricAdapter(campaignsList)
+                    adapter = CampaignsHistoricAdapter(
+                        campaignsList,
+                        ::removeCampaign
+                    )
                     layoutManager = LinearLayoutManager(requireContext())
                     addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
                 }
             }
         }
     }
+
+    private fun removeCampaign(campaignId: String): Boolean {
+        var campaignWasRemoved = false
+        viewModel.deleteCampaign(campaignId).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is FirebaseResponse.Success -> {
+                    campaignWasRemoved = true
+                    context?.toast("Campaign remove successfully")
+                }
+                is FirebaseResponse.Failure -> {
+                    context?.toast(response.errorMessage)
+                    campaignWasRemoved = false
+                }
+            }
+        }
+        return campaignWasRemoved
+    }
+
+
 }

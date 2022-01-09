@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -32,14 +31,21 @@ class CreateCampaignFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateCampaignBinding.inflate(inflater, container, false)
-        initViews()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
     }
 
     private fun initViews() {
         with(binding) {
             buttonCreateCampaign.setOnClickListener {
                 createCampaign()
+            }
+            arrowBack.setOnClickListener {
+                navController.popBackStack()
             }
             categoryFieldOptions.setAdapter(
                 ArrayAdapter(
@@ -56,21 +62,29 @@ class CreateCampaignFragment : Fragment() {
 
             val userId = SessionManager.getGetUserId() ?: ""
             val campaignName = campaignNameField.text.toString()
-            val campaignAddress = campaignAddressField.text.toString()
+            val campaignDescription = campaignDescriptionField.text.toString()
             val campaignCategory = categoryFieldOptions.text.toString()
+            val campaignStreet = campaignsStreetField.text.toString()
+            val campaignNumber = campaignsNumberField.text.toString()
+            val campaignDistrict = campaignDistrictField.text.toString()
+            val campaignCity = campaignsCityField.text.toString()
+            val campaignState = campaignsStateField.text.toString()
 
-            if (campaignName.isNotEmpty() && campaignAddress.isNotEmpty() && campaignCategory.isNotEmpty()) {
-                sendRequest(
-                    Campaign(
-                        userId = userId,
-                        campaignName = campaignName,
-                        campaignAddress = campaignAddress,
-                        campaignCategory = campaignCategory
-                    )
-                )
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.review_fields), Toast.LENGTH_SHORT).show()
-            }
+            val address = "${campaignStreet},${campaignNumber},${campaignDistrict},${campaignCity},${campaignState}"
+
+            viewModel.getLatLongFromAddress(address)
+//            if (campaignName.isNotEmpty() && campaignAddress.isNotEmpty() && campaignCategory.isNotEmpty()) {
+//                sendRequest(
+//                    Campaign(
+//                        userId = userId,
+//                        campaignName = campaignName,
+//                        campaignAddress = campaignAddress,
+//                        campaignCategory = campaignCategory
+//                    )
+//                )
+//            } else {
+//                Toast.makeText(requireContext(), getString(R.string.review_fields), Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 
