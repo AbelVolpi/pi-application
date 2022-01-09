@@ -55,10 +55,6 @@ class LoginFragment : Fragment() {
 
     private fun makeLogin() {
         with(binding) {
-
-            Log.e("email: ", emailField.text.toString())
-            Log.e("password: ", passwordField.text.toString())
-
             if (!validateEmail(emailField.text.toString()) || !validatePassword(passwordField.text.toString())) {
                 requireContext().toast(getString(R.string.review_credentials))
             } else {
@@ -74,13 +70,12 @@ class LoginFragment : Fragment() {
                 when (response) {
                     is FirebaseResponse.Success -> {
                         saveUserAndNavigate(response)
-                        progressGoToMap.visibility = View.INVISIBLE
                     }
                     is FirebaseResponse.Failure -> {
                         showErrorMessage(response)
-                        progressGoToMap.visibility = View.INVISIBLE
                     }
                 }
+                progressGoToMap.visibility = View.INVISIBLE
             }
         }
     }
