@@ -2,11 +2,6 @@
 <resources>
     <string name="create_campaign">Crie sua Campanha</string>
     <string name="password">Senha</string>
-    <string-array name="donate_options">
-        <item>Alimentos</item>
-        <item>Rações</item>
-        <item>Roupas</item>
-    </string-array>
     <string name="forgot_password">Esqueci a Senha</string>
     <string name="sign_up">Cadastre-se</string>
     <string name="do_not_have_account">Não possui conta?</string>
@@ -19,7 +14,6 @@
     <string name="review_credentials">Revise as credenciais</string>
     <string name="confirm_password">Confirmar senha</string>
     <string name="filter">Filtro</string>
-    <string name="foods">Alimentos</string>
     <string name="my_campaigns">Minhas Campanhas</string>
     <string name="category">Categoria</string>
     <string name="campaign_name">Nome da campanha</string>

@@ -39,11 +39,11 @@
 
     <!--    FilterFragment-->
     <string name="filter">Filter</string>
-    <string name="foods">Foods</string>
+    <string name="foods" translatable="false">Alimentos</string>
     <string-array name="donate_options">
-        <item>Food</item>
-        <item>Animals Food</item>
-        <item>Clothes</item>
+        <item>Alimentos</item>
+        <item>Rações</item>
+        <item>Roupas</item>
     </string-array>
 
     <!--    RegisterFragment-->

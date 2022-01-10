@@ -69,7 +69,7 @@
         android:id="@+id/registerFragment"
         android:name="com.projetointegrador.pi_application.ui.SignUpFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_sign_up" >
         <action
             android:id="@+id/action_registerFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
