@@ -12,7 +12,6 @@ object SessionManager {
     private const val USER_EMAIL = "user_email"
     private const val USER_ID = "user_id"
 
-
     private val prefs: SharedPreferences by lazy {
         MainApplication.applicationContext()
             .getSharedPreferences(SESSION_PREFERENCES_FILE, Context.MODE_PRIVATE)
@@ -39,6 +38,10 @@ object SessionManager {
         prefs.edit {
             putString(USER_ID, userId)
         }
+    }
+
+    fun logout() {
+        prefs.edit().clear().apply()
     }
 
 }
