@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/location_main_photo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/campaign_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/blue_3" />
+
+        <TextView
+            android:id="@+id/tittle_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:maxWidth="150dp"
+            android:maxLines="2"
+            android:text="Example "
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/campaign_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/campaign_address"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/campaign_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="150dp"
+            android:maxLines="3"
+            android:text="Rua 7 de Setembro, 1213 - Centro, Blumenau - SC"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toTopOf="@+id/campaign_category_card_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/location_main_photo"
+            app:layout_constraintTop_toBottomOf="@+id/tittle_label" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/campaign_category_card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            app:cardBackgroundColor="@color/blue_2"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@+id/campaign_address"
+            app:layout_constraintTop_toBottomOf="@+id/campaign_address">
+
+            <TextView
+                android:id="@+id/campaign_category_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="category_test"
+                android:textColor="@color/white"
+                android:textSize="12dp" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

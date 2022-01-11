@@ -14,50 +14,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Toolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@color/blue_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/filter_field_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="60dp"
-        android:hint="Filter"
-        android:textColorHint="@color/white"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <AutoCompleteTextView
-            android:id="@+id/filter_field_options"
+        <ImageView
+            android:id="@+id/arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="@+id/top_bar_layout"
+            app:layout_constraintEnd_toStartOf="@+id/filter_field_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filter_field_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="none"
-            android:paddingVertical="16dp"
-            android:textColor="@color/white" />
+            android:layout_marginHorizontal="60dp"
+            android:textColorHint="@color/white"
+            app:boxBackgroundColor="@color/blue_3"
+            app:boxStrokeColor="@color/white"
+            app:hintTextColor="@color/white"
+            app:endIconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/top_bar_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <AutoCompleteTextView
+                android:id="@+id/filter_field_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:paddingVertical="16dp"
+                android:textColor="@color/white" />
 
-    <ImageView
-        android:id="@+id/arrow_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="5dp"
-        android:src="@drawable/ic_arrow_back"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ProgressBar
+            android:id="@+id/maps_progress_bar"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:indeterminateTint="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/filter_field_layout"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

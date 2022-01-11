@@ -4,6 +4,7 @@
 
     <!--    HomeFragment-->
     <string name="create_campaign">Create your campaign</string>
+    <string name="login_an_create_a_campaign">Login and create a campaign</string>
     <string name="text_body">Here you can find the \ndonations points nearest from you</string>
     <string name="can_create_campaign">You can also create your campaign</string>
     <string name="access_map">Access map</string>
@@ -21,7 +22,11 @@
     <string name="review_credentials">Please review the credentials</string>
 
     <!--    ProfileFragment-->
-    <string name="my_campaigns">My compaigns</string>
+    <string name="my_campaigns">My campaigns</string>
+    <string name="open" translatable="false">Open</string>
+    <string name="close" translatable="false">Close</string>
+    <string name="logout" translatable="false">Logout</string>
+    <string name="about">About</string>
 
     <!--    CreateCampaignFragment-->
     <string name="category">Category</string>
@@ -32,7 +37,10 @@
     <string name="review_fields">Please review all fields</string>
     <string name="campaign_created_successfully">Campaign created successfully </string>
     <string name="could_not_create_your_campaign">Could not create your campaign</string>
-    <string name="error_has_occured">An error has ocurred</string>
+    <string name="error_has_occurred">An error has occurred</string>
+
+    <!--    MapsFragment-->
+    <string name="address_model" translatable="false">%s, %s - %s, %s - %s</string>
 
     <!--    SignUp-->
     <string name="sign_up_completed">Sign up completed as %s</string>
@@ -44,6 +52,7 @@
         <item>Alimentos</item>
         <item>Rações</item>
         <item>Roupas</item>
+        <item></item>
     </string-array>
 
     <!--    RegisterFragment-->

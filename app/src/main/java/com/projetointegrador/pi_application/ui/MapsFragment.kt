@@ -15,15 +15,17 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.adapter.InfoWindowAdapter
 import com.projetointegrador.pi_application.databinding.FragmentMapsBinding
 import com.projetointegrador.pi_application.models.Campaign
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.Utils
 import com.projetointegrador.pi_application.viewmodel.MapsViewModel
 
-class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener {
+class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var binding: FragmentMapsBinding
+    private lateinit var campaignsGeneralList: List<Campaign>
     private val viewModel: MapsViewModel by activityViewModels()
     private var map: GoogleMap? = null
     private val navController by lazy {
@@ -48,11 +50,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-
-    }
-
-    override fun onCameraMove() {
-        TODO("Not yet implemented")
+        showBoxOnMarkerClick()
     }
 
     private fun initViews() {
@@ -96,29 +94,35 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
     }
 
     private fun getCampaignsByCategory(category: String) {
-        viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is FirebaseResponse.Success -> {
-                    setAllMarkers(response.data)
-                }
-                is FirebaseResponse.Failure -> {
+        if (category.isEmpty())
+            getAllCampaigns()
+        else
+            viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is FirebaseResponse.Success -> {
+                        setAllMarkers(response.data)
+                    }
+                    is FirebaseResponse.Failure -> {
 
+                    }
                 }
             }
-        }
     }
 
     private fun setAllMarkers(campaignsList: List<Campaign>) {
         map?.clear()
+        binding.mapsProgressBar.visibility = View.VISIBLE
 
-        campaignsList.forEach { campaign ->
-            setMarker(campaign)
+        campaignsList.forEachIndexed { index, campaign ->
+            setMarker(campaign, index)
         }
-        changeCameraPosition()
+        campaignsGeneralList = campaignsList
 
+        binding.mapsProgressBar.visibility = View.INVISIBLE
+        changeCameraPosition()
     }
 
-    private fun setMarker(campaign: Campaign) {
+    private fun setMarker(campaign: Campaign, position: Int) {
 
         val latLng = campaign.campaignLatLng?.latitude?.let { latitude ->
             campaign.campaignLatLng?.longitude?.let { longitude ->
@@ -130,6 +134,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         val marker = MarkerOptions().apply {
             latLng?.let { position(it) }
             icon(icon)
+            zIndex(position.toFloat())
         }
 
         map?.addMarker(
@@ -151,6 +156,19 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
                 }
             })
+    }
+
+    private fun showBoxOnMarkerClick() {
+        map?.setOnMarkerClickListener { marker ->
+
+            val campaign = campaignsGeneralList[marker.zIndex.toInt()]
+
+            map?.setInfoWindowAdapter(InfoWindowAdapter(requireContext(), campaign))
+
+            marker.showInfoWindow()
+
+            true
+        }
     }
 
 

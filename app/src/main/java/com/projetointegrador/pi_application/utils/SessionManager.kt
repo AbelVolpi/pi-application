@@ -30,6 +30,10 @@ object SessionManager {
         }
     }
 
+    fun getUserEmail(): String? {
+        return prefs.getString(USER_EMAIL, "")
+    }
+
     fun getGetUserId(): String? {
         return prefs.getString(USER_ID, "")
     }

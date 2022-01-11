@@ -28,13 +28,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding){
-            buttonCreateCampaign.setOnClickListener {
+            cardViewCreateCampaign.setOnClickListener {
                 if (viewModel.verifyUserAlreadyLogged())
                     navController.navigate(R.id.action_homeFragment_to_profileFragment)
                 else
                     navController.navigate(R.id.action_homeFragment_to_loginFragment)
             }
-            buttonGoToMap.setOnClickListener {
+            cardViewGoToMap.setOnClickListener {
                 navController.navigate(R.id.action_homeFragment_to_mapsFragment)
             }
         }

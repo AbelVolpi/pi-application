@@ -2,9 +2,6 @@
     android:id="@+id/textView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="TextView"
     android:padding="14dp"
-    android:textColor="@color/black"
-    android:textSize="15dp"
-
-    />
+    android:text="TextView"
+    android:textSize="15sp" />

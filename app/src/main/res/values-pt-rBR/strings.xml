@@ -25,7 +25,9 @@
     <string name="campaign_created_successfully">Campanha criada com sucesso</string>
     <string name="you_havent_created_a_campaign_yet">Parece que você ainda não criou uma campanha :/</string>
     <string name="could_not_create_your_campaign">Não foi possível criar sua campanha</string>
-    <string name="error_has_occured">Ocorreu um erro</string>
+    <string name="error_has_occurred">Ocorreu um erro</string>
+    <string name="about">Sobre</string>
+    <string name="login_an_create_a_campaign">Cadastre-se e crie sua campanha</string>
 
 
 </resources>
