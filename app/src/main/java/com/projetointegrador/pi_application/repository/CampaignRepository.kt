@@ -87,10 +87,39 @@ class CampaignRepository {
         campaignsRef
             .get()
             .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    campaignsList.add(document.toObject())
+                try {
+                    for (document in documents) {
+                        campaignsList.add(document.toObject())
+                    }
+                    mutableLiveData.value = FirebaseResponse.Success(campaignsList)
+                } catch (throwable: Throwable) {
+                    mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
                 }
-                mutableLiveData.value = FirebaseResponse.Success(campaignsList)
+            }
+            .addOnFailureListener { exception ->
+                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
+            }
+
+        return mutableLiveData
+    }
+
+    fun getCampaignsByCategory(category: String): MutableLiveData<FirebaseResponse<List<Campaign>>> {
+        val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
+        val campaignsList = arrayListOf<Campaign>()
+
+        val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
+        campaignsRef
+            .whereEqualTo("campaignCategory", category)
+            .get()
+            .addOnSuccessListener { documents ->
+                try {
+                    for (document in documents) {
+                        campaignsList.add(document.toObject())
+                    }
+                    mutableLiveData.value = FirebaseResponse.Success(campaignsList)
+                } catch (throwable: Throwable) {
+                    mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
+                }
             }
             .addOnFailureListener { exception ->
                 mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())

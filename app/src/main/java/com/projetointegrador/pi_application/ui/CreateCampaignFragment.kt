@@ -28,7 +28,6 @@ class CreateCampaignFragment : Fragment() {
         findNavController()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +49,7 @@ class CreateCampaignFragment : Fragment() {
             arrowBack.setOnClickListener {
                 navController.popBackStack()
             }
-            categoryFieldOptions.setAdapter(
+            campaignCategoryFieldOptions.setAdapter(
                 ArrayAdapter(
                     requireContext(),
                     R.layout.dropdown_item,
@@ -64,11 +63,12 @@ class CreateCampaignFragment : Fragment() {
         with(binding) {
 
             if (verifyFields()) {
+                progressCreateCampaign.visibility = View.VISIBLE
 
                 val userId = SessionManager.getGetUserId() ?: ""
                 val campaignName = campaignNameField.text.toString()
                 val campaignDescription = campaignDescriptionField.text.toString()
-                val campaignCategory = categoryFieldOptions.text.toString()
+                val campaignCategory = campaignCategoryFieldOptions.text.toString()
                 val campaignStreet = campaignsStreetField.text.toString()
                 val campaignNumber = campaignsNumberField.text.toString()
                 val campaignDistrict = campaignsDistrictField.text.toString()
@@ -82,7 +82,7 @@ class CreateCampaignFragment : Fragment() {
                     campaignState
                 )
 
-                val address = "${campaignStreet},${campaignNumber},${campaignDistrict},${campaignCity},${campaignState}"
+                val address = "${campaignStreet},${campaignNumber}-${campaignDistrict},${campaignCity}-${campaignState}"
 
                 viewModel.getLatLongFromAddress(address).observe(viewLifecycleOwner) { geocoderResponse ->
                     when (geocoderResponse) {
@@ -101,7 +101,8 @@ class CreateCampaignFragment : Fragment() {
                             sendRequest(campaign)
                         }
                         is GeocoderResponse.Failure -> {
-                            context?.toast(getString(R.string.error_has_occured))
+                            context?.toast(getString(R.string.error_has_occurred))
+                            progressCreateCampaign.visibility = View.INVISIBLE
                         }
                     }
                 }
@@ -121,6 +122,7 @@ class CreateCampaignFragment : Fragment() {
                     showErrorMessage(response)
                 }
             }
+            binding.progressCreateCampaign.visibility = View.INVISIBLE
         }
     }
 
@@ -139,6 +141,7 @@ class CreateCampaignFragment : Fragment() {
         with(binding) {
             return !campaignNameField.text.isNullOrEmpty()
                     && !campaignDescriptionField.text.isNullOrEmpty()
+                    && !campaignCategoryFieldOptions.text.isNullOrEmpty()
                     && !campaignsStreetField.text.isNullOrEmpty()
                     && !campaignsNumberField.text.isNullOrEmpty()
                     && !campaignsDistrictField.text.isNullOrEmpty()

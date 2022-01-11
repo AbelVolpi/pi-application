@@ -9,7 +9,6 @@ import com.projetointegrador.pi_application.databinding.FragmentViewCampaignBind
 
 class ViewCampaignFragment : Fragment() {
 
-
     private lateinit var binding: FragmentViewCampaignBinding
 
     override fun onCreateView(

@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.databinding.FragmentRegisterBinding
+import com.projetointegrador.pi_application.databinding.FragmentSignUpBinding
 import com.projetointegrador.pi_application.models.User
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.SessionManager
@@ -21,14 +21,14 @@ import com.projetointegrador.pi_application.viewmodel.SignUpViewModel
 
 class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentRegisterBinding
+    private lateinit var binding: FragmentSignUpBinding
     private val viewModel: SignUpViewModel by activityViewModels()
     private val navController by lazy {
         findNavController()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 

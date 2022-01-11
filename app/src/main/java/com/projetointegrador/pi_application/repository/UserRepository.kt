@@ -52,6 +52,17 @@ class UserRepository {
         return mutableLiveData
     }
 
+    fun checkAlreadyLogged(): Boolean {
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        return firebaseAuth.currentUser != null
+    }
+
+    fun logOut() {
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.signOut()
+    }
+
 }
 
 
