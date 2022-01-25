@@ -26,8 +26,9 @@
     <string name="open" translatable="false">Open</string>
     <string name="close" translatable="false">Close</string>
     <string name="logout" translatable="false">Logout</string>
+    <string name="logged_area">Logged area</string>
     <string name="about">About</string>
-    <string name="app_description">This is an application develop as a Capstone Project of IT course at IFSC. It\'s non-profit and its goal(besides exploring the knowledge acquired during the course) is to bring together donors and people/institutions that are looking for donations. This is an open source project, which you can contribute and find at: "https://github.com/AbelVolpi/PI_Application". </string>
+    <string name="app_description"> This is an application develop as a Capstone Project of IT course at IFSC. It\'s non-profit and its goal(besides exploring the knowledge acquired during the course) is to bring together donors and people/institutions that are looking for donations. This is an open source project, which you can contribute and find at: "https://github.com/AbelVolpi/PI_Application". </string>
 
     <!--    CreateCampaignFragment-->
     <string name="category">Category</string>
@@ -72,8 +73,7 @@ Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porr
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
 
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 
 </resources>
