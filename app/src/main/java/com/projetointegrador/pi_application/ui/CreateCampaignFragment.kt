@@ -17,6 +17,8 @@ import com.projetointegrador.pi_application.models.MyLatLng
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.GeocoderResponse
 import com.projetointegrador.pi_application.utils.SessionManager
+import com.projetointegrador.pi_application.utils.extensions.clearScreenFocus
+import com.projetointegrador.pi_application.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.utils.extensions.toast
 import com.projetointegrador.pi_application.viewmodel.CreateCampaignViewModel
 
@@ -43,6 +45,14 @@ class CreateCampaignFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
+            mainLayout.setOnClickListener {
+                activity?.hideSoftKeyboard()
+                it.clearScreenFocus()
+            }
+            mainLinearLayout.setOnClickListener {
+                activity?.hideSoftKeyboard()
+                mainLayout.clearScreenFocus()
+            }
             buttonCreateCampaign.setOnClickListener {
                 createCampaign()
             }

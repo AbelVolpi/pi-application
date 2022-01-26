@@ -15,6 +15,8 @@ import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.utils.Utils.validateEmail
 import com.projetointegrador.pi_application.utils.Utils.validatePassword
+import com.projetointegrador.pi_application.utils.extensions.clearScreenFocus
+import com.projetointegrador.pi_application.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.utils.extensions.toast
 import com.projetointegrador.pi_application.viewmodel.LoginViewModel
 
@@ -38,6 +40,10 @@ class LoginFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
+            mainLayout.setOnClickListener {
+                activity?.hideSoftKeyboard()
+                it.clearScreenFocus()
+            }
             arrowBack.setOnClickListener {
                 navController.popBackStack()
             }

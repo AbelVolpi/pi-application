@@ -40,6 +40,12 @@
     <string name="campaign_created_successfully">Campaign created successfully </string>
     <string name="could_not_create_your_campaign">Could not create your campaign</string>
     <string name="error_has_occurred">An error has occurred</string>
+    <string name="description">Description</string>
+    <string name="street">Street</string>
+    <string name="number">Number</string>
+    <string name="district">District</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
 
     <!--    MapsFragment-->
     <string name="address_model" translatable="false">%s, %s - %s, %s - %s</string>
