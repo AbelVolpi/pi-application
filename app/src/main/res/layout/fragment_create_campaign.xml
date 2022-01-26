@@ -301,30 +301,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-
-                        <ImageView
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/remove_image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="5dp"
                             android:padding="4dp"
+                            android:scaleType="center"
                             android:src="@drawable/ic_close"
+                            android:tint="@color/blue_3"
+                            android:visibility="invisible"
+                            app:backgroundTint="@color/selector_gray"
+                            app:fabCustomSize="30dp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:id="@+id/imagephoto"
+                            android:id="@+id/image_photo"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/blue_3" />
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
-                            android:id="@+id/without_image_image_view"
+                            android:id="@+id/without_image_text_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -342,7 +347,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/without_image_image_view"
+                            app:layout_constraintTop_toBottomOf="@+id/without_image_text_view"
                             app:layout_constraintVertical_bias="0.1" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

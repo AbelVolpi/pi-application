@@ -14,8 +14,6 @@ import kotlin.coroutines.CoroutineContext
 
 class CreateCampaignViewModel : ViewModel(), CoroutineScope {
 
-    private lateinit var hasPhoto: MutableLiveData<Boolean>
-
     private val job = Job()
     override val coroutineContext: CoroutineContext = job + Dispatchers.Main
 
