@@ -46,6 +46,7 @@
     <string name="district">District</string>
     <string name="city">City</string>
     <string name="state">State</string>
+    <string name="add_photo_of_yout_campaign">Add photo of your campaign</string>
 
     <!--    MapsFragment-->
     <string name="address_model" translatable="false">%s, %s - %s, %s - %s</string>

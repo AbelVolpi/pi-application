@@ -169,6 +169,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             true
         }
+
+        map?.setOnInfoWindowClickListener {
+            navController.navigate(R.id.action_mapsFragment_to_viewCampaignFragment)
+        }
     }
 
 

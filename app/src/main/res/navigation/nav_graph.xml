@@ -47,7 +47,12 @@
         android:id="@+id/mapsFragment"
         android:name="com.projetointegrador.pi_application.ui.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_viewCampaignFragment"
+            app:destination="@id/viewCampaignFragment"
+            app:enterAnim="@anim/campaign_from_left" />
+    </fragment>
     <fragment
         android:id="@+id/createCampaignFragment"
         android:name="com.projetointegrador.pi_application.ui.CreateCampaignFragment"
