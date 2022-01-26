@@ -10,6 +10,7 @@ import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentProfileBinding
 import com.projetointegrador.pi_application.databinding.SideBarHeaderBinding
 import com.projetointegrador.pi_application.utils.SessionManager
+import com.projetointegrador.pi_application.utils.Utils.showDialogAbout
 import com.projetointegrador.pi_application.viewmodel.ProfileViewModel
 
 class ProfileFragment : Fragment() {
@@ -34,7 +35,6 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-
     }
 
     private fun initViews() {
@@ -73,7 +73,7 @@ class ProfileFragment : Fragment() {
                     }
 
                     R.id.about_item -> {
-
+                        showDialogAbout(requireContext(), layoutInflater)
                     }
 
                     R.id.logout_item -> {

@@ -26,7 +26,9 @@
     <string name="open" translatable="false">Open</string>
     <string name="close" translatable="false">Close</string>
     <string name="logout" translatable="false">Logout</string>
+    <string name="logged_area">Logged area</string>
     <string name="about">About</string>
+    <string name="app_description"> This is an application develop as a Capstone Project of IT course at IFSC. It\'s non-profit and its goal(besides exploring the knowledge acquired during the course) is to bring together donors and people/institutions that are looking for donations. This is an open source project, which you can contribute and find at: "https://github.com/AbelVolpi/PI_Application". </string>
 
     <!--    CreateCampaignFragment-->
     <string name="category">Category</string>
@@ -38,6 +40,12 @@
     <string name="campaign_created_successfully">Campaign created successfully </string>
     <string name="could_not_create_your_campaign">Could not create your campaign</string>
     <string name="error_has_occurred">An error has occurred</string>
+    <string name="description">Description</string>
+    <string name="street">Street</string>
+    <string name="number">Number</string>
+    <string name="district">District</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
 
     <!--    MapsFragment-->
     <string name="address_model" translatable="false">%s, %s - %s, %s - %s</string>
@@ -71,6 +79,7 @@ Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porr
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
 
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver.</string>
+
 
 
 </resources>

@@ -28,6 +28,13 @@
     <string name="error_has_occurred">Ocorreu um erro</string>
     <string name="about">Sobre</string>
     <string name="login_an_create_a_campaign">Cadastre-se e crie sua campanha</string>
-
+    <string name="app_description">Este é um aplicativo desenvolvido como projeto integrador do curso de informática do IFSC. Não possui fins lucrativos e tem como objetivo (além de explorar os conhecimentos adquiridos ao longo do curso), aproximar doadores e pessoas/instituições que estão procurando doações. Este é um projeto open source, o qual você pode contribuir e encontrar em "https://github.com/AbelVolpi/PI_Application".</string>
+    <string name="logged_area">Logado</string>
+    <string name="description">Descrição</string>
+    <string name="street">Rua</string>
+    <string name="number">Número</string>
+    <string name="district">Bairro</string>
+    <string name="city">Cidade</string>
+    <string name="state">Estado</string>
 
 </resources>

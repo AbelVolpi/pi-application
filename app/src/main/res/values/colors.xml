@@ -10,5 +10,7 @@
     <color name="blue_1">#286EF0</color>
     <color name="blue_2">#0881D3</color>
     <color name="blue_3">#099BFF</color>
+    <color name="selector_gray">#EDEFF1</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>
