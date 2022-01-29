@@ -25,7 +25,8 @@ object Utils {
         if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) return true
         return false
     }
-    fun validatePassword(password: String): Boolean{
+
+    fun validatePassword(password: String): Boolean {
         if (password.isNotEmpty()) return true
         return false
     }
@@ -58,7 +59,6 @@ object Utils {
             create()
             show()
         }
-
     }
 
 }
