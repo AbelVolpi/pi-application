@@ -1,25 +1,17 @@
 package com.projetointegrador.pi_application.utils
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.Patterns
 import android.view.LayoutInflater
-import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.projetointegrador.pi_application.databinding.DialogLayoutBinding
 
 object Utils {
-
-    fun Activity.hideSoftKeyboard() {
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply {
-            hideSoftInputFromWindow(currentFocus?.windowToken, 0)
-        }
-    }
 
     fun validateEmail(email: String): Boolean {
         if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) return true
