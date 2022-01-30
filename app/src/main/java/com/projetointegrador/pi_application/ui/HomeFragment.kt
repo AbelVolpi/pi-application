@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentHomeBinding
-import com.projetointegrador.pi_application.utils.Utils.showDialogAbout
+import com.projetointegrador.pi_application.utils.Utils.showAboutDialog
 
 class HomeFragment : Fragment() {
 
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
                 navController.navigate(R.id.action_homeFragment_to_mapsFragment)
             }
             aboutAppButton.setOnClickListener {
-                showDialogAbout(requireContext(), layoutInflater)
+                showAboutDialog(requireContext(), layoutInflater)
             }
         }
     }

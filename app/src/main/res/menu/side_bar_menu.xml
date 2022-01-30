@@ -6,6 +6,11 @@
         android:id="@+id/historic_item"
         android:icon="@drawable/ic_historic"
         android:title="@string/my_campaigns" />
+    <item
+        android:id="@+id/account_item"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/my_account" />
+
     <item android:title="Other">
         <menu>
             <item

@@ -1,5 +1,6 @@
 package com.projetointegrador.pi_application.ui
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -7,10 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.databinding.FragmentProfileBinding
-import com.projetointegrador.pi_application.databinding.SideBarHeaderBinding
+import com.projetointegrador.pi_application.databinding.*
 import com.projetointegrador.pi_application.utils.SessionManager
-import com.projetointegrador.pi_application.utils.Utils.showDialogAbout
+import com.projetointegrador.pi_application.utils.Utils.showAboutDialog
 import com.projetointegrador.pi_application.viewmodel.ProfileViewModel
 
 class ProfileFragment : Fragment() {
@@ -71,14 +71,16 @@ class ProfileFragment : Fragment() {
                     R.id.historic_item -> {
                         navController.navigate(R.id.action_profileFragment_to_campaignsHistoricFragment)
                     }
+                    R.id.account_item -> {
+                        showAccountActionsDialog()
+                    }
 
                     R.id.about_item -> {
-                        showDialogAbout(requireContext(), layoutInflater)
+                        showAboutDialog(requireContext(), layoutInflater)
                     }
 
                     R.id.logout_item -> {
-                        viewModel.logOut()
-                        navController.navigate(R.id.action_profileFragment_to_homeFragment)
+                        showConfirmLogoutDialog()
                     }
                 }
 
@@ -94,4 +96,107 @@ class ProfileFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun showAccountActionsDialog() {
+        val layout = AccountActionsDialogLayoutBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+
+        Dialog(requireContext()).apply {
+            val thisDialog = this
+            setContentView(layout.root)
+
+            layout.deleteAccountLayout.setOnClickListener {
+                this.dismiss()
+                showRemoveAccountDialog()
+            }
+
+            val layoutParams = WindowManager.LayoutParams().apply {
+                copyFrom(thisDialog.window?.attributes)
+                width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+            }
+            thisDialog.window?.attributes = layoutParams
+
+
+            show()
+        }
+
+    }
+
+    private fun showRemoveAccountDialog() {
+
+        val layout = DoubleOptionsDialogBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+
+        Dialog(requireContext()).apply {
+            val thisDialog = this
+
+            setContentView(layout.root)
+
+            layout.textBody.text = getString(R.string.are_you_sure)
+
+            layout.yesOption.setOnClickListener {
+                removeAccount()
+                thisDialog.dismiss()
+            }
+
+            layout.noOption.setOnClickListener {
+                thisDialog.dismiss()
+            }
+
+            val layoutParams = WindowManager.LayoutParams().apply {
+                copyFrom(thisDialog.window?.attributes)
+                width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+            }
+            thisDialog.window?.attributes = layoutParams
+            show()
+        }
+
+    }
+
+
+    private fun showConfirmLogoutDialog() {
+        val layout = DoubleOptionsDialogBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+        Dialog(requireContext()).apply {
+            val thisDialog = this
+            setContentView(layout.root)
+
+            layout.textBody.text = getString(R.string.want_quit)
+
+            layout.yesOption.setOnClickListener {
+                thisDialog.dismiss()
+                viewModel.logOut()
+                navController.navigate(R.id.action_profileFragment_to_homeFragment)
+            }
+
+            layout.noOption.setOnClickListener {
+                thisDialog.dismiss()
+            }
+
+            val layoutParams = WindowManager.LayoutParams().apply {
+                copyFrom(thisDialog.window?.attributes)
+                width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+            }
+            thisDialog.window?.attributes = layoutParams
+            show()
+        }
+
+    }
+
+    private fun removeAccount() {
+        val userId = SessionManager.getGetUserId() ?: ""
+
+        viewModel.removeAccount(userId)
+        navController.navigate(R.id.action_profileFragment_to_homeFragment)
+    }
+
 }
