@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentViewCampaignBinding
@@ -14,6 +15,9 @@ class ViewCampaignFragment : Fragment() {
 
     private lateinit var binding: FragmentViewCampaignBinding
     private val arguments: ViewCampaignFragmentArgs by navArgs()
+    private val navController by lazy {
+        findNavController()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +30,10 @@ class ViewCampaignFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
+            arrowBack.setOnClickListener {
+                navController.popBackStack()
+            }
+
             campaignName.text = arguments.campaign.campaignName
             campaignDescription.text = arguments.campaign.campaignDescription
             campaignCategoryText.text = arguments.campaign.campaignCategory

@@ -31,36 +31,30 @@
             android:padding="5dp"
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar_layout"
-            app:layout_constraintEnd_toStartOf="@+id/filter_field_layout"
+            app:layout_constraintEnd_toStartOf="@+id/filter_spinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/filter_field_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        <Spinner
+            android:id="@+id/filter_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="60dp"
-            android:textColorHint="@color/white"
-            app:boxBackgroundColor="@color/blue_3"
-            app:boxStrokeColor="@color/white"
-            app:hintTextColor="@color/white"
-            app:endIconTint="@color/white"
+            android:background="@drawable/style_spinner"
             app:layout_constraintBottom_toBottomOf="@+id/top_bar_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <AutoCompleteTextView
-                android:id="@+id/filter_field_options"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="none"
-                android:paddingVertical="16dp"
-                android:textColor="@color/white" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/arrow_drop_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/ic_arrow_drop_down"
+            app:layout_constraintBottom_toBottomOf="@+id/filter_spinner"
+            app:layout_constraintEnd_toEndOf="@+id/filter_spinner"
+            app:layout_constraintTop_toTopOf="@+id/filter_spinner" />
 
         <ProgressBar
             android:id="@+id/maps_progress_bar"
@@ -70,7 +64,7 @@
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/filter_field_layout"
+            app:layout_constraintStart_toEndOf="@+id/filter_spinner"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
