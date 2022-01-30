@@ -48,7 +48,7 @@ class LoginFragment : Fragment() {
                 navController.popBackStack()
             }
             textForgotPassword.setOnClickListener {
-                //TODO("SEND A EMAIL")
+                navController.navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
             }
             textSignUp.setOnClickListener {
                 navController.navigate(R.id.action_loginFragment_to_registerFragment)

@@ -38,5 +38,8 @@
     <string name="state">Estado</string>
     <string name="add_photo_of_yout_campaign">Adicione uma foto de sua campanha</string>
     <string name="address">Endereço:</string>
+    <string name="confirm">Confirm</string>
+    <string name="email_sent">Email enviado com sucesso</string>
+    <string name="welcome_back">Bom ver você novamente!</string>
 
 </resources>

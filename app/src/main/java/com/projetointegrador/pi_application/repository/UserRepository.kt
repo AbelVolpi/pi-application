@@ -52,6 +52,21 @@ class UserRepository {
         return mutableLiveData
     }
 
+    fun forgotPassword(email: String): MutableLiveData<FirebaseResponse<Any>> {
+        val mutableLiveData = MutableLiveData<FirebaseResponse<Any>>()
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+                mutableLiveData.value = FirebaseResponse.Success(Any())
+            }
+            .addOnFailureListener { exception ->
+                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
+            }
+
+        return mutableLiveData
+    }
+
     fun checkAlreadyLogged(): Boolean {
         firebaseAuth = FirebaseAuth.getInstance()
 

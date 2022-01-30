@@ -63,11 +63,22 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -125,4 +136,9 @@
             app:argType="com.projetointegrador.pi_application.models.Campaign"
             app:nullable="false" />
     </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.projetointegrador.pi_application.ui.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>
