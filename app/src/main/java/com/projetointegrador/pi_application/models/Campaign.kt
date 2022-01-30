@@ -1,5 +1,9 @@
 package com.projetointegrador.pi_application.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Campaign(
     var campaignId: String = "",
     var userId: String = "",
@@ -7,6 +11,7 @@ data class Campaign(
     var campaignDescription: String = "",
     var campaignCategory: String = "",
     var campaignAddress: Address? = null,
-    var campaignLatLng: MyLatLng? = null
-)
+    var campaignLatLng: MyLatLng? = null,
+    var campaignImageUrl: String = ""
+) : Parcelable
 

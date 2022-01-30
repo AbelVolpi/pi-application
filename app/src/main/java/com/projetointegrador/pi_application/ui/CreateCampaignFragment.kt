@@ -1,11 +1,14 @@
 package com.projetointegrador.pi_application.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -25,9 +28,16 @@ import com.projetointegrador.pi_application.viewmodel.CreateCampaignViewModel
 class CreateCampaignFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateCampaignBinding
+    private lateinit var launcherForGallery: ActivityResultLauncher<String>
     private val viewModel: CreateCampaignViewModel by activityViewModels()
+    private var imageUri: Uri? = null
     private val navController by lazy {
         findNavController()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initResultContracts()
     }
 
     override fun onCreateView(
@@ -45,6 +55,16 @@ class CreateCampaignFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
+            cardViewPhoto.setOnClickListener {
+                launcherForGallery.launch("image/*")
+            }
+            removeImage.setOnClickListener {
+                imagePhoto.setImageResource(0)
+
+                withoutImageTextView.visibility = View.VISIBLE
+                addPhotoImageView.visibility = View.VISIBLE
+                removeImage.visibility = View.INVISIBLE
+            }
             mainLayout.setOnClickListener {
                 activity?.hideSoftKeyboard()
                 it.clearScreenFocus()
@@ -123,7 +143,7 @@ class CreateCampaignFragment : Fragment() {
     }
 
     private fun sendRequest(campaign: Campaign) {
-        viewModel.createCampaign(campaign).observe(viewLifecycleOwner) { response ->
+        viewModel.createCampaign(campaign, imageUri).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is FirebaseResponse.Success -> {
                     showFeedbackAndBackStack()
@@ -160,4 +180,20 @@ class CreateCampaignFragment : Fragment() {
         }
     }
 
+    private fun initResultContracts() {
+        launcherForGallery = registerForActivityResult(
+            ActivityResultContracts.GetContent()
+        ) { uri ->
+            if (uri != null) {
+                with(binding) {
+                    withoutImageTextView.visibility = View.INVISIBLE
+                    addPhotoImageView.visibility = View.INVISIBLE
+                    removeImage.visibility = View.VISIBLE
+
+                    imagePhoto.setImageURI(uri)
+                    imageUri = uri
+                }
+            }
+        }
+    }
 }

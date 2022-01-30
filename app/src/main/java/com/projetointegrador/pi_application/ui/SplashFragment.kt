@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentSplashBinding
+import com.projetointegrador.pi_application.viewmodel.SplashViewModel
 
 class SplashFragment : Fragment() {
 
+    private val viewModel: SplashViewModel by activityViewModels()
     private lateinit var binding: FragmentSplashBinding
     private val navController by lazy {
         findNavController()
@@ -26,7 +29,10 @@ class SplashFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         delay {
-            navController.navigate(R.id.action_splashFragment_to_homeFragment)
+            if (viewModel.verifyUserAlreadyLogged())
+                navController.navigate(R.id.action_splashFragment_to_profileFragment)
+            else
+                navController.navigate(R.id.action_splashFragment_to_homeFragment)
         }
     }
 

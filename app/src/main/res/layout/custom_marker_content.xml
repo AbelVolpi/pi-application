@@ -11,17 +11,26 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:id="@+id/location_main_photo"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_launcher_foreground"
+            app:cardCornerRadius="10dp"
+            app:elevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/campaign_address"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue_3" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/campaign_photo_place_holder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/blue_heart" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/tittle_label"
@@ -40,10 +49,9 @@
 
         <TextView
             android:id="@+id/campaign_address"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:maxWidth="150dp"
-            android:maxLines="3"
+            android:maxLines="5"
             android:text="Rua 7 de Setembro, 1213 - Centro, Blumenau - SC"
             android:textAlignment="textStart"
             app:layout_constraintBottom_toTopOf="@+id/campaign_category_card_view"
@@ -72,7 +80,7 @@
                 android:paddingVertical="2dp"
                 android:text="category_test"
                 android:textColor="@color/white"
-                android:textSize="12dp" />
+                android:textSize="12sp" />
 
         </androidx.cardview.widget.CardView>
 

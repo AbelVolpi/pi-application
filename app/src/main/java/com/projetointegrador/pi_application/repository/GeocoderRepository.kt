@@ -13,6 +13,6 @@ class GeocoderRepository {
             address,
             1
         )
-        LatLng(geocoderResult[0].latitude, geocoderResult[0].longitude,)
+        LatLng(geocoderResult[0].latitude, geocoderResult[0].longitude)
     }
 }

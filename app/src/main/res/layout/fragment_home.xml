@@ -121,7 +121,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView_create_campaign"
+        android:id="@+id/cardView_login_and_create_campaign"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginHorizontal="40dp"

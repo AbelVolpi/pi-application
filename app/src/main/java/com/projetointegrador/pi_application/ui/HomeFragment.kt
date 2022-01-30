@@ -1,22 +1,17 @@
 package com.projetointegrador.pi_application.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.databinding.DialogLayoutBinding
 import com.projetointegrador.pi_application.databinding.FragmentHomeBinding
 import com.projetointegrador.pi_application.utils.Utils.showDialogAbout
-import com.projetointegrador.pi_application.viewmodel.HomeViewModel
 
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by activityViewModels()
     private lateinit var binding: FragmentHomeBinding
     private val navController by lazy {
         findNavController()
@@ -32,13 +27,10 @@ class HomeFragment : Fragment() {
         initViews()
     }
 
-    private fun initViews(){
-        with(binding){
-            cardViewCreateCampaign.setOnClickListener {
-                if (viewModel.verifyUserAlreadyLogged())
-                    navController.navigate(R.id.action_homeFragment_to_profileFragment)
-                else
-                    navController.navigate(R.id.action_homeFragment_to_loginFragment)
+    private fun initViews() {
+        with(binding) {
+            cardViewLoginAndCreateCampaign.setOnClickListener {
+                navController.navigate(R.id.action_homeFragment_to_loginFragment)
             }
             cardViewGoToMap.setOnClickListener {
                 navController.navigate(R.id.action_homeFragment_to_mapsFragment)

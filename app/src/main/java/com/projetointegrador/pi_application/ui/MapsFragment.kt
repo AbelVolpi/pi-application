@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -60,19 +61,27 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         getAllCampaigns()
 
         with(binding) {
-            filterFieldOptions.apply {
-                setAdapter(
-                    ArrayAdapter(
-                        requireContext(),
-                        R.layout.dropdown_item,
-                        resources.getStringArray(R.array.donate_options)
-                    )
+
+            filterSpinner.apply {
+                adapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.dropdown_item,
+                    resources.getStringArray(R.array.donate_options)
                 )
-                setOnItemClickListener { adapterView, _, i, _ ->
-                    val category = adapterView.getItemAtPosition(i).toString()
-                    getCampaignsByCategory(category)
+                onItemSelectedListener = object :
+                    AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(adapterView: AdapterView<*>?, p1: View?, i: Int, p3: Long) {
+                        val category = adapterView?.getItemAtPosition(i).toString()
+                        getCampaignsByCategory(category)
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                    }
+
                 }
             }
+
             arrowBack.setOnClickListener {
                 navController.popBackStack()
             }
@@ -94,7 +103,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getCampaignsByCategory(category: String) {
-        if (category.isEmpty())
+        if (category.isEmpty() || category == "Outros")
             getAllCampaigns()
         else
             viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
@@ -169,7 +178,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             true
         }
-    }
 
+        map?.setOnInfoWindowClickListener { marker ->
+            val campaign = campaignsGeneralList[marker.zIndex.toInt()]
+
+            navController.navigate(
+                MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(
+                    campaign
+                )
+            )
+        }
+    }
 
 }

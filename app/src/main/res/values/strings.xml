@@ -29,6 +29,7 @@
     <string name="logged_area">Logged area</string>
     <string name="about">About</string>
     <string name="app_description"> This is an application develop as a Capstone Project of IT course at IFSC. It\'s non-profit and its goal(besides exploring the knowledge acquired during the course) is to bring together donors and people/institutions that are looking for donations. This is an open source project, which you can contribute and find at: "https://github.com/AbelVolpi/PI_Application". </string>
+    <string name="welcome_back">Welcome back</string>
 
     <!--    CreateCampaignFragment-->
     <string name="category">Category</string>
@@ -46,6 +47,7 @@
     <string name="district">District</string>
     <string name="city">City</string>
     <string name="state">State</string>
+    <string name="add_photo_of_yout_campaign">Add photo of your campaign</string>
 
     <!--    MapsFragment-->
     <string name="address_model" translatable="false">%s, %s - %s, %s - %s</string>
@@ -60,7 +62,7 @@
         <item>Alimentos</item>
         <item>Rações</item>
         <item>Roupas</item>
-        <item></item>
+        <item>Outros</item>
     </string-array>
 
     <!--    RegisterFragment-->
@@ -69,6 +71,12 @@
     <!--    CampaignsHistoricFragment-->
     <string name="you_havent_created_a_campaign_yet">You haven\'t created a campaign yet :/</string>
 
+    <!--    ViewCampaignFragment-->
+    <string name="address">Address:</string>
+
+    <!--    ForgotPasswordFragment-->
+    <string name="confirm">Confirm</string>
+    <string name="email_sent">Email sent with success</string>
 
     <string name="content" translatable="false">Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
 
@@ -79,7 +87,6 @@ Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porr
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver>Lorem ipsum dolor sit amet. Qui aliquam harum in asperiores nihil aut dicta incidunt saepe tempore id nihil magnam ut velit numquam. 33 nulla sunt eum aspernatur similique aut sunt quod ea galisum ullam.
 
 Cum expedita beatae et dicta dolorem est nobis nisi eum harum quia ut sequi porro vel Quis soluta! Et omnis consequatur non culpa molestias sit voluptas autem. Sed voluptatem necessitatibus ut deserunt Quis qui sint neque est illo nihil nam velit ver.</string>
-
 
 
 </resources>

@@ -15,6 +15,11 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -35,19 +40,17 @@
             app:exitAnim="@anim/exit_to_right"
             app:popEnterAnim="@anim/enter_from_right"
             app:popExitAnim="@anim/exit_to_left" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/exit_to_right"
-            app:popEnterAnim="@anim/enter_from_right"
-            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.projetointegrador.pi_application.ui.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" />
+        tools:layout="@layout/fragment_maps">
+        <action
+            android:id="@+id/action_mapsFragment_to_viewCampaignFragment"
+            app:destination="@id/viewCampaignFragment"
+            app:enterAnim="@anim/view_campaign_from_right" />
+    </fragment>
     <fragment
         android:id="@+id/createCampaignFragment"
         android:name="com.projetointegrador.pi_application.ui.CreateCampaignFragment"
@@ -60,12 +63,22 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
-            app:popUpTo="@id/profileFragment"
-            />
+            app:popUpTo="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/exit_to_right"
+            app:popEnterAnim="@anim/enter_from_right"
+            app:popExitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -74,7 +87,8 @@
         tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_registerFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -98,6 +112,9 @@
             android:id="@+id/action_profileFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/campaignsHistoricFragment"
@@ -106,11 +123,22 @@
         tools:layout="@layout/fragment_campaigns_historic">
         <action
             android:id="@+id/action_campaignsHistoricFragment_to_viewCampaignFragment"
-            app:destination="@id/viewCampaignFragment" />
+            app:destination="@id/viewCampaignFragment"
+            app:enterAnim="@anim/view_campaign_from_right" />
     </fragment>
     <fragment
         android:id="@+id/viewCampaignFragment"
         android:name="com.projetointegrador.pi_application.ui.ViewCampaignFragment"
         android:label="fragment_view_campaign"
-        tools:layout="@layout/fragment_view_campaign" />
+        tools:layout="@layout/fragment_view_campaign">
+        <argument
+            android:name="campaign"
+            app:argType="com.projetointegrador.pi_application.models.Campaign"
+            app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.projetointegrador.pi_application.ui.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>

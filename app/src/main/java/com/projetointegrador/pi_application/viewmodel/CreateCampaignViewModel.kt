@@ -1,5 +1,6 @@
 package com.projetointegrador.pi_application.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +18,7 @@ class CreateCampaignViewModel : ViewModel(), CoroutineScope {
     private val job = Job()
     override val coroutineContext: CoroutineContext = job + Dispatchers.Main
 
-    fun createCampaign(campaign: Campaign) = CampaignRepository().createCampaign(campaign)
+    fun createCampaign(campaign: Campaign, imageUri: Uri?) = CampaignRepository().createCampaign(campaign, imageUri)
 
     fun getLatLongFromAddress(address: String): MutableLiveData<GeocoderResponse<LatLng>> {
         val mutableLiveData = MutableLiveData<GeocoderResponse<LatLng>>()
