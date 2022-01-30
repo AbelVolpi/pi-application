@@ -67,6 +67,21 @@ class UserRepository {
         return mutableLiveData
     }
 
+    fun deleteUser(): MutableLiveData<FirebaseResponse<Any>> {
+        val mutableLiveData = MutableLiveData<FirebaseResponse<Any>>()
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuth.currentUser?.delete()
+            ?.addOnSuccessListener {
+                mutableLiveData.value = FirebaseResponse.Success(Any())
+            }
+            ?.addOnFailureListener { exception ->
+                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
+            }
+
+        return mutableLiveData
+    }
+
     fun checkAlreadyLogged(): Boolean {
         firebaseAuth = FirebaseAuth.getInstance()
 

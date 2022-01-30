@@ -41,5 +41,12 @@
     <string name="confirm">Confirm</string>
     <string name="email_sent">Email enviado com sucesso</string>
     <string name="welcome_back">Bom ver você novamente!</string>
+    <string name="my_account">Minha Conta</string>
+    <string name="possible_actions">Ações disponíveis:</string>
+    <string name="delete_account">Deletar conta</string>
+    <string name="are_you_sure">Você tem certeza que quer deletar esta conta? Essa é uma ação irreversível.</string>
+    <string name="want_quit">Você tem certeza que deseja sair?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 
 </resources>

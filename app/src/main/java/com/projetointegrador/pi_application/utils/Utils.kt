@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.projetointegrador.pi_application.databinding.DialogLayoutBinding
+import com.projetointegrador.pi_application.databinding.AboutDialogLayoutBinding
 
 object Utils {
 
@@ -39,10 +39,10 @@ object Utils {
         return null
     }
 
-    fun showDialogAbout(context: Context, layoutInflater: LayoutInflater) {
+    fun showAboutDialog(context: Context, layoutInflater: LayoutInflater) {
         val dialog = AlertDialog.Builder(context)
 
-        val view = DialogLayoutBinding.inflate(
+        val view = AboutDialogLayoutBinding.inflate(
             layoutInflater, null, false
         )
 

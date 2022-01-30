@@ -162,4 +162,19 @@ class CampaignRepository {
         return mutableLiveData
     }
 
+    fun deleteAllCampaigns(userId: String) {
+        val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
+        campaignsRef
+            .whereEqualTo(USER_ID, userId)
+            .get()
+            .addOnSuccessListener {
+                it.forEach { doc ->
+                    doc.reference.delete()
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.e("DeleteError", exception.message.toString())
+            }
+    }
+
 }
