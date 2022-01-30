@@ -76,9 +76,9 @@ class CampaignsHistoricAdapter(
     override fun getItemCount() = campaignsList.size
 
     private fun removeItem(campaignPosition: Int) {
-        //TODO(REVIEW THIS FUN)
         campaignsList.removeAt(campaignPosition)
         notifyItemRemoved(campaignPosition)
+        notifyItemRangeChanged(campaignPosition, campaignsList.size)
     }
 
 }
