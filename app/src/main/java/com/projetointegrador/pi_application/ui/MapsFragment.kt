@@ -94,7 +94,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getCampaignsByCategory(category: String) {
-        if (category.isEmpty())
+        if (category.isEmpty() || category == "Outros")
             getAllCampaigns()
         else
             viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
@@ -170,10 +170,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             true
         }
 
-        map?.setOnInfoWindowClickListener {
-            navController.navigate(R.id.action_mapsFragment_to_viewCampaignFragment)
+        map?.setOnInfoWindowClickListener { marker ->
+            val campaign = campaignsGeneralList[marker.zIndex.toInt()]
+
+            navController.navigate(
+                MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(
+                    campaign
+                )
+            )
         }
     }
-
 
 }

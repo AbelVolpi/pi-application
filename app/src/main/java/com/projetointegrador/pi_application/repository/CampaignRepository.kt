@@ -1,12 +1,17 @@
 package com.projetointegrador.pi_application.repository
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.utils.Constants.FIREBASE_ATTRIBUTES.CAMPAIGNS_COLLECTION
+import com.projetointegrador.pi_application.utils.Constants.FirebaseAttributes.CAMPAIGNS_COLLECTION
+import com.projetointegrador.pi_application.utils.Constants.FirebaseAttributes.CAMPAIGN_CATEGORY
+import com.projetointegrador.pi_application.utils.Constants.FirebaseAttributes.USER_ID
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 
 class CampaignRepository {
@@ -14,20 +19,49 @@ class CampaignRepository {
     private var fireStoreDataBase = FirebaseFirestore.getInstance()
     private lateinit var documentReference: DocumentReference
 
-    fun createCampaign(campaign: Campaign): MutableLiveData<FirebaseResponse<Boolean>> {
+    private lateinit var storageReference: StorageReference
+    private lateinit var storage: FirebaseStorage
+
+    fun createCampaign(campaign: Campaign, imageUri: Uri?): MutableLiveData<FirebaseResponse<Boolean>> {
         val mutableLiveData = MutableLiveData<FirebaseResponse<Boolean>>()
 
         documentReference = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION).document()
         campaign.campaignId = documentReference.id
 
-        documentReference.set(campaign)
-            .addOnSuccessListener {
-                mutableLiveData.value = FirebaseResponse.Success(true)
-            }
-            .addOnFailureListener { exception ->
-                Log.w("Firestore", "Error adding document", exception)
-                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-            }
+        imageUri?.let { imageUriNotNull ->
+
+            storage = FirebaseStorage.getInstance()
+            storageReference = storage.getReference("images/${campaign.campaignId}")
+
+            storageReference.putFile(imageUriNotNull)
+                .addOnSuccessListener {
+                    storageReference.downloadUrl.addOnSuccessListener {
+                        campaign.campaignImageUrl = it.toString()
+                        documentReference.set(campaign)
+                            .addOnSuccessListener {
+                                mutableLiveData.value = FirebaseResponse.Success(true)
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.w("Firestore", "Error adding document", exception)
+                                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
+                            }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("Storage", "Error adding photo", exception)
+                    mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
+                }
+
+        } ?: run {
+            documentReference.set(campaign)
+                .addOnSuccessListener {
+                    mutableLiveData.value = FirebaseResponse.Success(true)
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("Firestore", "Error adding document", exception)
+                    mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
+                }
+        }
 
         return mutableLiveData
     }
@@ -47,7 +81,7 @@ class CampaignRepository {
                     mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
                 }
         } catch (throwable: Throwable) {
-            mutableLiveData.value = FirebaseResponse.Failure("Ocorreu um erro, tente novamente mais tarde")
+            mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
         }
 
         return mutableLiveData
@@ -59,7 +93,7 @@ class CampaignRepository {
 
         val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
         campaignsRef
-            .whereEqualTo("userId", userId)
+            .whereEqualTo(USER_ID, userId)
             .get()
             .addOnSuccessListener { documents ->
                 try {
@@ -109,7 +143,7 @@ class CampaignRepository {
 
         val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
         campaignsRef
-            .whereEqualTo("campaignCategory", category)
+            .whereEqualTo(CAMPAIGN_CATEGORY, category)
             .get()
             .addOnSuccessListener { documents ->
                 try {

@@ -5,6 +5,8 @@ import com.projetointegrador.pi_application.repository.UserRepository
 
 class LoginViewModel : ViewModel() {
 
-    fun login(email: String, password: String) = UserRepository().login(email, password)
+    private val userRepository = UserRepository()
+
+    fun login(email: String, password: String) = userRepository.login(email, password)
 
 }

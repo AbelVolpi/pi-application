@@ -78,7 +78,8 @@ class CampaignsHistoricFragment : Fragment() {
                 historicRecycler.apply {
                     adapter = CampaignsHistoricAdapter(
                         campaignsList,
-                        ::removeCampaign
+                        ::removeCampaign,
+                        ::openCampaign
                     )
                     layoutManager = LinearLayoutManager(requireContext())
                     addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
@@ -104,5 +105,12 @@ class CampaignsHistoricFragment : Fragment() {
         return campaignWasRemoved
     }
 
+    private fun openCampaign(campaign: Campaign) {
+        navController.navigate(
+            CampaignsHistoricFragmentDirections.actionCampaignsHistoricFragmentToViewCampaignFragment(
+                campaign
+            )
+        )
+    }
 
 }

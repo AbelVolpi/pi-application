@@ -30,6 +30,7 @@ class CreateCampaignFragment : Fragment() {
     private lateinit var binding: FragmentCreateCampaignBinding
     private lateinit var launcherForGallery: ActivityResultLauncher<String>
     private val viewModel: CreateCampaignViewModel by activityViewModels()
+    private var imageUri: Uri? = null
     private val navController by lazy {
         findNavController()
     }
@@ -142,7 +143,7 @@ class CreateCampaignFragment : Fragment() {
     }
 
     private fun sendRequest(campaign: Campaign) {
-        viewModel.createCampaign(campaign).observe(viewLifecycleOwner) { response ->
+        viewModel.createCampaign(campaign, imageUri).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is FirebaseResponse.Success -> {
                     showFeedbackAndBackStack()
@@ -190,6 +191,7 @@ class CreateCampaignFragment : Fragment() {
                     removeImage.visibility = View.VISIBLE
 
                     imagePhoto.setImageURI(uri)
+                    imageUri = uri
                 }
             }
         }

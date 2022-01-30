@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.projetointegrador.pi_application.MainApplication
+import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.HistoricItemBinding
 import com.projetointegrador.pi_application.models.Campaign
 import com.projetointegrador.pi_application.utils.extensions.dpToPx
@@ -11,6 +13,7 @@ import com.projetointegrador.pi_application.utils.extensions.dpToPx
 class CampaignsHistoricAdapter(
     private val campaignsList: ArrayList<Campaign>,
     private val removeCampaign: (String) -> Boolean,
+    private val openCampaign: (Campaign) -> Unit
 ) :
     RecyclerView.Adapter<CampaignsHistoricAdapter.ViewHolder>() {
 
@@ -18,7 +21,15 @@ class CampaignsHistoricAdapter(
         fun bind(campaign: Campaign, position: Int) {
             with(binding) {
                 campaignTittle.text = campaign.campaignName
-//                campaignAddress.text = campaign.campaignAddress
+                campaignAddress.text = MainApplication.applicationContext()
+                    .getString(
+                        R.string.address_model,
+                        campaign.campaignAddress?.street,
+                        campaign.campaignAddress?.number,
+                        campaign.campaignAddress?.district,
+                        campaign.campaignAddress?.city,
+                        campaign.campaignAddress?.state
+                    )
                 campaignCategoryText.text = campaign.campaignCategory
                 if (position == 0)
                     historicItemMainLayout.setPadding(20.dpToPx(), 20, 20.dpToPx(), 0)
@@ -32,6 +43,9 @@ class CampaignsHistoricAdapter(
                     setOnClickListener {
                         if (deleteCampaignButton.visibility == View.VISIBLE)
                             deleteCampaignButton.visibility = View.INVISIBLE
+                        else
+                            openCampaign(campaign)
+
                     }
                 }
                 deleteCampaignButton.setOnClickListener {
@@ -62,6 +76,7 @@ class CampaignsHistoricAdapter(
     override fun getItemCount() = campaignsList.size
 
     private fun removeItem(campaignPosition: Int) {
+        //TODO(REVIEW THIS FUN)
         campaignsList.removeAt(campaignPosition)
         notifyItemRemoved(campaignPosition)
     }
