@@ -2,12 +2,11 @@ package com.projetointegrador.pi_application.utils
 
 object Constants {
 
-    object FIREBASE_ATTRIBUTES{
+    object FirebaseAttributes{
         const val CAMPAIGNS_COLLECTION = "campaigns"
-        const val CAMPAIGN_NAME = "campaign_name"
-        const val CAMPAIGN_ADDRESS = "campaign_address"
-        const val CAMPAIGN_CATEGORY = "campaign_category"
-
+        const val CAMPAIGN_NAME = "campaignName"
+        const val CAMPAIGN_ADDRESS = "campaignAddress"
+        const val CAMPAIGN_CATEGORY = "campaignCategory"
+        const val USER_ID = "userId"
     }
-
 }

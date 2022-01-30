@@ -47,11 +47,11 @@
         android:id="@+id/mapsFragment"
         android:name="com.projetointegrador.pi_application.ui.MapsFragment"
         android:label="fragment_maps"
-        tools:layout="@layout/fragment_maps" >
+        tools:layout="@layout/fragment_maps">
         <action
             android:id="@+id/action_mapsFragment_to_viewCampaignFragment"
             app:destination="@id/viewCampaignFragment"
-            app:enterAnim="@anim/campaign_from_left" />
+            app:enterAnim="@anim/view_campaign_from_right" />
     </fragment>
     <fragment
         android:id="@+id/createCampaignFragment"
@@ -69,8 +69,7 @@
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment"
-            app:popUpTo="@id/profileFragment"
-            />
+            app:popUpTo="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -111,11 +110,17 @@
         tools:layout="@layout/fragment_campaigns_historic">
         <action
             android:id="@+id/action_campaignsHistoricFragment_to_viewCampaignFragment"
-            app:destination="@id/viewCampaignFragment" />
+            app:destination="@id/viewCampaignFragment"
+            app:enterAnim="@anim/view_campaign_from_right" />
     </fragment>
     <fragment
         android:id="@+id/viewCampaignFragment"
         android:name="com.projetointegrador.pi_application.ui.ViewCampaignFragment"
         android:label="fragment_view_campaign"
-        tools:layout="@layout/fragment_view_campaign" />
+        tools:layout="@layout/fragment_view_campaign">
+        <argument
+            android:name="campaign"
+            app:argType="com.projetointegrador.pi_application.models.Campaign"
+            app:nullable="false" />
+    </fragment>
 </navigation>
