@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.projetointegrador.pi_application.MainApplication"
@@ -19,9 +20,10 @@
             android:value="${GOOGLE_MAPS_API_KEY}" />
 
         <activity
-            android:name="com.projetointegrador.pi_application.ui.MainActivity"
+            android:name="com.projetointegrador.pi_application.presentation.ui.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PI_Application.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

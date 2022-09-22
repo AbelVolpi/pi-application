@@ -19,3 +19,18 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#GOOGLE MAPS
+-keep class com.google.android.gms.maps.** { *; }
+-keep interface com.google.android.gms.maps.** { *; }
+
+#FIREBASE
+-keep class com.google.firebase.** { *; }
+
+
+#test
+# Fix maps 3.0.0-beta crash:
+-keep,allowoptimization class com.google.android.libraries.maps.** { *; }
+
+# Fix maps 3.0.0-beta marker taps ignored:
+-keep,allowoptimization class com.google.android.apps.gmm.renderer.** { *; }
