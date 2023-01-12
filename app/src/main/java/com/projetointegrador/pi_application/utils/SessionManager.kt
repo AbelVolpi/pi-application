@@ -3,7 +3,7 @@ package com.projetointegrador.pi_application.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.projetointegrador.pi_application.MainApplication
+import com.projetointegrador.pi_application.core.MainApplication
 
 object SessionManager {
 
