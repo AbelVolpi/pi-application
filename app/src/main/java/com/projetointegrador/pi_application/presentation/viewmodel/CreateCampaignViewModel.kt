@@ -2,39 +2,33 @@ package com.projetointegrador.pi_application.presentation.viewmodel
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.model.LatLng
 import com.projetointegrador.pi_application.core.base.BaseViewModel
+import com.projetointegrador.pi_application.domain.campaign.CreateCampaignUseCase
 import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.data.repository.CampaignRepository
-import com.projetointegrador.pi_application.data.repository.GeocoderRepository
-import com.projetointegrador.pi_application.utils.GeocoderResponse
+import com.projetointegrador.pi_application.utils.FirebaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlinx.coroutines.*
 
 @HiltViewModel
 class CreateCampaignViewModel @Inject constructor(
-    private val campaignRepository: CampaignRepository,
-    private val geocoderRepository: GeocoderRepository
+    private val createCampaignUseCase: CreateCampaignUseCase
 ) : BaseViewModel() {
 
-    fun createCampaign(campaign: Campaign, imageUri: Uri?) = campaignRepository.createCampaign(campaign, imageUri)
-
-    fun getLatLongFromAddress(address: String): MutableLiveData<GeocoderResponse<LatLng>> {
-        val mutableLiveData = MutableLiveData<GeocoderResponse<LatLng>>()
+    fun createCampaign(campaign: Campaign, imageUri: Uri?): LiveData<FirebaseResponse<Boolean>> {
+        val mutableLiveData = MutableLiveData<FirebaseResponse<Boolean>>()
 
         launch {
             try {
-                val latLng = geocoderRepository.getLatLongFromAddress(address).getOrThrow()
-                mutableLiveData.value = GeocoderResponse.Success(latLng)
+                mutableLiveData.value = createCampaignUseCase.createCampaign(campaign, imageUri).value
+                // todo adjust this part
             } catch (throwable: Throwable) {
                 Log.e("Create campaign", throwable.message.toString())
-                mutableLiveData.value = GeocoderResponse.Failure(throwable.message.toString())
+                mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
             }
         }
-
         return mutableLiveData
     }
 }
-

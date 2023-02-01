@@ -14,4 +14,3 @@ data class Campaign(
     var campaignLatLng: MyLatLng? = null,
     var campaignImageUrl: String = ""
 ) : Parcelable
-

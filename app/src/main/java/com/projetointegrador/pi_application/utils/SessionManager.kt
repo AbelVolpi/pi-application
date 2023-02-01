@@ -47,5 +47,4 @@ object SessionManager {
     fun logout() {
         prefs.edit().clear().apply()
     }
-
 }

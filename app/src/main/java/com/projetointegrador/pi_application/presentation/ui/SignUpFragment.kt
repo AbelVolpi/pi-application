@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentSignUpBinding
 import com.projetointegrador.pi_application.models.User
+import com.projetointegrador.pi_application.presentation.viewmodel.SignUpViewModel
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.utils.Utils.validateEmail
@@ -20,7 +20,6 @@ import com.projetointegrador.pi_application.utils.Utils.validatePassword
 import com.projetointegrador.pi_application.utils.extensions.clearScreenFocus
 import com.projetointegrador.pi_application.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.utils.extensions.toast
-import com.projetointegrador.pi_application.presentation.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +31,11 @@ class SignUpFragment : Fragment() {
         findNavController()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -101,5 +104,4 @@ class SignUpFragment : Fragment() {
         Log.e("LoginError", response.errorMessage)
         requireContext().toast(response.errorMessage)
     }
-
 }

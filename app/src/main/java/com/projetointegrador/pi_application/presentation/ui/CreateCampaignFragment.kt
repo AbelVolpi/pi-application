@@ -10,21 +10,18 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentCreateCampaignBinding
 import com.projetointegrador.pi_application.models.Address
 import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.models.MyLatLng
+import com.projetointegrador.pi_application.presentation.viewmodel.CreateCampaignViewModel
 import com.projetointegrador.pi_application.utils.FirebaseResponse
-import com.projetointegrador.pi_application.utils.GeocoderResponse
 import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.utils.extensions.clearScreenFocus
 import com.projetointegrador.pi_application.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.utils.extensions.toast
-import com.projetointegrador.pi_application.presentation.viewmodel.CreateCampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,7 +41,8 @@ class CreateCampaignFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateCampaignBinding.inflate(inflater, container, false)
@@ -114,31 +112,14 @@ class CreateCampaignFragment : Fragment() {
                     campaignCity,
                     campaignState
                 )
-
-                val address = "${campaignStreet},${campaignNumber}-${campaignDistrict},${campaignCity}-${campaignState}"
-
-                viewModel.getLatLongFromAddress(address).observe(viewLifecycleOwner) { geocoderResponse ->
-                    when (geocoderResponse) {
-                        is GeocoderResponse.Success -> {
-                            val campaign = Campaign(
-                                userId = userId,
-                                campaignName = campaignName,
-                                campaignDescription = campaignDescription,
-                                campaignCategory = campaignCategory,
-                                campaignAddress = campaignAddress,
-                                campaignLatLng = MyLatLng(
-                                    geocoderResponse.data.latitude.toString(),
-                                    geocoderResponse.data.longitude.toString()
-                                )
-                            )
-                            sendRequest(campaign)
-                        }
-                        is GeocoderResponse.Failure -> {
-                            context?.toast(getString(R.string.error_has_occurred))
-                            progressCreateCampaign.visibility = View.INVISIBLE
-                        }
-                    }
-                }
+                val campaign = Campaign(
+                    userId = userId,
+                    campaignName = campaignName,
+                    campaignDescription = campaignDescription,
+                    campaignCategory = campaignCategory,
+                    campaignAddress = campaignAddress
+                )
+                sendRequest(campaign)
             } else {
                 context?.toast(getString(R.string.review_fields))
             }
@@ -172,14 +153,14 @@ class CreateCampaignFragment : Fragment() {
 
     private fun verifyFields(): Boolean {
         with(binding) {
-            return !campaignNameField.text.isNullOrEmpty()
-                    && !campaignDescriptionField.text.isNullOrEmpty()
-                    && !campaignCategoryFieldOptions.text.isNullOrEmpty()
-                    && !campaignsStreetField.text.isNullOrEmpty()
-                    && !campaignsNumberField.text.isNullOrEmpty()
-                    && !campaignsDistrictField.text.isNullOrEmpty()
-                    && !campaignsCityField.text.isNullOrEmpty()
-                    && !campaignsStateField.text.isNullOrEmpty()
+            return !campaignNameField.text.isNullOrEmpty() &&
+                !campaignDescriptionField.text.isNullOrEmpty() &&
+                !campaignCategoryFieldOptions.text.isNullOrEmpty() &&
+                !campaignsStreetField.text.isNullOrEmpty() &&
+                !campaignsNumberField.text.isNullOrEmpty() &&
+                !campaignsDistrictField.text.isNullOrEmpty() &&
+                !campaignsCityField.text.isNullOrEmpty() &&
+                !campaignsStateField.text.isNullOrEmpty()
         }
     }
 

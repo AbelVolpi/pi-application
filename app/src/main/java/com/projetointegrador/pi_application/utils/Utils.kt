@@ -23,7 +23,6 @@ object Utils {
         return false
     }
 
-
     fun bitmapFromResource(resource: Int, context: Context): BitmapDescriptor? {
 
         val drawable = ContextCompat.getDrawable(context, resource)
@@ -52,5 +51,4 @@ object Utils {
             show()
         }
     }
-
 }

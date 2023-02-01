@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import dagger.hilt.android.AndroidEntryPoint
 
 abstract class BaseFragment<T : ViewBinding>(
     private val inflateMethod: (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -15,7 +14,11 @@ abstract class BaseFragment<T : ViewBinding>(
     private var _binding: T? = null
     val binding: T get() = _binding!!
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         _binding = inflateMethod.invoke(inflater, container, false)
         return binding.root
     }

@@ -2,6 +2,7 @@ package com.projetointegrador.pi_application.data.repository
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -22,7 +23,7 @@ class CampaignRepository {
     private lateinit var storageReference: StorageReference
     private lateinit var storage: FirebaseStorage
 
-    fun createCampaign(campaign: Campaign, imageUri: Uri?): MutableLiveData<FirebaseResponse<Boolean>> {
+    fun createCampaign(campaign: Campaign, imageUri: Uri?): LiveData<FirebaseResponse<Boolean>> {
         val mutableLiveData = MutableLiveData<FirebaseResponse<Boolean>>()
 
         documentReference = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION).document()
@@ -51,7 +52,6 @@ class CampaignRepository {
                     Log.w("Storage", "Error adding photo", exception)
                     mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
                 }
-
         } ?: run {
             documentReference.set(campaign)
                 .addOnSuccessListener {
@@ -66,7 +66,7 @@ class CampaignRepository {
         return mutableLiveData
     }
 
-    fun deleteCampaign(campaignId: String): MutableLiveData<FirebaseResponse<Any>> {
+    fun deleteCampaign(campaignId: String): LiveData<FirebaseResponse<Any>> {
         val mutableLiveData = MutableLiveData<FirebaseResponse<Any>>()
 
         try {
@@ -87,7 +87,7 @@ class CampaignRepository {
         return mutableLiveData
     }
 
-    fun getCampaignsByUser(userId: String): MutableLiveData<FirebaseResponse<List<Campaign>>> {
+    fun getCampaignsByUser(userId: String): LiveData<FirebaseResponse<List<Campaign>>> {
         val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
         val campaignsList = arrayListOf<Campaign>()
 
@@ -101,7 +101,6 @@ class CampaignRepository {
                         campaignsList.add(document.toObject())
                     }
                     mutableLiveData.value = FirebaseResponse.Success(campaignsList)
-
                 } catch (throwable: Throwable) {
                     mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
                 }
@@ -113,7 +112,7 @@ class CampaignRepository {
         return mutableLiveData
     }
 
-    fun getAllCampaigns(): MutableLiveData<FirebaseResponse<List<Campaign>>> {
+    fun getAllCampaigns(): LiveData<FirebaseResponse<List<Campaign>>> {
         val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
         val campaignsList = arrayListOf<Campaign>()
 
@@ -137,7 +136,7 @@ class CampaignRepository {
         return mutableLiveData
     }
 
-    fun getCampaignsByCategory(category: String): MutableLiveData<FirebaseResponse<List<Campaign>>> {
+    fun getCampaignsByCategory(category: String): LiveData<FirebaseResponse<List<Campaign>>> {
         val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
         val campaignsList = arrayListOf<Campaign>()
 
@@ -176,5 +175,4 @@ class CampaignRepository {
                 Log.e("DeleteError", exception.message.toString())
             }
     }
-
 }

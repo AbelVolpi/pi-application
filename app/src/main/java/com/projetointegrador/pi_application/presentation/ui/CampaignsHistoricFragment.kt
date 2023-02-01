@@ -5,19 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.presentation.adapter.CampaignsHistoricAdapter
 import com.projetointegrador.pi_application.databinding.FragmentCampaignsHistoricBinding
 import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.presentation.adapter.CampaignsHistoricAdapter
+import com.projetointegrador.pi_application.presentation.viewmodel.CampaignsHistoricViewModel
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.utils.extensions.toast
-import com.projetointegrador.pi_application.presentation.viewmodel.CampaignsHistoricViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +29,8 @@ class CampaignsHistoricFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCampaignsHistoricBinding.inflate(inflater, container, false)
@@ -76,7 +76,6 @@ class CampaignsHistoricFragment : Fragment() {
                     text = getString(R.string.you_havent_created_a_campaign_yet)
                     visibility = View.VISIBLE
                 }
-
             } else {
                 historicRecycler.apply {
                     adapter = CampaignsHistoricAdapter(
@@ -115,5 +114,4 @@ class CampaignsHistoricFragment : Fragment() {
             )
         )
     }
-
 }

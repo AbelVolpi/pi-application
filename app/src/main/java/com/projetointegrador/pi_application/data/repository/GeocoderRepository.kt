@@ -12,7 +12,7 @@ class GeocoderRepository(private val applicationContext: Context) {
         runCatching {
             val geocoder = Geocoder(applicationContext)
             val geocoderResult = geocoder.getFromLocationName(address, 1)
-            LatLng(geocoderResult[0].latitude, geocoderResult[0].longitude)
+            LatLng(geocoderResult?.get(0)?.latitude ?: 0.0, geocoderResult?.get(0)?.longitude ?: 0.0)
         }
     }
 }

@@ -1,15 +1,14 @@
 package com.projetointegrador.pi_application.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.projetointegrador.pi_application.data.repository.UserRepository
+import com.projetointegrador.pi_application.domain.user.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
-    fun login(email: String, password: String) = userRepository.login(email, password)
-
+    fun login(email: String, password: String) = loginUseCase.login(email, password)
 }

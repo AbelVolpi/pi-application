@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.*
+import com.projetointegrador.pi_application.presentation.viewmodel.ProfileViewModel
 import com.projetointegrador.pi_application.utils.SessionManager
 import com.projetointegrador.pi_application.utils.Utils.showAboutDialog
-import com.projetointegrador.pi_application.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +26,8 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
@@ -89,7 +89,6 @@ class ProfileFragment : Fragment() {
 
                 true
             }
-
         }
     }
 
@@ -122,10 +121,8 @@ class ProfileFragment : Fragment() {
             }
             thisDialog.window?.attributes = layoutParams
 
-
             show()
         }
-
     }
 
     private fun showRemoveAccountDialog() {
@@ -159,9 +156,7 @@ class ProfileFragment : Fragment() {
             thisDialog.window?.attributes = layoutParams
             show()
         }
-
     }
-
 
     private fun showConfirmLogoutDialog() {
         val layout = DoubleOptionsDialogBinding.inflate(
@@ -192,7 +187,6 @@ class ProfileFragment : Fragment() {
             thisDialog.window?.attributes = layoutParams
             show()
         }
-
     }
 
     private fun removeAccount() {
@@ -201,5 +195,4 @@ class ProfileFragment : Fragment() {
         viewModel.removeAccount(userId)
         navController.navigate(R.id.action_profileFragment_to_homeFragment)
     }
-
 }

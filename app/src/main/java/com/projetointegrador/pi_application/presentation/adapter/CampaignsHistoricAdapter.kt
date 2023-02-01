@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.projetointegrador.pi_application.core.MainApplication
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.MainApplication
 import com.projetointegrador.pi_application.databinding.HistoricItemBinding
 import com.projetointegrador.pi_application.models.Campaign
 import com.projetointegrador.pi_application.utils.extensions.dpToPx
@@ -45,7 +45,6 @@ class CampaignsHistoricAdapter(
                             deleteCampaignButton.visibility = View.INVISIBLE
                         else
                             openCampaign(campaign)
-
                     }
                 }
                 deleteCampaignButton.setOnClickListener {
@@ -80,5 +79,4 @@ class CampaignsHistoricAdapter(
         notifyItemRemoved(campaignPosition)
         notifyItemRangeChanged(campaignPosition, campaignsList.size)
     }
-
 }

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,12 +16,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.presentation.adapter.InfoWindowAdapter
 import com.projetointegrador.pi_application.databinding.FragmentMapsBinding
 import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.presentation.adapter.InfoWindowAdapter
+import com.projetointegrador.pi_application.presentation.viewmodel.MapsViewModel
 import com.projetointegrador.pi_application.utils.FirebaseResponse
 import com.projetointegrador.pi_application.utils.Utils
-import com.projetointegrador.pi_application.presentation.viewmodel.MapsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +47,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -73,15 +71,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 )
                 onItemSelectedListener = object :
                     AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(adapterView: AdapterView<*>?, p1: View?, i: Int, p3: Long) {
+                    override fun onItemSelected(
+                        adapterView: AdapterView<*>?,
+                        p1: View?,
+                        i: Int,
+                        p3: Long
+                    ) {
                         val category = adapterView?.getItemAtPosition(i).toString()
                         getCampaignsByCategory(category)
                     }
 
                     override fun onNothingSelected(p0: AdapterView<*>?) {
-
                     }
-
                 }
             }
 
@@ -89,7 +90,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 navController.popBackStack()
             }
         }
-
     }
 
     private fun getAllCampaigns() {
@@ -99,7 +99,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     setAllMarkers(response.data)
                 }
                 is FirebaseResponse.Failure -> {
-
                 }
             }
         }
@@ -115,7 +114,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         setAllMarkers(response.data)
                     }
                     is FirebaseResponse.Failure -> {
-
                     }
                 }
             }
@@ -152,7 +150,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         map?.addMarker(
             marker
         )
-
     }
 
     private fun changeCameraPosition() {
@@ -161,13 +158,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             900,
             object : GoogleMap.CancelableCallback {
                 override fun onCancel() {
-
                 }
 
                 override fun onFinish() {
-
                 }
-            })
+            }
+        )
     }
 
     private fun showBoxOnMarkerClick() {
@@ -192,5 +188,4 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             )
         }
     }
-
 }

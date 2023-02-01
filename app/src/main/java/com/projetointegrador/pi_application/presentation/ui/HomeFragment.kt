@@ -1,10 +1,10 @@
 package com.projetointegrador.pi_application.presentation.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.FragmentHomeBinding
@@ -19,7 +19,11 @@ class HomeFragment : Fragment() {
         findNavController()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,5 +46,4 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
 }
