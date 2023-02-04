@@ -1,4 +1,4 @@
-package com.projetointegrador.pi_application.utils
+package com.projetointegrador.pi_application.core.utils
 
 import android.content.Context
 import android.content.SharedPreferences

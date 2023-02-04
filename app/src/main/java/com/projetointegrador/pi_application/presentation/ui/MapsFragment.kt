@@ -16,12 +16,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.Utils
 import com.projetointegrador.pi_application.databinding.FragmentMapsBinding
-import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.adapter.InfoWindowAdapter
 import com.projetointegrador.pi_application.presentation.viewmodel.MapsViewModel
-import com.projetointegrador.pi_application.utils.FirebaseResponse
-import com.projetointegrador.pi_application.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

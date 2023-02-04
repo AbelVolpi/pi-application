@@ -1,7 +1,7 @@
 package com.projetointegrador.pi_application.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.projetointegrador.pi_application.domain.user.LoginUseCase
+import com.projetointegrador.pi_application.domain.usecases.user.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

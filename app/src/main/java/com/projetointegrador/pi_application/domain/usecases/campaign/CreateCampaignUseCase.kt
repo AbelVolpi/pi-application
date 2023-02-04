@@ -1,12 +1,12 @@
-package com.projetointegrador.pi_application.domain.campaign
+package com.projetointegrador.pi_application.domain.usecases.campaign
 
 import android.net.Uri
 import androidx.lifecycle.LiveData
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
 import com.projetointegrador.pi_application.data.repository.CampaignRepository
 import com.projetointegrador.pi_application.data.repository.GeocoderRepository
-import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.models.MyLatLng
-import com.projetointegrador.pi_application.utils.FirebaseResponse
+import com.projetointegrador.pi_application.domain.models.Campaign
+import com.projetointegrador.pi_application.domain.models.MyLatLng
 import javax.inject.Inject
 
 class CreateCampaignUseCase @Inject constructor(

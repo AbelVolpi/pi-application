@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.utils.Utils.showAboutDialog
 import com.projetointegrador.pi_application.databinding.FragmentHomeBinding
-import com.projetointegrador.pi_application.utils.Utils.showAboutDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

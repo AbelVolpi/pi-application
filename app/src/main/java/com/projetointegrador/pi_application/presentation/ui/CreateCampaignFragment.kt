@@ -13,15 +13,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.extensions.clearScreenFocus
+import com.projetointegrador.pi_application.core.utils.extensions.hideSoftKeyboard
+import com.projetointegrador.pi_application.core.utils.extensions.toast
 import com.projetointegrador.pi_application.databinding.FragmentCreateCampaignBinding
-import com.projetointegrador.pi_application.models.Address
-import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.domain.models.Address
+import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.viewmodel.CreateCampaignViewModel
-import com.projetointegrador.pi_application.utils.FirebaseResponse
-import com.projetointegrador.pi_application.utils.SessionManager
-import com.projetointegrador.pi_application.utils.extensions.clearScreenFocus
-import com.projetointegrador.pi_application.utils.extensions.hideSoftKeyboard
-import com.projetointegrador.pi_application.utils.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

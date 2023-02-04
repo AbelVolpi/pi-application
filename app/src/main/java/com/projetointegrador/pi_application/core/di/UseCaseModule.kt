@@ -3,10 +3,10 @@ package com.projetointegrador.pi_application.core.di
 import com.projetointegrador.pi_application.data.repository.CampaignRepository
 import com.projetointegrador.pi_application.data.repository.GeocoderRepository
 import com.projetointegrador.pi_application.data.repository.UserRepository
-import com.projetointegrador.pi_application.domain.campaign.CreateCampaignUseCase
-import com.projetointegrador.pi_application.domain.campaign.DeleteCampaignUseCase
-import com.projetointegrador.pi_application.domain.campaign.GetCampaignUseCase
-import com.projetointegrador.pi_application.domain.user.*
+import com.projetointegrador.pi_application.domain.usecases.campaign.CreateCampaignUseCase
+import com.projetointegrador.pi_application.domain.usecases.campaign.DeleteCampaignUseCase
+import com.projetointegrador.pi_application.domain.usecases.campaign.GetCampaignUseCase
+import com.projetointegrador.pi_application.domain.usecases.user.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

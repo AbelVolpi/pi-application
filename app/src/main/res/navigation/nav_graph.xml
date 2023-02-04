@@ -133,7 +133,7 @@
         tools:layout="@layout/fragment_view_campaign">
         <argument
             android:name="campaign"
-            app:argType="com.projetointegrador.pi_application.models.Campaign"
+            app:argType="com.projetointegrador.pi_application.domain.models.Campaign"
             app:nullable="false" />
     </fragment>
     <fragment

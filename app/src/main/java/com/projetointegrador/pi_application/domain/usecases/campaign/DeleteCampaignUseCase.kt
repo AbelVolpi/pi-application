@@ -1,4 +1,4 @@
-package com.projetointegrador.pi_application.domain.campaign
+package com.projetointegrador.pi_application.domain.usecases.campaign
 
 import com.projetointegrador.pi_application.data.repository.CampaignRepository
 import javax.inject.Inject

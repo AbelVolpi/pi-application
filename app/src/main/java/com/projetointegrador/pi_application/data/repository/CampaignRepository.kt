@@ -9,11 +9,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.utils.Constants.FirebaseAttributes.CAMPAIGNS_COLLECTION
-import com.projetointegrador.pi_application.utils.Constants.FirebaseAttributes.CAMPAIGN_CATEGORY
-import com.projetointegrador.pi_application.utils.Constants.FirebaseAttributes.USER_ID
-import com.projetointegrador.pi_application.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.Constants.FirebaseAttributes.CAMPAIGNS_COLLECTION
+import com.projetointegrador.pi_application.core.utils.Constants.FirebaseAttributes.CAMPAIGN_CATEGORY
+import com.projetointegrador.pi_application.core.utils.Constants.FirebaseAttributes.USER_ID
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.domain.models.Campaign
 
 class CampaignRepository {
 

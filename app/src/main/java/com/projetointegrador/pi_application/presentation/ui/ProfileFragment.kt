@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.Utils.showAboutDialog
 import com.projetointegrador.pi_application.databinding.*
 import com.projetointegrador.pi_application.presentation.viewmodel.ProfileViewModel
-import com.projetointegrador.pi_application.utils.SessionManager
-import com.projetointegrador.pi_application.utils.Utils.showAboutDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

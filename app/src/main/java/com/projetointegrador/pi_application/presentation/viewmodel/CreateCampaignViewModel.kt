@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.projetointegrador.pi_application.core.base.BaseViewModel
-import com.projetointegrador.pi_application.domain.campaign.CreateCampaignUseCase
-import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.domain.models.Campaign
+import com.projetointegrador.pi_application.domain.usecases.campaign.CreateCampaignUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.*

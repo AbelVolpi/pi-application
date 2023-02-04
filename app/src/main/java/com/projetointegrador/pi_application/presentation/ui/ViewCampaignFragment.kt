@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.utils.extensions.setImageUsingGlide
 import com.projetointegrador.pi_application.databinding.FragmentViewCampaignBinding
-import com.projetointegrador.pi_application.utils.extensions.setImageUsingGlide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

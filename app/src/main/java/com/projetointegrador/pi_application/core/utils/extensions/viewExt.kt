@@ -1,4 +1,4 @@
-package com.projetointegrador.pi_application.utils.extensions
+package com.projetointegrador.pi_application.core.utils.extensions
 
 import android.content.Context
 import android.view.View

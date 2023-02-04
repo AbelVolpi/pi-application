@@ -3,9 +3,9 @@ package com.projetointegrador.pi_application.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
-import com.projetointegrador.pi_application.models.User
-import com.projetointegrador.pi_application.utils.FirebaseResponse
-import com.projetointegrador.pi_application.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.domain.models.User
 
 class UserRepository {
 

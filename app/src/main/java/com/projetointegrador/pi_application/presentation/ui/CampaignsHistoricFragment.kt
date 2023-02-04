@@ -10,13 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.extensions.toast
 import com.projetointegrador.pi_application.databinding.FragmentCampaignsHistoricBinding
-import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.adapter.CampaignsHistoricAdapter
 import com.projetointegrador.pi_application.presentation.viewmodel.CampaignsHistoricViewModel
-import com.projetointegrador.pi_application.utils.FirebaseResponse
-import com.projetointegrador.pi_application.utils.SessionManager
-import com.projetointegrador.pi_application.utils.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

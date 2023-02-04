@@ -1,10 +1,10 @@
 package com.projetointegrador.pi_application.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.projetointegrador.pi_application.domain.campaign.DeleteCampaignUseCase
-import com.projetointegrador.pi_application.domain.user.DeleteAccountUseCase
-import com.projetointegrador.pi_application.domain.user.LogoutUseCase
-import com.projetointegrador.pi_application.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.domain.usecases.campaign.DeleteCampaignUseCase
+import com.projetointegrador.pi_application.domain.usecases.user.DeleteAccountUseCase
+import com.projetointegrador.pi_application.domain.usecases.user.LogoutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

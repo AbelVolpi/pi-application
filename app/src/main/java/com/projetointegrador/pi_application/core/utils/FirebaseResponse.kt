@@ -1,4 +1,4 @@
-package com.projetointegrador.pi_application.utils
+package com.projetointegrador.pi_application.core.utils
 
 sealed class FirebaseResponse<out T : Any> {
     data class Success<T : Any>(val data: T) : FirebaseResponse<T>()

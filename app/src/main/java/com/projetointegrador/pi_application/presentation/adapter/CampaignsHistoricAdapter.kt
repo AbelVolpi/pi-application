@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.MainApplication
+import com.projetointegrador.pi_application.core.utils.extensions.dpToPx
 import com.projetointegrador.pi_application.databinding.HistoricItemBinding
-import com.projetointegrador.pi_application.models.Campaign
-import com.projetointegrador.pi_application.utils.extensions.dpToPx
+import com.projetointegrador.pi_application.domain.models.Campaign
 
 class CampaignsHistoricAdapter(
     private val campaignsList: ArrayList<Campaign>,

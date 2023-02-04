@@ -1,4 +1,4 @@
-package com.projetointegrador.pi_application.models
+package com.projetointegrador.pi_application.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

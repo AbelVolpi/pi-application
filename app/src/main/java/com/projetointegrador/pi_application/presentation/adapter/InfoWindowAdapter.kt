@@ -7,7 +7,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.databinding.CustomMarkerContentBinding
-import com.projetointegrador.pi_application.models.Campaign
+import com.projetointegrador.pi_application.domain.models.Campaign
 
 class InfoWindowAdapter(private val context: Context, private val campaign: Campaign) :
     GoogleMap.InfoWindowAdapter {
@@ -39,9 +39,6 @@ class InfoWindowAdapter(private val context: Context, private val campaign: Camp
                     campaign.campaignAddress?.state
                 )
             campaignCategoryText.text = campaign.campaignCategory
-//            TODO(att imageView in infoAdapter)
-//            if (campaign.campaignImageUrl.isNotEmpty())
-//                campaignPhotoPlaceHolder.setImageUsingGlide(context, campaign.campaignImageUrl)
         }
     }
 
