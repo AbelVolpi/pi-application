@@ -41,6 +41,9 @@ output.json
 # Google Services (e.g. APIs or Firebase)
 app/google-services.json
 
+# Local keys
+keys.properties
+
 # Android Profiling
 *.hprof
 

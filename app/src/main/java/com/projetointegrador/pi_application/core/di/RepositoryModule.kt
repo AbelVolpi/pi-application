@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.jan.supabase.SupabaseClient
 import javax.inject.Singleton
 
 @Module
@@ -21,9 +22,12 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserRepository() = UserRepository()
+    fun provideUserRepository(supabaseClient: SupabaseClient) = UserRepository(supabaseClient)
 
     @Singleton
     @Provides
-    fun provideCampaignRepository() = CampaignRepository()
+    fun provideCampaignRepository(
+        supabaseClient: SupabaseClient,
+        @ApplicationContext appContext: Context
+    ) = CampaignRepository(supabaseClient, appContext)
 }

@@ -1,178 +1,104 @@
 package com.projetointegrador.pi_application.data.repository
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.projetointegrador.pi_application.core.utils.Constants.FirebaseAttributes.CAMPAIGNS_COLLECTION
-import com.projetointegrador.pi_application.core.utils.Constants.FirebaseAttributes.CAMPAIGN_CATEGORY
-import com.projetointegrador.pi_application.core.utils.Constants.FirebaseAttributes.USER_ID
+import androidx.lifecycle.liveData
+import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.CAMPAIGN_CATEGORY
+import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.CAMPAIGN_ID
+import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.CAMPAIGNS_TABLE
+import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.IMAGES_BUCKET
+import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.USER_ID
 import com.projetointegrador.pi_application.core.utils.FirebaseResponse
 import com.projetointegrador.pi_application.domain.models.Campaign
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.storage.storage
+import io.ktor.client.utils.EmptyContent.contentType
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.util.UUID
 
-class CampaignRepository {
+class CampaignRepository(
+    private val supabase: SupabaseClient,
+    private val context: Context
+) {
 
-    private var fireStoreDataBase = FirebaseFirestore.getInstance()
-    private lateinit var documentReference: DocumentReference
-
-    private lateinit var storageReference: StorageReference
-    private lateinit var storage: FirebaseStorage
-
-    fun createCampaign(campaign: Campaign, imageUri: Uri?): LiveData<FirebaseResponse<Boolean>> {
-        val mutableLiveData = MutableLiveData<FirebaseResponse<Boolean>>()
-
-        documentReference = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION).document()
-        campaign.campaignId = documentReference.id
-
-        imageUri?.let { imageUriNotNull ->
-
-            storage = FirebaseStorage.getInstance()
-            storageReference = storage.getReference("images/${campaign.campaignId}")
-
-            storageReference.putFile(imageUriNotNull)
-                .addOnSuccessListener {
-                    storageReference.downloadUrl.addOnSuccessListener {
-                        campaign.campaignImageUrl = it.toString()
-                        documentReference.set(campaign)
-                            .addOnSuccessListener {
-                                mutableLiveData.value = FirebaseResponse.Success(true)
-                            }
-                            .addOnFailureListener { exception ->
-                                Log.w("Firestore", "Error adding document", exception)
-                                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-                            }
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("Storage", "Error adding photo", exception)
-                    mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-                }
-        } ?: run {
-            documentReference.set(campaign)
-                .addOnSuccessListener {
-                    mutableLiveData.value = FirebaseResponse.Success(true)
-                }
-                .addOnFailureListener { exception ->
-                    Log.w("Firestore", "Error adding document", exception)
-                    mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-                }
-        }
-
-        return mutableLiveData
-    }
-
-    fun deleteCampaign(campaignId: String): LiveData<FirebaseResponse<Any>> {
-        val mutableLiveData = MutableLiveData<FirebaseResponse<Any>>()
-
+    fun createCampaign(campaign: Campaign, imageUri: Uri?): LiveData<FirebaseResponse<Boolean>> = liveData {
         try {
-            val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
-            campaignsRef
-                .document(campaignId)
-                .delete()
-                .addOnSuccessListener {
-                    mutableLiveData.value = FirebaseResponse.Success(Any())
+            campaign.campaignId = UUID.randomUUID().toString()
+
+            imageUri?.let { uri ->
+                val imageBytes = context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+                    ?: throw Exception("Could not read image")
+                val mimeType = context.contentResolver.getType(uri) ?: "image/jpeg"
+
+                supabase.storage.from(IMAGES_BUCKET).upload(campaign.campaignId, imageBytes) {
+                    contentType = io.ktor.http.ContentType.parse(mimeType)
+                    upsert = false
                 }
-                .addOnFailureListener { exception ->
-                    mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-                }
-        } catch (throwable: Throwable) {
-            mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
+                campaign.campaignImageUrl = supabase.storage.from(IMAGES_BUCKET).publicUrl(campaign.campaignId)
+            }
+
+            supabase.from(CAMPAIGNS_TABLE).insert(campaign)
+            emit(FirebaseResponse.Success(true))
+        } catch (e: Exception) {
+            Log.w("CampaignRepository", "Error creating campaign", e)
+            emit(FirebaseResponse.Failure(e.message ?: "Error creating campaign"))
         }
-
-        return mutableLiveData
     }
 
-    fun getCampaignsByUser(userId: String): LiveData<FirebaseResponse<List<Campaign>>> {
-        val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
-        val campaignsList = arrayListOf<Campaign>()
-
-        val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
-        campaignsRef
-            .whereEqualTo(USER_ID, userId)
-            .get()
-            .addOnSuccessListener { documents ->
-                try {
-                    for (document in documents) {
-                        campaignsList.add(document.toObject())
-                    }
-                    mutableLiveData.value = FirebaseResponse.Success(campaignsList)
-                } catch (throwable: Throwable) {
-                    mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
-                }
+    fun deleteCampaign(campaignId: String): LiveData<FirebaseResponse<Any>> = liveData {
+        try {
+            supabase.from(CAMPAIGNS_TABLE).delete {
+                filter { eq(CAMPAIGN_ID, campaignId) }
             }
-            .addOnFailureListener { exception ->
-                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-            }
-
-        return mutableLiveData
+            emit(FirebaseResponse.Success(Any()))
+        } catch (e: Exception) {
+            emit(FirebaseResponse.Failure(e.message ?: "Error deleting campaign"))
+        }
     }
 
-    fun getAllCampaigns(): LiveData<FirebaseResponse<List<Campaign>>> {
-        val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
-        val campaignsList = arrayListOf<Campaign>()
-
-        val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
-        campaignsRef
-            .get()
-            .addOnSuccessListener { documents ->
-                try {
-                    for (document in documents) {
-                        campaignsList.add(document.toObject())
-                    }
-                    mutableLiveData.value = FirebaseResponse.Success(campaignsList)
-                } catch (throwable: Throwable) {
-                    mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
-                }
-            }
-            .addOnFailureListener { exception ->
-                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-            }
-
-        return mutableLiveData
+    fun getCampaignsByUser(userId: String): LiveData<FirebaseResponse<List<Campaign>>> = liveData {
+        try {
+            val campaigns = supabase.from(CAMPAIGNS_TABLE).select {
+                filter { eq(USER_ID, userId) }
+            }.decodeList<Campaign>()
+            emit(FirebaseResponse.Success(campaigns))
+        } catch (e: Exception) {
+            emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaigns"))
+        }
     }
 
-    fun getCampaignsByCategory(category: String): LiveData<FirebaseResponse<List<Campaign>>> {
-        val mutableLiveData = MutableLiveData<FirebaseResponse<List<Campaign>>>()
-        val campaignsList = arrayListOf<Campaign>()
+    fun getAllCampaigns(): LiveData<FirebaseResponse<List<Campaign>>> = liveData {
+        try {
+            val campaigns = supabase.from(CAMPAIGNS_TABLE).select().decodeList<Campaign>()
+            emit(FirebaseResponse.Success(campaigns))
+        } catch (e: Exception) {
+            emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaigns"))
+        }
+    }
 
-        val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
-        campaignsRef
-            .whereEqualTo(CAMPAIGN_CATEGORY, category)
-            .get()
-            .addOnSuccessListener { documents ->
-                try {
-                    for (document in documents) {
-                        campaignsList.add(document.toObject())
-                    }
-                    mutableLiveData.value = FirebaseResponse.Success(campaignsList)
-                } catch (throwable: Throwable) {
-                    mutableLiveData.value = FirebaseResponse.Failure(throwable.message.toString())
-                }
-            }
-            .addOnFailureListener { exception ->
-                mutableLiveData.value = FirebaseResponse.Failure(exception.message.toString())
-            }
-
-        return mutableLiveData
+    fun getCampaignsByCategory(category: String): LiveData<FirebaseResponse<List<Campaign>>> = liveData {
+        try {
+            val campaigns = supabase.from(CAMPAIGNS_TABLE).select {
+                filter { eq(CAMPAIGN_CATEGORY, category) }
+            }.decodeList<Campaign>()
+            emit(FirebaseResponse.Success(campaigns))
+        } catch (e: Exception) {
+            emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaigns"))
+        }
     }
 
     fun deleteAllCampaigns(userId: String) {
-        val campaignsRef = fireStoreDataBase.collection(CAMPAIGNS_COLLECTION)
-        campaignsRef
-            .whereEqualTo(USER_ID, userId)
-            .get()
-            .addOnSuccessListener {
-                it.forEach { doc ->
-                    doc.reference.delete()
+        CoroutineScope(Dispatchers.IO).launch {
+            runCatching {
+                supabase.from(CAMPAIGNS_TABLE).delete {
+                    filter { eq(USER_ID, userId) }
                 }
-            }
-            .addOnFailureListener { exception ->
-                Log.e("DeleteError", exception.message.toString())
-            }
+            }.onFailure { Log.e("CampaignRepository", "Error deleting all campaigns", it) }
+        }
     }
 }
