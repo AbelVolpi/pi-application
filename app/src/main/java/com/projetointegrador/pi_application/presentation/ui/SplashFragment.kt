@@ -16,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
-
     private val viewModel: SplashViewModel by viewModels()
     private lateinit var binding: FragmentSplashBinding
     private val navController by lazy {
@@ -26,7 +25,7 @@ class SplashFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
         return binding.root
@@ -35,10 +34,11 @@ class SplashFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         delay {
-            if (viewModel.verifyUserAlreadyLogged())
+            if (viewModel.verifyUserAlreadyLogged()) {
                 navController.navigate(R.id.action_splashFragment_to_profileFragment)
-            else
+            } else {
                 navController.navigate(R.id.action_splashFragment_to_homeFragment)
+            }
         }
     }
 

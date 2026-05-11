@@ -26,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CreateCampaignFragment : Fragment() {
-
     private lateinit var binding: FragmentCreateCampaignBinding
     private lateinit var launcherForGallery: ActivityResultLauncher<String>
     private val viewModel: CreateCampaignViewModel by viewModels()
@@ -43,13 +42,16 @@ class CreateCampaignFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentCreateCampaignBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
@@ -84,15 +86,14 @@ class CreateCampaignFragment : Fragment() {
                 ArrayAdapter(
                     requireContext(),
                     R.layout.dropdown_item,
-                    resources.getStringArray(R.array.donate_options)
-                )
+                    resources.getStringArray(R.array.donate_options),
+                ),
             )
         }
     }
 
     private fun createCampaign() {
         with(binding) {
-
             if (verifyFields()) {
                 progressCreateCampaign.visibility = View.VISIBLE
 
@@ -105,20 +106,22 @@ class CreateCampaignFragment : Fragment() {
                 val campaignDistrict = campaignsDistrictField.text.toString()
                 val campaignCity = campaignsCityField.text.toString()
                 val campaignState = campaignsStateField.text.toString()
-                val campaignAddress = Address(
-                    campaignStreet,
-                    campaignNumber,
-                    campaignDistrict,
-                    campaignCity,
-                    campaignState
-                )
-                val campaign = Campaign(
-                    userId = userId,
-                    campaignName = campaignName,
-                    campaignDescription = campaignDescription,
-                    campaignCategory = campaignCategory,
-                    campaignAddress = campaignAddress
-                )
+                val campaignAddress =
+                    Address(
+                        campaignStreet,
+                        campaignNumber,
+                        campaignDistrict,
+                        campaignCity,
+                        campaignState,
+                    )
+                val campaign =
+                    Campaign(
+                        userId = userId,
+                        campaignName = campaignName,
+                        campaignDescription = campaignDescription,
+                        campaignCategory = campaignCategory,
+                        campaignAddress = campaignAddress,
+                    )
                 sendRequest(campaign)
             } else {
                 context?.toast(getString(R.string.review_fields))
@@ -165,19 +168,20 @@ class CreateCampaignFragment : Fragment() {
     }
 
     private fun initResultContracts() {
-        launcherForGallery = registerForActivityResult(
-            ActivityResultContracts.GetContent()
-        ) { uri ->
-            if (uri != null) {
-                with(binding) {
-                    withoutImageTextView.visibility = View.INVISIBLE
-                    addPhotoImageView.visibility = View.INVISIBLE
-                    removeImage.visibility = View.VISIBLE
+        launcherForGallery =
+            registerForActivityResult(
+                ActivityResultContracts.GetContent(),
+            ) { uri ->
+                if (uri != null) {
+                    with(binding) {
+                        withoutImageTextView.visibility = View.INVISIBLE
+                        addPhotoImageView.visibility = View.INVISIBLE
+                        removeImage.visibility = View.VISIBLE
 
-                    imagePhoto.setImageURI(uri)
-                    imageUri = uri
+                        imagePhoto.setImageURI(uri)
+                        imageUri = uri
+                    }
                 }
             }
-        }
     }
 }

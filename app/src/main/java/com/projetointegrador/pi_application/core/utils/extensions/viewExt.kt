@@ -14,7 +14,10 @@ fun View.clearScreenFocus() {
     }
 }
 
-fun ImageView.setImageUsingGlide(context: Context, url: String) {
+fun ImageView.setImageUsingGlide(
+    context: Context,
+    url: String,
+) {
     Glide.with(context).load(url)
         .error(ContextCompat.getDrawable(context, R.drawable.blue_heart))
         .into(this)

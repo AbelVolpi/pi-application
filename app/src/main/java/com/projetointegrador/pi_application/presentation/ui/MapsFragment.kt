@@ -26,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback {
-
     private lateinit var binding: FragmentMapsBinding
     private lateinit var campaignsGeneralList: List<Campaign>
     private val viewModel: MapsViewModel by viewModels()
@@ -38,13 +37,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentMapsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
@@ -62,28 +64,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         getAllCampaigns()
 
         with(binding) {
-
             filterSpinner.apply {
-                adapter = ArrayAdapter(
-                    requireContext(),
-                    R.layout.dropdown_item,
-                    resources.getStringArray(R.array.donate_options)
-                )
-                onItemSelectedListener = object :
-                    AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        adapterView: AdapterView<*>?,
-                        p1: View?,
-                        i: Int,
-                        p3: Long
-                    ) {
-                        val category = adapterView?.getItemAtPosition(i).toString()
-                        getCampaignsByCategory(category)
-                    }
+                adapter =
+                    ArrayAdapter(
+                        requireContext(),
+                        R.layout.dropdown_item,
+                        resources.getStringArray(R.array.donate_options),
+                    )
+                onItemSelectedListener =
+                    object :
+                        AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            adapterView: AdapterView<*>?,
+                            p1: View?,
+                            i: Int,
+                            p3: Long,
+                        ) {
+                            val category = adapterView?.getItemAtPosition(i).toString()
+                            getCampaignsByCategory(category)
+                        }
 
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        override fun onNothingSelected(p0: AdapterView<*>?) {
+                        }
                     }
-                }
             }
 
             arrowBack.setOnClickListener {
@@ -105,9 +108,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getCampaignsByCategory(category: String) {
-        if (category.isEmpty() || category == "Outros")
+        if (category.isEmpty() || category == "Outros") {
             getAllCampaigns()
-        else
+        } else {
             viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
                 when (response) {
                     is FirebaseResponse.Success -> {
@@ -117,6 +120,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     }
                 }
             }
+        }
     }
 
     private fun setAllMarkers(campaignsList: List<Campaign>) {
@@ -132,23 +136,27 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         changeCameraPosition()
     }
 
-    private fun setMarker(campaign: Campaign, position: Int) {
-
-        val latLng = campaign.campaignLatLng?.latitude?.let { latitude ->
-            campaign.campaignLatLng?.longitude?.let { longitude ->
-                LatLng(latitude.toDouble(), longitude.toDouble())
+    private fun setMarker(
+        campaign: Campaign,
+        position: Int,
+    ) {
+        val latLng =
+            campaign.campaignLatLng?.latitude?.let { latitude ->
+                campaign.campaignLatLng?.longitude?.let { longitude ->
+                    LatLng(latitude.toDouble(), longitude.toDouble())
+                }
             }
-        }
         val icon = Utils.bitmapFromResource(R.drawable.ic_map_pin, requireContext())
 
-        val marker = MarkerOptions().apply {
-            latLng?.let { position(it) }
-            icon(icon)
-            zIndex(position.toFloat())
-        }
+        val marker =
+            MarkerOptions().apply {
+                latLng?.let { position(it) }
+                icon(icon)
+                zIndex(position.toFloat())
+            }
 
         map?.addMarker(
-            marker
+            marker,
         )
     }
 
@@ -162,7 +170,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
                 override fun onFinish() {
                 }
-            }
+            },
         )
     }
 
@@ -183,8 +191,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             navController.navigate(
                 MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(
-                    campaign
-                )
+                    campaign.campaignId,
+                ),
             )
         }
     }

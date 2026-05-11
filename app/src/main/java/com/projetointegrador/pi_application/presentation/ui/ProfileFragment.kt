@@ -16,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
-
     private val viewModel: ProfileViewModel by viewModels()
     private lateinit var binding: FragmentProfileBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
@@ -28,14 +27,17 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         initDrawerToggle(container)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
@@ -56,11 +58,12 @@ class ProfileFragment : Fragment() {
 
     private fun initDrawerToggle(viewGroup: ViewGroup?) {
         with(binding) {
-            val sideBarHeader = SideBarHeaderBinding.inflate(
-                LayoutInflater.from(requireContext()),
-                viewGroup,
-                false
-            )
+            val sideBarHeader =
+                SideBarHeaderBinding.inflate(
+                    LayoutInflater.from(requireContext()),
+                    viewGroup,
+                    false,
+                )
             sideBarHeader.userEmailPlaceHolder.text = SessionManager.getUserEmail()
             navView.addHeaderView(sideBarHeader.root)
 
@@ -100,11 +103,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showAccountActionsDialog() {
-        val layout = AccountActionsDialogLayoutBinding.inflate(
-            layoutInflater,
-            null,
-            false
-        )
+        val layout =
+            AccountActionsDialogLayoutBinding.inflate(
+                layoutInflater,
+                null,
+                false,
+            )
 
         Dialog(requireContext()).apply {
             val thisDialog = this
@@ -115,10 +119,11 @@ class ProfileFragment : Fragment() {
                 showRemoveAccountDialog()
             }
 
-            val layoutParams = WindowManager.LayoutParams().apply {
-                copyFrom(thisDialog.window?.attributes)
-                width = (resources.displayMetrics.widthPixels * 0.85).toInt()
-            }
+            val layoutParams =
+                WindowManager.LayoutParams().apply {
+                    copyFrom(thisDialog.window?.attributes)
+                    width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+                }
             thisDialog.window?.attributes = layoutParams
 
             show()
@@ -126,12 +131,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showRemoveAccountDialog() {
-
-        val layout = DoubleOptionsDialogBinding.inflate(
-            layoutInflater,
-            null,
-            false
-        )
+        val layout =
+            DoubleOptionsDialogBinding.inflate(
+                layoutInflater,
+                null,
+                false,
+            )
 
         Dialog(requireContext()).apply {
             val thisDialog = this
@@ -149,21 +154,23 @@ class ProfileFragment : Fragment() {
                 thisDialog.dismiss()
             }
 
-            val layoutParams = WindowManager.LayoutParams().apply {
-                copyFrom(thisDialog.window?.attributes)
-                width = (resources.displayMetrics.widthPixels * 0.85).toInt()
-            }
+            val layoutParams =
+                WindowManager.LayoutParams().apply {
+                    copyFrom(thisDialog.window?.attributes)
+                    width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+                }
             thisDialog.window?.attributes = layoutParams
             show()
         }
     }
 
     private fun showConfirmLogoutDialog() {
-        val layout = DoubleOptionsDialogBinding.inflate(
-            layoutInflater,
-            null,
-            false
-        )
+        val layout =
+            DoubleOptionsDialogBinding.inflate(
+                layoutInflater,
+                null,
+                false,
+            )
         Dialog(requireContext()).apply {
             val thisDialog = this
             setContentView(layout.root)
@@ -180,10 +187,11 @@ class ProfileFragment : Fragment() {
                 thisDialog.dismiss()
             }
 
-            val layoutParams = WindowManager.LayoutParams().apply {
-                copyFrom(thisDialog.window?.attributes)
-                width = (resources.displayMetrics.widthPixels * 0.85).toInt()
-            }
+            val layoutParams =
+                WindowManager.LayoutParams().apply {
+                    copyFrom(thisDialog.window?.attributes)
+                    width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+                }
             thisDialog.window?.attributes = layoutParams
             show()
         }

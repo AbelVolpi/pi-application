@@ -6,13 +6,11 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MainApplication : Application() {
-
     init {
         instance = this
     }
 
     companion object {
-
         private lateinit var instance: Application
 
         fun applicationContext(): Context {

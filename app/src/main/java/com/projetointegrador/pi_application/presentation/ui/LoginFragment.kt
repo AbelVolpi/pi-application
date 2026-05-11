@@ -23,7 +23,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
     private val navController by lazy {
@@ -33,13 +32,16 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
@@ -75,7 +77,10 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun firebaseLogin(email: String, password: String) {
+    private fun firebaseLogin(
+        email: String,
+        password: String,
+    ) {
         with(binding) {
             progressGoToMap.visibility = View.VISIBLE
             viewModel.login(email, password).observe(viewLifecycleOwner) { response ->

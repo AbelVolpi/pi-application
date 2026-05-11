@@ -1,7 +1,6 @@
 package com.projetointegrador.pi_application.core.utils
 
 object Constants {
-
     object SupabaseAttributes {
         const val CAMPAIGNS_TABLE = "campaigns"
         const val CAMPAIGN_CATEGORY = "campaign_category"

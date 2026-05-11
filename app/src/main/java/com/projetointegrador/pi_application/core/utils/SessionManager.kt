@@ -6,7 +6,6 @@ import androidx.core.content.edit
 import com.projetointegrador.pi_application.core.MainApplication
 
 object SessionManager {
-
     private const val SESSION_PREFERENCES_FILE = "shared_preferences_file"
     private const val USER_NAME = "user_name"
     private const val USER_EMAIL = "user_email"
@@ -17,7 +16,10 @@ object SessionManager {
             .getSharedPreferences(SESSION_PREFERENCES_FILE, Context.MODE_PRIVATE)
     }
 
-    fun saveUserData(userId: String, userEmail: String) {
+    fun saveUserData(
+        userId: String,
+        userEmail: String,
+    ) {
         prefs.edit {
             putString(USER_ID, userId)
             putString(USER_EMAIL, userEmail)

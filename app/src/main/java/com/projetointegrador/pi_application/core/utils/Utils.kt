@@ -12,7 +12,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.projetointegrador.pi_application.databinding.AboutDialogLayoutBinding
 
 object Utils {
-
     fun validateEmail(email: String): Boolean {
         if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) return true
         return false
@@ -23,8 +22,10 @@ object Utils {
         return false
     }
 
-    fun bitmapFromResource(resource: Int, context: Context): BitmapDescriptor? {
-
+    fun bitmapFromResource(
+        resource: Int,
+        context: Context,
+    ): BitmapDescriptor? {
         val drawable = ContextCompat.getDrawable(context, resource)
 
         drawable?.run {
@@ -38,12 +39,18 @@ object Utils {
         return null
     }
 
-    fun showAboutDialog(context: Context, layoutInflater: LayoutInflater) {
+    fun showAboutDialog(
+        context: Context,
+        layoutInflater: LayoutInflater,
+    ) {
         val dialog = AlertDialog.Builder(context)
 
-        val view = AboutDialogLayoutBinding.inflate(
-            layoutInflater, null, false
-        )
+        val view =
+            AboutDialogLayoutBinding.inflate(
+                layoutInflater,
+                null,
+                false,
+            )
 
         dialog.apply {
             setView(view.root)

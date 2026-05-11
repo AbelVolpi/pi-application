@@ -6,9 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
-) : ViewModel() {
-
-    fun verifyUserAlreadyLogged() = loginUseCase.verifyUserAlreadyLogged()
-}
+class SplashViewModel
+    @Inject
+    constructor(
+        private val loginUseCase: LoginUseCase,
+    ) : ViewModel() {
+        fun verifyUserAlreadyLogged() = loginUseCase.verifyUserAlreadyLogged()
+    }

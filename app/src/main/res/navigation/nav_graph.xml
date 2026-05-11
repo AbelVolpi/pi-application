@@ -132,9 +132,8 @@
         android:label="fragment_view_campaign"
         tools:layout="@layout/fragment_view_campaign">
         <argument
-            android:name="campaign"
-            app:argType="com.projetointegrador.pi_application.domain.models.Campaign"
-            app:nullable="false" />
+            android:name="campaignId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"

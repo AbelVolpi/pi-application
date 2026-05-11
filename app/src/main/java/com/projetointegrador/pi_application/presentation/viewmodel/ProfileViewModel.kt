@@ -9,19 +9,20 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
-    private val logoutUseCase: LogoutUseCase,
-    private val deleteAccountUseCase: DeleteAccountUseCase,
-    private val deleteCampaignUseCase: DeleteCampaignUseCase
-) : ViewModel() {
+class ProfileViewModel
+    @Inject
+    constructor(
+        private val logoutUseCase: LogoutUseCase,
+        private val deleteAccountUseCase: DeleteAccountUseCase,
+        private val deleteCampaignUseCase: DeleteCampaignUseCase,
+    ) : ViewModel() {
+        fun removeAccount(userId: String) {
+            deleteCampaignUseCase.deleteAllCampaigns(userId)
+            deleteAccountUseCase.deleteAccount()
+            SessionManager.logout()
+        }
 
-    fun removeAccount(userId: String) {
-        deleteCampaignUseCase.deleteAllCampaigns(userId)
-        deleteAccountUseCase.deleteAccount()
-        SessionManager.logout()
+        fun logOut() {
+            logoutUseCase.logOut()
+        }
     }
-
-    fun logOut() {
-        logoutUseCase.logOut()
-    }
-}

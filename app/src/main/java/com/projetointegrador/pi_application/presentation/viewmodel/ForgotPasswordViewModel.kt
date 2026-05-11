@@ -6,9 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ForgotPasswordViewModel @Inject constructor(
-    private val forgotPasswordUseCase: ForgotPasswordUseCase
-) : ViewModel() {
-
-    fun forgotPassword(email: String) = forgotPasswordUseCase.forgotPassword(email)
-}
+class ForgotPasswordViewModel
+    @Inject
+    constructor(
+        private val forgotPasswordUseCase: ForgotPasswordUseCase,
+    ) : ViewModel() {
+        fun forgotPassword(email: String) = forgotPasswordUseCase.forgotPassword(email)
+    }

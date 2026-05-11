@@ -6,9 +6,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(
-    private val signUpUseCase: SignUpUseCase
-) : ViewModel() {
-
-    fun signUp(email: String, password: String) = signUpUseCase.signUp(email, password)
-}
+class SignUpViewModel
+    @Inject
+    constructor(
+        private val signUpUseCase: SignUpUseCase,
+    ) : ViewModel() {
+        fun signUp(
+            email: String,
+            password: String,
+        ) = signUpUseCase.signUp(email, password)
+    }

@@ -16,12 +16,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
-
     @Singleton
     @Provides
     fun provideCreateCampaignUseCase(
         campaignRepository: CampaignRepository,
-        geocoderRepository: GeocoderRepository
+        geocoderRepository: GeocoderRepository,
     ) = CreateCampaignUseCase(campaignRepository, geocoderRepository)
 
     @Singleton

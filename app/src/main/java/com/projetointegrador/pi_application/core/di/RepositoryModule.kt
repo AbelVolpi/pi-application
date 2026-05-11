@@ -15,10 +15,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
-
     @Singleton
     @Provides
-    fun provideGeocoderRepository(@ApplicationContext appContext: Context) = GeocoderRepository(appContext)
+    fun provideGeocoderRepository(
+        @ApplicationContext appContext: Context,
+    ) = GeocoderRepository(appContext)
 
     @Singleton
     @Provides
@@ -28,6 +29,6 @@ object RepositoryModule {
     @Provides
     fun provideCampaignRepository(
         supabaseClient: SupabaseClient,
-        @ApplicationContext appContext: Context
+        @ApplicationContext appContext: Context,
     ) = CampaignRepository(supabaseClient, appContext)
 }

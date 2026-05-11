@@ -21,7 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CampaignsHistoricFragment : Fragment() {
-
     private lateinit var binding: FragmentCampaignsHistoricBinding
     private val viewModel: CampaignsHistoricViewModel by viewModels()
     private val navController by lazy {
@@ -31,13 +30,16 @@ class CampaignsHistoricFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentCampaignsHistoricBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
@@ -78,11 +80,12 @@ class CampaignsHistoricFragment : Fragment() {
                 }
             } else {
                 historicRecycler.apply {
-                    adapter = CampaignsHistoricAdapter(
-                        campaignsList,
-                        ::removeCampaign,
-                        ::openCampaign
-                    )
+                    adapter =
+                        CampaignsHistoricAdapter(
+                            campaignsList,
+                            ::removeCampaign,
+                            ::openCampaign,
+                        )
                     layoutManager = LinearLayoutManager(requireContext())
                     addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
                 }
@@ -110,8 +113,8 @@ class CampaignsHistoricFragment : Fragment() {
     private fun openCampaign(campaign: Campaign) {
         navController.navigate(
             CampaignsHistoricFragmentDirections.actionCampaignsHistoricFragmentToViewCampaignFragment(
-                campaign
-            )
+                campaign.campaignId,
+            ),
         )
     }
 }

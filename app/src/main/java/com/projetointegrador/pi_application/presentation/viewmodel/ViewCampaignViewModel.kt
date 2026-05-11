@@ -6,12 +6,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class MapsViewModel
+class ViewCampaignViewModel
     @Inject
     constructor(
         private val getCampaignUseCase: GetCampaignUseCase,
     ) : ViewModel() {
-        fun getAllCampaigns() = getCampaignUseCase.getAllCampaigns()
-
-        fun getCampaignByCategory(category: String) = getCampaignUseCase.getCampaignsByCategory(category)
+        fun getCampaignById(campaignId: String) = getCampaignUseCase.getCampaignById(campaignId)
     }
