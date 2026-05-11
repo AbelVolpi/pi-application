@@ -11,15 +11,15 @@ import com.projetointegrador.pi_application.domain.models.Campaign
 
 class InfoWindowAdapter(private val context: Context, private val campaign: Campaign) :
     GoogleMap.InfoWindowAdapter {
-
     private lateinit var binding: CustomMarkerContentBinding
 
     override fun getInfoWindow(p0: Marker?): View {
-        binding = CustomMarkerContentBinding.inflate(
-            LayoutInflater.from(context),
-            null,
-            false
-        )
+        binding =
+            CustomMarkerContentBinding.inflate(
+                LayoutInflater.from(context),
+                null,
+                false
+            )
 
         changeInfoWindowContent()
 
