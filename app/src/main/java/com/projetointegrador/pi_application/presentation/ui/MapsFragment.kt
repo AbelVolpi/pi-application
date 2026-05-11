@@ -1,43 +1,39 @@
 package com.projetointegrador.pi_application.presentation.ui
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.utils.FirebaseResponse
-import com.projetointegrador.pi_application.core.utils.Utils
 import com.projetointegrador.pi_application.databinding.FragmentMapsBinding
 import com.projetointegrador.pi_application.domain.models.Campaign
-import com.projetointegrador.pi_application.presentation.adapter.InfoWindowAdapter
+import com.projetointegrador.pi_application.presentation.adapter.CampaignInfoWindow
 import com.projetointegrador.pi_application.presentation.viewmodel.MapsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.overlay.Marker
 
 @AndroidEntryPoint
-class MapsFragment : Fragment(), OnMapReadyCallback {
+class MapsFragment : Fragment() {
     private lateinit var binding: FragmentMapsBinding
-    private lateinit var campaignsGeneralList: List<Campaign>
     private val viewModel: MapsViewModel by viewModels()
-    private var map: GoogleMap? = null
-    private val navController by lazy {
-        findNavController()
-    }
+    private val navController by lazy { findNavController() }
+    private lateinit var infoWindow: CampaignInfoWindow
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentMapsBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,64 +41,71 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        setupMap()
         initViews()
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
+    override fun onResume() {
+        super.onResume()
+        binding.mapView.onResume()
+    }
 
-        showBoxOnMarkerClick()
+    override fun onPause() {
+        super.onPause()
+        binding.mapView.onPause()
+    }
+
+    private fun setupMap() {
+        Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
+        binding.mapView.apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+            setMultiTouchControls(true)
+        }
+        infoWindow =
+            CampaignInfoWindow(binding.mapView) { campaignId ->
+                navController.navigate(
+                    MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(campaignId)
+                )
+            }
     }
 
     private fun initViews() {
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map_view) as SupportMapFragment?
-        mapFragment?.getMapAsync(this@MapsFragment)
-
         getAllCampaigns()
-
         with(binding) {
             filterSpinner.apply {
                 adapter =
                     ArrayAdapter(
                         requireContext(),
                         R.layout.dropdown_item,
-                        resources.getStringArray(R.array.donate_options),
+                        resources.getStringArray(R.array.donate_options)
                     )
                 onItemSelectedListener =
-                    object :
-                        AdapterView.OnItemSelectedListener {
+                    object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
                             adapterView: AdapterView<*>?,
                             p1: View?,
                             i: Int,
-                            p3: Long,
+                            p3: Long
                         ) {
                             val category = adapterView?.getItemAtPosition(i).toString()
                             getCampaignsByCategory(category)
                         }
 
-                        override fun onNothingSelected(p0: AdapterView<*>?) {
-                        }
+                        override fun onNothingSelected(p0: AdapterView<*>?) {}
                     }
             }
-
-            arrowBack.setOnClickListener {
-                navController.popBackStack()
-            }
+            arrowBack.setOnClickListener { navController.popBackStack() }
         }
     }
 
     private fun getAllCampaigns() {
         viewModel.getAllCampaigns().observe(viewLifecycleOwner) { response ->
             when (response) {
-                is FirebaseResponse.Success -> {
-                    setAllMarkers(response.data)
-                }
-                is FirebaseResponse.Failure -> {
-                }
+                is FirebaseResponse.Success -> setAllMarkers(response.data)
+                is FirebaseResponse.Failure -> {}
             }
         }
     }
@@ -113,87 +116,47 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         } else {
             viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
                 when (response) {
-                    is FirebaseResponse.Success -> {
-                        setAllMarkers(response.data)
-                    }
-                    is FirebaseResponse.Failure -> {
-                    }
+                    is FirebaseResponse.Success -> setAllMarkers(response.data)
+                    is FirebaseResponse.Failure -> {}
                 }
             }
         }
     }
 
     private fun setAllMarkers(campaignsList: List<Campaign>) {
-        map?.clear()
+        binding.mapView.overlays.clear()
         binding.mapsProgressBar.visibility = View.VISIBLE
-
-        campaignsList.forEachIndexed { index, campaign ->
-            setMarker(campaign, index)
-        }
-        campaignsGeneralList = campaignsList
-
+        campaignsList.forEach { campaign -> setMarker(campaign) }
+        binding.mapView.invalidate()
         binding.mapsProgressBar.visibility = View.INVISIBLE
         changeCameraPosition()
     }
 
-    private fun setMarker(
-        campaign: Campaign,
-        position: Int,
-    ) {
-        val latLng =
-            campaign.campaignLatLng?.latitude?.let { latitude ->
-                campaign.campaignLatLng?.longitude?.let { longitude ->
-                    LatLng(latitude.toDouble(), longitude.toDouble())
+    private fun setMarker(campaign: Campaign) {
+        val lat = campaign.campaignLatLng?.latitude?.toDoubleOrNull() ?: return
+        val lng = campaign.campaignLatLng?.longitude?.toDoubleOrNull() ?: return
+
+        Marker(binding.mapView).apply {
+            position = GeoPoint(lat, lng)
+            icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_pin)
+            relatedObject = campaign
+            this.infoWindow = this@MapsFragment.infoWindow
+            setOnMarkerClickListener { marker, _ ->
+                if (marker.isInfoWindowShown) {
+                    marker.closeInfoWindow()
+                } else {
+                    marker.showInfoWindow()
                 }
+                true
             }
-        val icon = Utils.bitmapFromResource(R.drawable.ic_map_pin, requireContext())
-
-        val marker =
-            MarkerOptions().apply {
-                latLng?.let { position(it) }
-                icon(icon)
-                zIndex(position.toFloat())
-            }
-
-        map?.addMarker(
-            marker,
-        )
+            binding.mapView.overlays.add(this)
+        }
     }
 
     private fun changeCameraPosition() {
-        map?.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(LatLng(-26.9056537, -49.0782393), 10f),
-            900,
-            object : GoogleMap.CancelableCallback {
-                override fun onCancel() {
-                }
-
-                override fun onFinish() {
-                }
-            },
-        )
-    }
-
-    private fun showBoxOnMarkerClick() {
-        map?.setOnMarkerClickListener { marker ->
-
-            val campaign = campaignsGeneralList[marker.zIndex.toInt()]
-
-            map?.setInfoWindowAdapter(InfoWindowAdapter(requireContext(), campaign))
-
-            marker.showInfoWindow()
-
-            true
-        }
-
-        map?.setOnInfoWindowClickListener { marker ->
-            val campaign = campaignsGeneralList[marker.zIndex.toInt()]
-
-            navController.navigate(
-                MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(
-                    campaign.campaignId,
-                ),
-            )
+        binding.mapView.controller.apply {
+            setZoom(10.0)
+            animateTo(GeoPoint(-26.9056537, -49.0782393))
         }
     }
 }

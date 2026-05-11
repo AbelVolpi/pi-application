@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'androidx.navigation.safeargs'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
@@ -100,8 +99,8 @@ dependencies {
     // Serialization (required by Supabase)
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
 
-    // Maps
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    // OpenStreetMap
+    implementation 'org.osmdroid:osmdroid-android:6.1.18'
 
     // Glide
     def glideVersion = "4.12.0"
