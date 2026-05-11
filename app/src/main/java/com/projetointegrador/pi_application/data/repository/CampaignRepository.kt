@@ -37,8 +37,18 @@ class CampaignRepository(
                         context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
                             ?: throw Exception("Could not read image")
 
-                    supabase.storage.from(IMAGES_BUCKET).upload(campaign.campaignId, imageBytes, upsert = false)
-                    campaign.campaignImageUrl = supabase.storage.from(IMAGES_BUCKET).publicUrl(campaign.campaignId)
+                    val mimeType = context.contentResolver.getType(uri) ?: "image/jpeg"
+                    val extension =
+                        when (mimeType) {
+                            "image/png" -> ".png"
+                            "image/webp" -> ".webp"
+                            "image/gif" -> ".gif"
+                            else -> ".jpg"
+                        }
+                    val storagePath = "${campaign.campaignId}$extension"
+
+                    supabase.storage.from(IMAGES_BUCKET).upload(storagePath, imageBytes, upsert = false)
+                    campaign.campaignImageUrl = supabase.storage.from(IMAGES_BUCKET).publicUrl(storagePath)
                 }
 
                 supabase.from(CAMPAIGNS_TABLE).insert(campaign)
