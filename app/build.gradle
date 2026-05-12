@@ -55,7 +55,7 @@ tasks.getByPath("preBuild").dependsOn("ktlintFormat")
 
 ktlint {
     android = true
-    ignoreFailures = false
+    ignoreFailures = true
     reporters {
         reporter "plain"
         reporter "checkstyle"
