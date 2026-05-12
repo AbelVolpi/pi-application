@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.base.BaseFragment
-import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.core.utils.Utils.showAboutDialog
 import com.projetointegrador.pi_application.databinding.AccountActionsDialogLayoutBinding
 import com.projetointegrador.pi_application.databinding.DoubleOptionsDialogBinding
@@ -19,12 +18,9 @@ import com.projetointegrador.pi_application.databinding.FragmentProfileBinding
 import com.projetointegrador.pi_application.databinding.SideBarHeaderBinding
 import com.projetointegrador.pi_application.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
-    @Inject lateinit var sessionManager: SessionManager
-
     private val viewModel: ProfileViewModel by viewModels()
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private val navController by lazy { findNavController() }
@@ -53,7 +49,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
     private fun initDrawerToggle() {
         with(binding) {
             val sideBarHeader = SideBarHeaderBinding.inflate(layoutInflater, null, false)
-            sideBarHeader.userEmailPlaceHolder.text = sessionManager.getUserEmail()
+            sideBarHeader.userEmailPlaceHolder.text = viewModel.getUserEmail()
             navView.addHeaderView(sideBarHeader.root)
 
             drawerToggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, R.string.open, R.string.close)
@@ -101,8 +97,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
             setContentView(layout.root)
             layout.textBody.text = getString(R.string.are_you_sure)
             layout.yesOption.setOnClickListener {
-                removeAccount()
+                viewModel.removeAccount()
                 dismiss()
+                navController.navigate(R.id.action_profileFragment_to_homeFragment)
             }
             layout.noOption.setOnClickListener { dismiss() }
             window?.attributes =
@@ -132,11 +129,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
                 }
             show()
         }
-    }
-
-    private fun removeAccount() {
-        val userId = sessionManager.getUserId() ?: ""
-        viewModel.removeAccount(userId)
-        navController.navigate(R.id.action_profileFragment_to_homeFragment)
     }
 }

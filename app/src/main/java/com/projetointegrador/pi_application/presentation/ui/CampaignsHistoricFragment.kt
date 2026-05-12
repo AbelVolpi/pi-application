@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.base.BaseFragment
-import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.core.utils.extensions.toast
 import com.projetointegrador.pi_application.databinding.FragmentCampaignsHistoricBinding
@@ -16,12 +15,9 @@ import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.adapter.CampaignsHistoricAdapter
 import com.projetointegrador.pi_application.presentation.viewmodel.CampaignsHistoricViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CampaignsHistoricFragment : BaseFragment<FragmentCampaignsHistoricBinding>(FragmentCampaignsHistoricBinding::inflate) {
-    @Inject lateinit var sessionManager: SessionManager
-
     private val viewModel: CampaignsHistoricViewModel by viewModels()
     private val navController by lazy { findNavController() }
 
@@ -35,8 +31,7 @@ class CampaignsHistoricFragment : BaseFragment<FragmentCampaignsHistoricBinding>
     }
 
     private fun loadHistoric() {
-        val userId = sessionManager.getUserId() ?: ""
-        viewModel.getCampaignsByUser(userId).observe(viewLifecycleOwner) { response ->
+        viewModel.getCampaignsForCurrentUser().observe(viewLifecycleOwner) { response ->
             when (response) {
                 is TaskResponse.Success -> populateRecyclerView(response.data as ArrayList<Campaign>)
                 is TaskResponse.Failure -> requireContext().toast(response.errorMessage)

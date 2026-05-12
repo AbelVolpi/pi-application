@@ -1,6 +1,7 @@
 package com.projetointegrador.pi_application.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.domain.usecases.campaign.DeleteCampaignUseCase
 import com.projetointegrador.pi_application.domain.usecases.campaign.GetCampaignUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +13,9 @@ class CampaignsHistoricViewModel
     constructor(
         private val getCampaignUseCase: GetCampaignUseCase,
         private val deleteCampaignUseCase: DeleteCampaignUseCase,
+        private val sessionManager: SessionManager
     ) : ViewModel() {
-        fun getCampaignsByUser(userId: String) = getCampaignUseCase.getCampaignsByUser(userId)
+        fun getCampaignsForCurrentUser() = getCampaignUseCase.getCampaignsByUser(sessionManager.getUserId() ?: "")
 
         fun deleteCampaign(campaignId: String) = deleteCampaignUseCase.deleteCampaign(campaignId)
     }

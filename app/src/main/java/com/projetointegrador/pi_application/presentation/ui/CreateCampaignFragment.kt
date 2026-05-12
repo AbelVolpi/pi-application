@@ -11,22 +11,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.base.BaseFragment
-import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.core.utils.extensions.clearScreenFocus
 import com.projetointegrador.pi_application.core.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.core.utils.extensions.toast
 import com.projetointegrador.pi_application.databinding.FragmentCreateCampaignBinding
-import com.projetointegrador.pi_application.domain.models.Address
-import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.viewmodel.CreateCampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class CreateCampaignFragment : BaseFragment<FragmentCreateCampaignBinding>(FragmentCreateCampaignBinding::inflate) {
-    @Inject lateinit var sessionManager: SessionManager
-
     private lateinit var launcherForGallery: ActivityResultLauncher<String>
     private val viewModel: CreateCampaignViewModel by viewModels()
     private var imageUri: Uri? = null
@@ -77,36 +71,27 @@ class CreateCampaignFragment : BaseFragment<FragmentCreateCampaignBinding>(Fragm
         }
         binding.progressCreateCampaign.visibility = View.VISIBLE
         with(binding) {
-            val campaign =
-                Campaign(
-                    userId = sessionManager.getUserId() ?: "",
-                    campaignName = campaignNameField.text.toString(),
-                    campaignDescription = campaignDescriptionField.text.toString(),
-                    campaignCategory = campaignCategoryFieldOptions.text.toString(),
-                    campaignAddress =
-                        Address(
-                            campaignsStreetField.text.toString(),
-                            campaignsNumberField.text.toString(),
-                            campaignsDistrictField.text.toString(),
-                            campaignsCityField.text.toString(),
-                            campaignsStateField.text.toString()
-                        )
-                )
-            sendRequest(campaign)
-        }
-    }
-
-    private fun sendRequest(campaign: Campaign) {
-        viewModel.createCampaign(campaign, imageUri).observe(viewLifecycleOwner) { response ->
-            binding.progressCreateCampaign.visibility = View.INVISIBLE
-            when (response) {
-                is TaskResponse.Success -> {
-                    requireContext().toast(getString(R.string.campaign_created_successfully))
-                    navController.popBackStack()
-                }
-                is TaskResponse.Failure -> {
-                    Log.e("CreateCampaign", response.errorMessage)
-                    requireContext().toast(response.errorMessage)
+            viewModel.createCampaign(
+                name = campaignNameField.text.toString(),
+                description = campaignDescriptionField.text.toString(),
+                category = campaignCategoryFieldOptions.text.toString(),
+                street = campaignsStreetField.text.toString(),
+                number = campaignsNumberField.text.toString(),
+                district = campaignsDistrictField.text.toString(),
+                city = campaignsCityField.text.toString(),
+                state = campaignsStateField.text.toString(),
+                imageUri = imageUri
+            ).observe(viewLifecycleOwner) { response ->
+                binding.progressCreateCampaign.visibility = View.INVISIBLE
+                when (response) {
+                    is TaskResponse.Success -> {
+                        requireContext().toast(getString(R.string.campaign_created_successfully))
+                        navController.popBackStack()
+                    }
+                    is TaskResponse.Failure -> {
+                        Log.e("CreateCampaign", response.errorMessage)
+                        requireContext().toast(response.errorMessage)
+                    }
                 }
             }
         }

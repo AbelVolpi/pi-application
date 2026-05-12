@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.base.BaseFragment
-import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.core.utils.Utils.validateEmail
 import com.projetointegrador.pi_application.core.utils.Utils.validatePassword
@@ -15,15 +14,11 @@ import com.projetointegrador.pi_application.core.utils.extensions.clearScreenFoc
 import com.projetointegrador.pi_application.core.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.core.utils.extensions.toast
 import com.projetointegrador.pi_application.databinding.FragmentSignUpBinding
-import com.projetointegrador.pi_application.domain.models.User
 import com.projetointegrador.pi_application.presentation.viewmodel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding::inflate) {
-    @Inject lateinit var sessionManager: SessionManager
-
     private val viewModel: SignUpViewModel by viewModels()
     private val navController by lazy { findNavController() }
 
@@ -68,20 +63,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding>(FragmentSignUpBinding
         viewModel.signUp(email, password).observe(viewLifecycleOwner) { response ->
             binding.progressBarSignUp.visibility = View.INVISIBLE
             when (response) {
-                is TaskResponse.Success -> saveUserAndNavigate(response.data)
-                is TaskResponse.Failure -> showErrorMessage(response.errorMessage)
+                is TaskResponse.Success -> {
+                    requireContext().toast(getString(R.string.sign_up_completed, response.data))
+                    navController.navigate(R.id.action_registerFragment_to_profileFragment)
+                }
+                is TaskResponse.Failure -> {
+                    Log.e("SignUpError", response.errorMessage)
+                    requireContext().toast(response.errorMessage)
+                }
             }
         }
-    }
-
-    private fun saveUserAndNavigate(user: User) {
-        sessionManager.saveUserData(user.userId, user.email)
-        requireContext().toast(getString(R.string.sign_up_completed, user.email))
-        navController.navigate(R.id.action_registerFragment_to_profileFragment)
-    }
-
-    private fun showErrorMessage(errorMessage: String) {
-        Log.e("SignUpError", errorMessage)
-        requireContext().toast(errorMessage)
     }
 }

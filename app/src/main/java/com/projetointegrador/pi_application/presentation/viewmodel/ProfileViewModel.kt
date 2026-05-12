@@ -17,7 +17,10 @@ class ProfileViewModel
         private val deleteCampaignUseCase: DeleteCampaignUseCase,
         private val sessionManager: SessionManager
     ) : ViewModel() {
-        fun removeAccount(userId: String) {
+        fun getUserEmail(): String? = sessionManager.getUserEmail()
+
+        fun removeAccount() {
+            val userId = sessionManager.getUserId() ?: ""
             deleteCampaignUseCase.deleteAllCampaigns(userId)
             deleteAccountUseCase.deleteAccount()
             sessionManager.logout()
