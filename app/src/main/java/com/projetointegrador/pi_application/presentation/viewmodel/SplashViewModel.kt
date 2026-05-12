@@ -1,7 +1,7 @@
 package com.projetointegrador.pi_application.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.projetointegrador.pi_application.domain.usecases.user.LoginUseCase
+import com.projetointegrador.pi_application.domain.usecases.user.CheckSessionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SplashViewModel
     @Inject
     constructor(
-        private val loginUseCase: LoginUseCase,
+        private val checkSessionUseCase: CheckSessionUseCase
     ) : ViewModel() {
-        fun verifyUserAlreadyLogged() = loginUseCase.verifyUserAlreadyLogged()
+        fun isLoggedIn(): Boolean = checkSessionUseCase.isLoggedIn()
     }

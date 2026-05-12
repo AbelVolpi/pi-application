@@ -5,44 +5,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.core.MainApplication
 import com.projetointegrador.pi_application.core.utils.extensions.dpToPx
 import com.projetointegrador.pi_application.databinding.HistoricItemBinding
 import com.projetointegrador.pi_application.domain.models.Campaign
 
 class CampaignsHistoricAdapter(
     private val campaignsList: ArrayList<Campaign>,
-    private val removeCampaign: (String) -> Boolean,
-    private val openCampaign: (Campaign) -> Unit,
-) :
-    RecyclerView.Adapter<CampaignsHistoricAdapter.ViewHolder>() {
+    private val removeCampaign: (campaignId: String, onSuccess: () -> Unit) -> Unit,
+    private val openCampaign: (Campaign) -> Unit
+) : RecyclerView.Adapter<CampaignsHistoricAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: HistoricItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             campaign: Campaign,
-            position: Int,
+            position: Int
         ) {
             with(binding) {
                 campaignTittle.text = campaign.campaignName
                 campaignAddress.text =
-                    MainApplication.applicationContext()
-                        .getString(
-                            R.string.address_model,
-                            campaign.campaignAddress?.street,
-                            campaign.campaignAddress?.number,
-                            campaign.campaignAddress?.district,
-                            campaign.campaignAddress?.city,
-                            campaign.campaignAddress?.state,
-                        )
+                    itemView.context.getString(
+                        R.string.address_model,
+                        campaign.campaignAddress?.street,
+                        campaign.campaignAddress?.number,
+                        campaign.campaignAddress?.district,
+                        campaign.campaignAddress?.city,
+                        campaign.campaignAddress?.state
+                    )
                 campaignCategoryText.text = campaign.campaignCategory
                 if (position == 0) {
                     historicItemMainLayout.setPadding(20.dpToPx(), 20, 20.dpToPx(), 0)
                 }
-
                 historicItemMainLayout.apply {
                     setOnLongClickListener {
                         deleteCampaignButton.visibility = View.VISIBLE
-
-                        return@setOnLongClickListener true
+                        true
                     }
                     setOnClickListener {
                         if (deleteCampaignButton.visibility == View.VISIBLE) {
@@ -53,8 +48,7 @@ class CampaignsHistoricAdapter(
                     }
                 }
                 deleteCampaignButton.setOnClickListener {
-                    removeCampaign(campaign.campaignId)
-                    removeItem(position)
+                    removeCampaign(campaign.campaignId) { removeItem(position) }
                 }
             }
         }
@@ -62,25 +56,14 @@ class CampaignsHistoricAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int,
-    ): ViewHolder {
-        return ViewHolder(
-            HistoricItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false,
-            ),
-        )
-    }
+        viewType: Int
+    ) = ViewHolder(HistoricItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(
         holder: ViewHolder,
-        position: Int,
+        position: Int
     ) {
-        holder.bind(
-            campaignsList[position],
-            position,
-        )
+        holder.bind(campaignsList[position], position)
     }
 
     override fun getItemCount() = campaignsList.size

@@ -29,6 +29,4 @@ class LoginViewModel
                     is TaskResponse.Failure -> TaskResponse.Failure(response.errorMessage)
                 }
             }
-
-        fun verifyUserAlreadyLogged() = loginUseCase.verifyUserAlreadyLogged()
     }

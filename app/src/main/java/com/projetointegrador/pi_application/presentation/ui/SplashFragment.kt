@@ -1,16 +1,17 @@
 package com.projetointegrador.pi_application.presentation.ui
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
 import com.projetointegrador.pi_application.core.base.BaseFragment
 import com.projetointegrador.pi_application.databinding.FragmentSplashBinding
 import com.projetointegrador.pi_application.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding::inflate) {
@@ -22,16 +23,15 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(FragmentSplashBinding
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (viewModel.verifyUserAlreadyLogged()) {
-                navController.navigate(R.id.action_splashFragment_to_profileFragment)
-            } else {
-                navController.navigate(R.id.action_splashFragment_to_homeFragment)
-            }
-        }, 1000)
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(1000)
+            val destination =
+                if (viewModel.isLoggedIn()) {
+                    R.id.action_splashFragment_to_profileFragment
+                } else {
+                    R.id.action_splashFragment_to_homeFragment
+                }
+            navController.navigate(destination)
+        }
     }
 }

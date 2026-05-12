@@ -57,21 +57,19 @@ class CampaignsHistoricFragment : BaseFragment<FragmentCampaignsHistoricBinding>
         }
     }
 
-    private fun removeCampaign(campaignId: String): Boolean {
-        var campaignWasRemoved = false
+    private fun removeCampaign(
+        campaignId: String,
+        onSuccess: () -> Unit
+    ) {
         viewModel.deleteCampaign(campaignId).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is TaskResponse.Success -> {
-                    campaignWasRemoved = true
+                    onSuccess()
                     context?.toast(getString(R.string.campaign_removed_successfully))
                 }
-                is TaskResponse.Failure -> {
-                    context?.toast(response.errorMessage)
-                    campaignWasRemoved = false
-                }
+                is TaskResponse.Failure -> context?.toast(response.errorMessage)
             }
         }
-        return campaignWasRemoved
     }
 
     private fun openCampaign(campaign: Campaign) {
