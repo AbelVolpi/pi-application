@@ -48,7 +48,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBind
 
     private fun initDrawerToggle() {
         with(binding) {
-            val sideBarHeader = SideBarHeaderBinding.inflate(layoutInflater, null, false)
+            val sideBarHeader = SideBarHeaderBinding.inflate(layoutInflater, navView, false)
             sideBarHeader.userEmailPlaceHolder.text = viewModel.getUserEmail()
             navView.addHeaderView(sideBarHeader.root)
 
