@@ -2,15 +2,13 @@ package com.projetointegrador.pi_application.presentation.ui
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.base.BaseFragment
 import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.core.utils.Utils.validateEmail
 import com.projetointegrador.pi_application.core.utils.Utils.validatePassword
 import com.projetointegrador.pi_application.core.utils.extensions.clearScreenFocus
@@ -20,27 +18,18 @@ import com.projetointegrador.pi_application.databinding.FragmentLoginBinding
 import com.projetointegrador.pi_application.domain.models.User
 import com.projetointegrador.pi_application.presentation.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    private val viewModel: LoginViewModel by viewModels()
-    private val navController by lazy {
-        findNavController()
-    }
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
+    @Inject lateinit var sessionManager: SessionManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val viewModel: LoginViewModel by viewModels()
+    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -52,18 +41,14 @@ class LoginFragment : Fragment() {
                 activity?.hideSoftKeyboard()
                 it.clearScreenFocus()
             }
-            arrowBack.setOnClickListener {
-                navController.popBackStack()
-            }
+            arrowBack.setOnClickListener { navController.popBackStack() }
             textForgotPassword.setOnClickListener {
                 navController.navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
             }
             textSignUp.setOnClickListener {
                 navController.navigate(R.id.action_loginFragment_to_registerFragment)
             }
-            buttonLogin.setOnClickListener {
-                makeLogin()
-            }
+            buttonLogin.setOnClickListener { makeLogin() }
         }
     }
 
@@ -72,41 +57,33 @@ class LoginFragment : Fragment() {
             if (!validateEmail(emailField.text.toString()) || !validatePassword(passwordField.text.toString())) {
                 requireContext().toast(getString(R.string.review_credentials))
             } else {
-                firebaseLogin(emailField.text.toString(), passwordField.text.toString())
+                doLogin(emailField.text.toString(), passwordField.text.toString())
             }
         }
     }
 
-    private fun firebaseLogin(
+    private fun doLogin(
         email: String,
-        password: String,
+        password: String
     ) {
-        with(binding) {
-            progressGoToMap.visibility = View.VISIBLE
-            viewModel.login(email, password).observe(viewLifecycleOwner) { response ->
-                when (response) {
-                    is FirebaseResponse.Success -> {
-                        saveUserAndNavigate(response)
-                    }
-                    is FirebaseResponse.Failure -> {
-                        showErrorMessage(response)
-                    }
-                }
-                progressGoToMap.visibility = View.INVISIBLE
+        binding.progressGoToMap.visibility = View.VISIBLE
+        viewModel.login(email, password).observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is TaskResponse.Success -> saveUserAndNavigate(response.data)
+                is TaskResponse.Failure -> showErrorMessage(response.errorMessage)
             }
+            binding.progressGoToMap.visibility = View.INVISIBLE
         }
     }
 
-    private fun saveUserAndNavigate(response: FirebaseResponse<User>) {
-        response as FirebaseResponse.Success
-        SessionManager.saveUserData(response.data.userId, response.data.email)
-        requireContext().toast(getString(R.string.logged_message, response.data.email))
+    private fun saveUserAndNavigate(user: User) {
+        sessionManager.saveUserData(user.userId, user.email)
+        requireContext().toast(getString(R.string.logged_message, user.email))
         navController.navigate(R.id.action_loginFragment_to_profileFragment)
     }
 
-    private fun showErrorMessage(response: FirebaseResponse<User>) {
-        response as FirebaseResponse.Failure
-        Log.e("LoginError", response.errorMessage)
-        requireContext().toast(response.errorMessage)
+    private fun showErrorMessage(errorMessage: String) {
+        Log.e("LoginError", errorMessage)
+        requireContext().toast(errorMessage)
     }
 }

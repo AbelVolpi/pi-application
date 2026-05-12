@@ -10,7 +10,7 @@ import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttribu
 import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.CAMPAIGN_ID
 import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.IMAGES_BUCKET
 import com.projetointegrador.pi_application.core.utils.Constants.SupabaseAttributes.USER_ID
-import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.domain.models.Campaign
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
@@ -27,7 +27,7 @@ class CampaignRepository(
     fun createCampaign(
         campaign: Campaign,
         imageUri: Uri?,
-    ): LiveData<FirebaseResponse<Boolean>> =
+    ): LiveData<TaskResponse<Boolean>> =
         liveData {
             try {
                 campaign.campaignId = UUID.randomUUID().toString()
@@ -52,71 +52,71 @@ class CampaignRepository(
                 }
 
                 supabase.from(CAMPAIGNS_TABLE).insert(campaign)
-                emit(FirebaseResponse.Success(true))
+                emit(TaskResponse.Success(true))
             } catch (e: Exception) {
                 Log.w("CampaignRepository", "Error creating campaign", e)
-                emit(FirebaseResponse.Failure(e.message ?: "Error creating campaign"))
+                emit(TaskResponse.Failure(e.message ?: "Error creating campaign"))
             }
         }
 
-    fun deleteCampaign(campaignId: String): LiveData<FirebaseResponse<Any>> =
+    fun deleteCampaign(campaignId: String): LiveData<TaskResponse<Any>> =
         liveData {
             try {
                 supabase.from(CAMPAIGNS_TABLE).delete {
                     filter { eq(CAMPAIGN_ID, campaignId) }
                 }
-                emit(FirebaseResponse.Success(Any()))
+                emit(TaskResponse.Success(Any()))
             } catch (e: Exception) {
-                emit(FirebaseResponse.Failure(e.message ?: "Error deleting campaign"))
+                emit(TaskResponse.Failure(e.message ?: "Error deleting campaign"))
             }
         }
 
-    fun getCampaignsByUser(userId: String): LiveData<FirebaseResponse<List<Campaign>>> =
+    fun getCampaignsByUser(userId: String): LiveData<TaskResponse<List<Campaign>>> =
         liveData {
             try {
                 val campaigns =
                     supabase.from(CAMPAIGNS_TABLE).select {
                         filter { eq(USER_ID, userId) }
                     }.decodeList<Campaign>()
-                emit(FirebaseResponse.Success(campaigns))
+                emit(TaskResponse.Success(campaigns))
             } catch (e: Exception) {
-                emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaigns"))
+                emit(TaskResponse.Failure(e.message ?: "Error fetching campaigns"))
             }
         }
 
-    fun getAllCampaigns(): LiveData<FirebaseResponse<List<Campaign>>> =
+    fun getAllCampaigns(): LiveData<TaskResponse<List<Campaign>>> =
         liveData {
             try {
                 val campaigns = supabase.from(CAMPAIGNS_TABLE).select().decodeList<Campaign>()
-                emit(FirebaseResponse.Success(campaigns))
+                emit(TaskResponse.Success(campaigns))
             } catch (e: Exception) {
-                emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaigns"))
+                emit(TaskResponse.Failure(e.message ?: "Error fetching campaigns"))
             }
         }
 
-    fun getCampaignsByCategory(category: String): LiveData<FirebaseResponse<List<Campaign>>> =
+    fun getCampaignsByCategory(category: String): LiveData<TaskResponse<List<Campaign>>> =
         liveData {
             try {
                 val campaigns =
                     supabase.from(CAMPAIGNS_TABLE).select {
                         filter { eq(CAMPAIGN_CATEGORY, category) }
                     }.decodeList<Campaign>()
-                emit(FirebaseResponse.Success(campaigns))
+                emit(TaskResponse.Success(campaigns))
             } catch (e: Exception) {
-                emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaigns"))
+                emit(TaskResponse.Failure(e.message ?: "Error fetching campaigns"))
             }
         }
 
-    fun getCampaignById(campaignId: String): LiveData<FirebaseResponse<Campaign>> =
+    fun getCampaignById(campaignId: String): LiveData<TaskResponse<Campaign>> =
         liveData {
             try {
                 val campaign =
                     supabase.from(CAMPAIGNS_TABLE).select {
                         filter { eq(CAMPAIGN_ID, campaignId) }
                     }.decodeSingle<Campaign>()
-                emit(FirebaseResponse.Success(campaign))
+                emit(TaskResponse.Success(campaign))
             } catch (e: Exception) {
-                emit(FirebaseResponse.Failure(e.message ?: "Error fetching campaign"))
+                emit(TaskResponse.Failure(e.message ?: "Error fetching campaign"))
             }
         }
 

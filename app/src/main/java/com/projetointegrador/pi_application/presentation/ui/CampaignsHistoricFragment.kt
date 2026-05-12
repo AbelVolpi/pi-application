@@ -1,71 +1,45 @@
 package com.projetointegrador.pi_application.presentation.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.base.BaseFragment
 import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.core.utils.extensions.toast
 import com.projetointegrador.pi_application.databinding.FragmentCampaignsHistoricBinding
 import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.adapter.CampaignsHistoricAdapter
 import com.projetointegrador.pi_application.presentation.viewmodel.CampaignsHistoricViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class CampaignsHistoricFragment : Fragment() {
-    private lateinit var binding: FragmentCampaignsHistoricBinding
-    private val viewModel: CampaignsHistoricViewModel by viewModels()
-    private val navController by lazy {
-        findNavController()
-    }
+class CampaignsHistoricFragment : BaseFragment<FragmentCampaignsHistoricBinding>(FragmentCampaignsHistoricBinding::inflate) {
+    @Inject lateinit var sessionManager: SessionManager
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentCampaignsHistoricBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val viewModel: CampaignsHistoricViewModel by viewModels()
+    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        initViews()
+        binding.arrowBack.setOnClickListener { navController.popBackStack() }
+        loadHistoric()
     }
 
-    private fun initViews() {
-        getHistoric()
-        with(binding) {
-            arrowBack.setOnClickListener {
-                navController.popBackStack()
-            }
-        }
-    }
-
-    private fun getHistoric() {
-        val userId = SessionManager.getGetUserId() ?: ""
-        var campaignsList: ArrayList<Campaign>
-
+    private fun loadHistoric() {
+        val userId = sessionManager.getUserId() ?: ""
         viewModel.getCampaignsByUser(userId).observe(viewLifecycleOwner) { response ->
             when (response) {
-                is FirebaseResponse.Success -> {
-                    campaignsList = response.data as ArrayList<Campaign>
-                    populateRecyclerView(campaignsList)
-                }
-                is FirebaseResponse.Failure -> {
-                    requireContext().toast(response.errorMessage)
-                }
+                is TaskResponse.Success -> populateRecyclerView(response.data as ArrayList<Campaign>)
+                is TaskResponse.Failure -> requireContext().toast(response.errorMessage)
             }
             binding.historicProgressBar.visibility = View.GONE
         }
@@ -80,12 +54,7 @@ class CampaignsHistoricFragment : Fragment() {
                 }
             } else {
                 historicRecycler.apply {
-                    adapter =
-                        CampaignsHistoricAdapter(
-                            campaignsList,
-                            ::removeCampaign,
-                            ::openCampaign,
-                        )
+                    adapter = CampaignsHistoricAdapter(campaignsList, ::removeCampaign, ::openCampaign)
                     layoutManager = LinearLayoutManager(requireContext())
                     addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
                 }
@@ -97,11 +66,11 @@ class CampaignsHistoricFragment : Fragment() {
         var campaignWasRemoved = false
         viewModel.deleteCampaign(campaignId).observe(viewLifecycleOwner) { response ->
             when (response) {
-                is FirebaseResponse.Success -> {
+                is TaskResponse.Success -> {
                     campaignWasRemoved = true
-                    context?.toast("Campaign remove successfully")
+                    context?.toast(getString(R.string.campaign_removed_successfully))
                 }
-                is FirebaseResponse.Failure -> {
+                is TaskResponse.Failure -> {
                     context?.toast(response.errorMessage)
                     campaignWasRemoved = false
                 }
@@ -112,9 +81,7 @@ class CampaignsHistoricFragment : Fragment() {
 
     private fun openCampaign(campaign: Campaign) {
         navController.navigate(
-            CampaignsHistoricFragmentDirections.actionCampaignsHistoricFragmentToViewCampaignFragment(
-                campaign.campaignId,
-            ),
+            CampaignsHistoricFragmentDirections.actionCampaignsHistoricFragmentToViewCampaignFragment(campaign.campaignId)
         )
     }
 }

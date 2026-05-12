@@ -2,43 +2,39 @@ package com.projetointegrador.pi_application.presentation.ui
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.*
+import android.view.Gravity
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
+import com.projetointegrador.pi_application.core.base.BaseFragment
 import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.core.utils.Utils.showAboutDialog
-import com.projetointegrador.pi_application.databinding.*
+import com.projetointegrador.pi_application.databinding.AccountActionsDialogLayoutBinding
+import com.projetointegrador.pi_application.databinding.DoubleOptionsDialogBinding
+import com.projetointegrador.pi_application.databinding.FragmentProfileBinding
+import com.projetointegrador.pi_application.databinding.SideBarHeaderBinding
 import com.projetointegrador.pi_application.presentation.viewmodel.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment<FragmentProfileBinding>(FragmentProfileBinding::inflate) {
+    @Inject lateinit var sessionManager: SessionManager
+
     private val viewModel: ProfileViewModel by viewModels()
-    private lateinit var binding: FragmentProfileBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
-
-    private val navController by lazy {
-        findNavController()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
-        initDrawerToggle(container)
-        return binding.root
-    }
+    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
+        initDrawerToggle()
         initViews()
     }
 
@@ -50,21 +46,14 @@ class ProfileFragment : Fragment() {
             cardViewGoToMapProfile.setOnClickListener {
                 navController.navigate(R.id.action_profileFragment_to_mapsFragment)
             }
-            menuButton.setOnClickListener {
-                drawerLayout.openDrawer(Gravity.LEFT)
-            }
+            menuButton.setOnClickListener { drawerLayout.openDrawer(Gravity.LEFT) }
         }
     }
 
-    private fun initDrawerToggle(viewGroup: ViewGroup?) {
+    private fun initDrawerToggle() {
         with(binding) {
-            val sideBarHeader =
-                SideBarHeaderBinding.inflate(
-                    LayoutInflater.from(requireContext()),
-                    viewGroup,
-                    false,
-                )
-            sideBarHeader.userEmailPlaceHolder.text = SessionManager.getUserEmail()
+            val sideBarHeader = SideBarHeaderBinding.inflate(layoutInflater, null, false)
+            sideBarHeader.userEmailPlaceHolder.text = sessionManager.getUserEmail()
             navView.addHeaderView(sideBarHeader.root)
 
             drawerToggle = ActionBarDrawerToggle(requireActivity(), drawerLayout, R.string.open, R.string.close)
@@ -74,132 +63,79 @@ class ProfileFragment : Fragment() {
             navView.setNavigationItemSelectedListener { menuItem ->
                 drawerLayout.closeDrawer(Gravity.LEFT)
                 when (menuItem.itemId) {
-                    R.id.historic_item -> {
-                        navController.navigate(R.id.action_profileFragment_to_campaignsHistoricFragment)
-                    }
-                    R.id.account_item -> {
-                        showAccountActionsDialog()
-                    }
-
-                    R.id.about_item -> {
-                        showAboutDialog(requireContext(), layoutInflater)
-                    }
-
-                    R.id.logout_item -> {
-                        showConfirmLogoutDialog()
-                    }
+                    R.id.historic_item -> navController.navigate(R.id.action_profileFragment_to_campaignsHistoricFragment)
+                    R.id.account_item -> showAccountActionsDialog()
+                    R.id.about_item -> showAboutDialog(requireContext(), layoutInflater)
+                    R.id.logout_item -> showConfirmLogoutDialog()
                 }
-
                 true
             }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
+        if (drawerToggle.onOptionsItemSelected(item)) return true
         return super.onOptionsItemSelected(item)
     }
 
     private fun showAccountActionsDialog() {
-        val layout =
-            AccountActionsDialogLayoutBinding.inflate(
-                layoutInflater,
-                null,
-                false,
-            )
-
+        val layout = AccountActionsDialogLayoutBinding.inflate(layoutInflater, null, false)
         Dialog(requireContext()).apply {
-            val thisDialog = this
             setContentView(layout.root)
-
             layout.deleteAccountLayout.setOnClickListener {
-                this.dismiss()
+                dismiss()
                 showRemoveAccountDialog()
             }
-
-            val layoutParams =
+            window?.attributes =
                 WindowManager.LayoutParams().apply {
-                    copyFrom(thisDialog.window?.attributes)
+                    copyFrom(window?.attributes)
                     width = (resources.displayMetrics.widthPixels * 0.85).toInt()
                 }
-            thisDialog.window?.attributes = layoutParams
-
             show()
         }
     }
 
     private fun showRemoveAccountDialog() {
-        val layout =
-            DoubleOptionsDialogBinding.inflate(
-                layoutInflater,
-                null,
-                false,
-            )
-
+        val layout = DoubleOptionsDialogBinding.inflate(layoutInflater, null, false)
         Dialog(requireContext()).apply {
-            val thisDialog = this
-
             setContentView(layout.root)
-
             layout.textBody.text = getString(R.string.are_you_sure)
-
             layout.yesOption.setOnClickListener {
                 removeAccount()
-                thisDialog.dismiss()
+                dismiss()
             }
-
-            layout.noOption.setOnClickListener {
-                thisDialog.dismiss()
-            }
-
-            val layoutParams =
+            layout.noOption.setOnClickListener { dismiss() }
+            window?.attributes =
                 WindowManager.LayoutParams().apply {
-                    copyFrom(thisDialog.window?.attributes)
+                    copyFrom(window?.attributes)
                     width = (resources.displayMetrics.widthPixels * 0.85).toInt()
                 }
-            thisDialog.window?.attributes = layoutParams
             show()
         }
     }
 
     private fun showConfirmLogoutDialog() {
-        val layout =
-            DoubleOptionsDialogBinding.inflate(
-                layoutInflater,
-                null,
-                false,
-            )
+        val layout = DoubleOptionsDialogBinding.inflate(layoutInflater, null, false)
         Dialog(requireContext()).apply {
-            val thisDialog = this
             setContentView(layout.root)
-
             layout.textBody.text = getString(R.string.want_quit)
-
             layout.yesOption.setOnClickListener {
-                thisDialog.dismiss()
+                dismiss()
                 viewModel.logOut()
                 navController.navigate(R.id.action_profileFragment_to_homeFragment)
             }
-
-            layout.noOption.setOnClickListener {
-                thisDialog.dismiss()
-            }
-
-            val layoutParams =
+            layout.noOption.setOnClickListener { dismiss() }
+            window?.attributes =
                 WindowManager.LayoutParams().apply {
-                    copyFrom(thisDialog.window?.attributes)
+                    copyFrom(window?.attributes)
                     width = (resources.displayMetrics.widthPixels * 0.85).toInt()
                 }
-            thisDialog.window?.attributes = layoutParams
             show()
         }
     }
 
     private fun removeAccount() {
-        val userId = SessionManager.getGetUserId() ?: ""
-
+        val userId = sessionManager.getUserId() ?: ""
         viewModel.removeAccount(userId)
         navController.navigate(R.id.action_profileFragment_to_homeFragment)
     }

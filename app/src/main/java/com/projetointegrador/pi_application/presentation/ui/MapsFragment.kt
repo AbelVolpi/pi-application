@@ -2,17 +2,15 @@ package com.projetointegrador.pi_application.presentation.ui
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.base.BaseFragment
+import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.databinding.FragmentMapsBinding
 import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.adapter.CampaignInfoWindow
@@ -24,20 +22,11 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.overlay.Marker
 
 @AndroidEntryPoint
-class MapsFragment : Fragment() {
-    private lateinit var binding: FragmentMapsBinding
+class MapsFragment : BaseFragment<FragmentMapsBinding>(FragmentMapsBinding::inflate) {
     private val viewModel: MapsViewModel by viewModels()
     private val navController by lazy { findNavController() }
     private lateinit var infoWindow: CampaignInfoWindow
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentMapsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private var initialCameraSet = false
 
     override fun onViewCreated(
         view: View,
@@ -66,9 +55,7 @@ class MapsFragment : Fragment() {
         }
         infoWindow =
             CampaignInfoWindow(binding.mapView) { campaignId ->
-                navController.navigate(
-                    MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(campaignId)
-                )
+                navController.navigate(MapsFragmentDirections.actionMapsFragmentToViewCampaignFragment(campaignId))
             }
     }
 
@@ -76,12 +63,7 @@ class MapsFragment : Fragment() {
         getAllCampaigns()
         with(binding) {
             filterSpinner.apply {
-                adapter =
-                    ArrayAdapter(
-                        requireContext(),
-                        R.layout.dropdown_item,
-                        resources.getStringArray(R.array.donate_options)
-                    )
+                adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, resources.getStringArray(R.array.donate_options))
                 onItemSelectedListener =
                     object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
@@ -90,8 +72,7 @@ class MapsFragment : Fragment() {
                             i: Int,
                             p3: Long
                         ) {
-                            val category = adapterView?.getItemAtPosition(i).toString()
-                            getCampaignsByCategory(category)
+                            getCampaignsByCategory(adapterView?.getItemAtPosition(i).toString())
                         }
 
                         override fun onNothingSelected(p0: AdapterView<*>?) {}
@@ -104,8 +85,8 @@ class MapsFragment : Fragment() {
     private fun getAllCampaigns() {
         viewModel.getAllCampaigns().observe(viewLifecycleOwner) { response ->
             when (response) {
-                is FirebaseResponse.Success -> setAllMarkers(response.data)
-                is FirebaseResponse.Failure -> {}
+                is TaskResponse.Success -> setAllMarkers(response.data)
+                is TaskResponse.Failure -> {}
             }
         }
     }
@@ -116,8 +97,8 @@ class MapsFragment : Fragment() {
         } else {
             viewModel.getCampaignByCategory(category).observe(viewLifecycleOwner) { response ->
                 when (response) {
-                    is FirebaseResponse.Success -> setAllMarkers(response.data)
-                    is FirebaseResponse.Failure -> {}
+                    is TaskResponse.Success -> setAllMarkers(response.data)
+                    is TaskResponse.Failure -> {}
                 }
             }
         }
@@ -126,27 +107,25 @@ class MapsFragment : Fragment() {
     private fun setAllMarkers(campaignsList: List<Campaign>) {
         binding.mapView.overlays.clear()
         binding.mapsProgressBar.visibility = View.VISIBLE
-        campaignsList.forEach { campaign -> setMarker(campaign) }
+        campaignsList.forEach { setMarker(it) }
         binding.mapView.invalidate()
         binding.mapsProgressBar.visibility = View.INVISIBLE
-        changeCameraPosition()
+        if (!initialCameraSet) {
+            changeCameraPosition()
+            initialCameraSet = true
+        }
     }
 
     private fun setMarker(campaign: Campaign) {
         val lat = campaign.campaignLatLng?.latitude?.toDoubleOrNull() ?: return
         val lng = campaign.campaignLatLng?.longitude?.toDoubleOrNull() ?: return
-
         Marker(binding.mapView).apply {
             position = GeoPoint(lat, lng)
             icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_map_pin)
             relatedObject = campaign
             this.infoWindow = this@MapsFragment.infoWindow
             setOnMarkerClickListener { marker, _ ->
-                if (marker.isInfoWindowShown) {
-                    marker.closeInfoWindow()
-                } else {
-                    marker.showInfoWindow()
-                }
+                if (marker.isInfoWindowShown) marker.closeInfoWindow() else marker.showInfoWindow()
                 true
             }
             binding.mapView.overlays.add(this)

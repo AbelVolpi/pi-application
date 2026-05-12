@@ -3,18 +3,16 @@ package com.projetointegrador.pi_application.presentation.ui
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.projetointegrador.pi_application.R
-import com.projetointegrador.pi_application.core.utils.FirebaseResponse
+import com.projetointegrador.pi_application.core.base.BaseFragment
 import com.projetointegrador.pi_application.core.utils.SessionManager
+import com.projetointegrador.pi_application.core.utils.TaskResponse
 import com.projetointegrador.pi_application.core.utils.extensions.clearScreenFocus
 import com.projetointegrador.pi_application.core.utils.extensions.hideSoftKeyboard
 import com.projetointegrador.pi_application.core.utils.extensions.toast
@@ -23,34 +21,25 @@ import com.projetointegrador.pi_application.domain.models.Address
 import com.projetointegrador.pi_application.domain.models.Campaign
 import com.projetointegrador.pi_application.presentation.viewmodel.CreateCampaignViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class CreateCampaignFragment : Fragment() {
-    private lateinit var binding: FragmentCreateCampaignBinding
+class CreateCampaignFragment : BaseFragment<FragmentCreateCampaignBinding>(FragmentCreateCampaignBinding::inflate) {
+    @Inject lateinit var sessionManager: SessionManager
+
     private lateinit var launcherForGallery: ActivityResultLauncher<String>
     private val viewModel: CreateCampaignViewModel by viewModels()
     private var imageUri: Uri? = null
-    private val navController by lazy {
-        findNavController()
-    }
+    private val navController by lazy { findNavController() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initResultContracts()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View {
-        binding = FragmentCreateCampaignBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -58,12 +47,9 @@ class CreateCampaignFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
-            cardViewPhoto.setOnClickListener {
-                launcherForGallery.launch("image/*")
-            }
+            cardViewPhoto.setOnClickListener { launcherForGallery.launch("image/*") }
             removeImage.setOnClickListener {
                 imagePhoto.setImageResource(0)
-
                 withoutImageTextView.visibility = View.VISIBLE
                 addPhotoImageView.visibility = View.VISIBLE
                 removeImage.visibility = View.INVISIBLE
@@ -76,82 +62,54 @@ class CreateCampaignFragment : Fragment() {
                 activity?.hideSoftKeyboard()
                 mainLayout.clearScreenFocus()
             }
-            buttonCreateCampaign.setOnClickListener {
-                createCampaign()
-            }
-            arrowBack.setOnClickListener {
-                navController.popBackStack()
-            }
+            buttonCreateCampaign.setOnClickListener { createCampaign() }
+            arrowBack.setOnClickListener { navController.popBackStack() }
             campaignCategoryFieldOptions.setAdapter(
-                ArrayAdapter(
-                    requireContext(),
-                    R.layout.dropdown_item,
-                    resources.getStringArray(R.array.donate_options),
-                ),
+                ArrayAdapter(requireContext(), R.layout.dropdown_item, resources.getStringArray(R.array.donate_options))
             )
         }
     }
 
     private fun createCampaign() {
+        if (!verifyFields()) {
+            context?.toast(getString(R.string.review_fields))
+            return
+        }
+        binding.progressCreateCampaign.visibility = View.VISIBLE
         with(binding) {
-            if (verifyFields()) {
-                progressCreateCampaign.visibility = View.VISIBLE
-
-                val userId = SessionManager.getGetUserId() ?: ""
-                val campaignName = campaignNameField.text.toString()
-                val campaignDescription = campaignDescriptionField.text.toString()
-                val campaignCategory = campaignCategoryFieldOptions.text.toString()
-                val campaignStreet = campaignsStreetField.text.toString()
-                val campaignNumber = campaignsNumberField.text.toString()
-                val campaignDistrict = campaignsDistrictField.text.toString()
-                val campaignCity = campaignsCityField.text.toString()
-                val campaignState = campaignsStateField.text.toString()
-                val campaignAddress =
-                    Address(
-                        campaignStreet,
-                        campaignNumber,
-                        campaignDistrict,
-                        campaignCity,
-                        campaignState,
-                    )
-                val campaign =
-                    Campaign(
-                        userId = userId,
-                        campaignName = campaignName,
-                        campaignDescription = campaignDescription,
-                        campaignCategory = campaignCategory,
-                        campaignAddress = campaignAddress,
-                    )
-                sendRequest(campaign)
-            } else {
-                context?.toast(getString(R.string.review_fields))
-            }
+            val campaign =
+                Campaign(
+                    userId = sessionManager.getUserId() ?: "",
+                    campaignName = campaignNameField.text.toString(),
+                    campaignDescription = campaignDescriptionField.text.toString(),
+                    campaignCategory = campaignCategoryFieldOptions.text.toString(),
+                    campaignAddress =
+                        Address(
+                            campaignsStreetField.text.toString(),
+                            campaignsNumberField.text.toString(),
+                            campaignsDistrictField.text.toString(),
+                            campaignsCityField.text.toString(),
+                            campaignsStateField.text.toString()
+                        )
+                )
+            sendRequest(campaign)
         }
     }
 
     private fun sendRequest(campaign: Campaign) {
         viewModel.createCampaign(campaign, imageUri).observe(viewLifecycleOwner) { response ->
+            binding.progressCreateCampaign.visibility = View.INVISIBLE
             when (response) {
-                is FirebaseResponse.Success -> {
-                    showFeedbackAndBackStack()
+                is TaskResponse.Success -> {
+                    requireContext().toast(getString(R.string.campaign_created_successfully))
+                    navController.popBackStack()
                 }
-                is FirebaseResponse.Failure -> {
-                    showErrorMessage(response)
+                is TaskResponse.Failure -> {
+                    Log.e("CreateCampaign", response.errorMessage)
+                    requireContext().toast(response.errorMessage)
                 }
             }
-            binding.progressCreateCampaign.visibility = View.INVISIBLE
         }
-    }
-
-    private fun showErrorMessage(response: FirebaseResponse<Boolean>) {
-        response as FirebaseResponse.Failure
-        Log.e("LoginError", response.errorMessage)
-        requireContext().toast(response.errorMessage)
-    }
-
-    private fun showFeedbackAndBackStack() {
-        requireContext().toast(getString(R.string.campaign_created_successfully))
-        navController.popBackStack()
     }
 
     private fun verifyFields(): Boolean {
@@ -169,15 +127,12 @@ class CreateCampaignFragment : Fragment() {
 
     private fun initResultContracts() {
         launcherForGallery =
-            registerForActivityResult(
-                ActivityResultContracts.GetContent(),
-            ) { uri ->
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
                 if (uri != null) {
                     with(binding) {
                         withoutImageTextView.visibility = View.INVISIBLE
                         addPhotoImageView.visibility = View.INVISIBLE
                         removeImage.visibility = View.VISIBLE
-
                         imagePhoto.setImageURI(uri)
                         imageUri = uri
                     }

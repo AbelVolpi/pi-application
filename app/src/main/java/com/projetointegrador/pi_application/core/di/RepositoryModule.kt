@@ -1,6 +1,7 @@
 package com.projetointegrador.pi_application.core.di
 
 import android.content.Context
+import com.projetointegrador.pi_application.core.utils.SessionManager
 import com.projetointegrador.pi_application.data.repository.CampaignRepository
 import com.projetointegrador.pi_application.data.repository.GeocoderRepository
 import com.projetointegrador.pi_application.data.repository.UserRepository
@@ -18,17 +19,20 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideGeocoderRepository(
-        @ApplicationContext appContext: Context,
+        @ApplicationContext appContext: Context
     ) = GeocoderRepository(appContext)
 
     @Singleton
     @Provides
-    fun provideUserRepository(supabaseClient: SupabaseClient) = UserRepository(supabaseClient)
+    fun provideUserRepository(
+        supabaseClient: SupabaseClient,
+        sessionManager: SessionManager
+    ) = UserRepository(supabaseClient, sessionManager)
 
     @Singleton
     @Provides
     fun provideCampaignRepository(
         supabaseClient: SupabaseClient,
-        @ApplicationContext appContext: Context,
+        @ApplicationContext appContext: Context
     ) = CampaignRepository(supabaseClient, appContext)
 }
